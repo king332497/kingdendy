@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#6d28d9">
+<title>Form Pinjaman</title>
+<style>
+:root{--p:#6d28d9;--p2:#9333ea;--bg:#eef1f6;--s:#fff;--t:#17152a;--m:#756f86;--l:#e8e3f0;--ok:#16a34a;--bad:#dc2626;--sh:0 18px 48px rgba(44,30,76,.12)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--t)}button,input,select{font:inherit}.app{width:min(100%,480px);margin:auto;min-height:100vh;background:#ffffffc7;box-shadow:0 0 60px #1f19301f;overflow:hidden}
+.hero{min-height:285px;padding:26px 22px 70px;color:#fff;background:radial-gradient(circle at 95% 20%,#ffffff18 0 90px,transparent 91px),linear-gradient(145deg,#7c3aed,#8b2ee8 50%,#6d28d9);position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:330px;height:220px;border:34px solid #ffffff0e;border-radius:50%;right:-100px;bottom:-130px}.top{display:flex;justify-content:space-between;position:relative;z-index:1}.iconbtn,.lang{height:46px;min-width:46px;border:0;border-radius:14px;display:grid;place-items:center;color:#fff;background:#ffffff18}.iconbtn{cursor:pointer}.stage{display:flex;align-items:center;gap:8px;margin-top:30px;font-weight:800;font-size:13px;position:relative;z-index:1}.dot{width:10px;height:10px;border-radius:50%;background:#facc15;box-shadow:0 0 0 6px #facc1530}.hero h1{font-size:34px;letter-spacing:-.04em;margin:20px 0 10px;position:relative;z-index:1}.hero p{margin:0;max-width:390px;font-size:14px;color:#ffffffe6;position:relative;z-index:1}
+.content{margin-top:-52px;padding:0 16px 30px;position:relative;z-index:2}.card{background:#fffffff4;border:1px solid var(--l);box-shadow:var(--sh);border-radius:24px;padding:19px;margin-bottom:15px;backdrop-filter:blur(14px)}.status-card{display:flex;align-items:center;gap:13px}.status-icon{width:54px;height:54px;flex:0 0 auto;border-radius:18px;display:grid;place-items:center;background:#ecfdf3;color:#fff}.status-check{width:22px;height:13px;border-left:4px solid var(--ok);border-bottom:4px solid var(--ok);transform:rotate(-45deg)}.status-card strong{display:block;font-size:16px}.status-card span{display:block;margin-top:4px;color:var(--m);font-size:12px}
+.section-title{margin:0 0 14px;font-size:17px}.field{margin-top:14px}.field:first-child{margin-top:0}.field label,.legend{display:block;margin-bottom:7px;font-size:12px;font-weight:850}.input-wrap{display:flex;align-items:center;min-height:50px;border:1px solid #ddd6ea;border-radius:15px;background:#fff;overflow:hidden}.input-wrap span{padding-left:14px;color:var(--m);font-weight:800}.input-wrap input,.input-wrap select{width:100%;min-height:48px;border:0;outline:none;background:transparent;padding:0 14px;color:var(--t)}.input-wrap:focus-within{border-color:var(--p2);box-shadow:0 0 0 4px #7c3aed2b}
+.other-field{display:none}.other-field.show{display:block}
+.quick-grid,.tenor-grid{display:grid;gap:9px}.quick-grid{grid-template-columns:repeat(2,1fr)}.tenor-grid{grid-template-columns:repeat(3,1fr)}.choice{min-height:46px;border:1px solid #ddd5e9;border-radius:14px;background:#fff;color:#5e556c;font-size:12px;font-weight:850;cursor:pointer}.choice[aria-pressed="true"]{border-color:#9f7aea;background:#f3e8ff;color:var(--p);box-shadow:0 8px 18px rgba(109,40,217,.10)}.choice:focus-visible,.continue:focus-visible,.iconbtn:focus-visible{outline:none;box-shadow:0 0 0 4px #7c3aed2b}
+.range-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;margin-top:12px}.range-row output{min-width:82px;text-align:right;color:var(--p);font-size:12px;font-weight:900}input[type="range"]{width:100%;accent-color:var(--p)}
+.summary{display:grid;gap:10px}.summary-row{display:flex;justify-content:space-between;gap:18px;padding:11px 0;border-bottom:1px solid #eeeaf3;font-size:12px}.summary-row:last-child{border-bottom:0}.summary-row span{color:var(--m)}.summary-row strong{text-align:right}.summary-total{padding:15px;border-radius:17px;background:linear-gradient(135deg,#f4ecff,#fbf8ff);color:var(--p)}.summary-total strong{display:block;margin-top:4px;font-size:22px}
+.msg{min-height:18px;margin-top:7px;color:var(--m);font-size:11px}.msg.bad{color:var(--bad)}.checkbox{display:flex;align-items:flex-start;gap:10px;margin-top:16px}.checkbox input{width:20px;height:20px;flex:0 0 auto;accent-color:var(--p)}.checkbox label{font-size:12px;color:#554d61;line-height:1.5}
+.continue{width:100%;min-height:56px;margin-top:16px;border:0;border-radius:18px;color:#fff;background:linear-gradient(135deg,#9b5de5,var(--p));font-weight:950;cursor:pointer;box-shadow:0 14px 30px rgba(109,40,217,.22)}.continue:disabled{background:#c8a8eb;box-shadow:none;cursor:not-allowed;opacity:.8}.global{text-align:center;min-height:18px;margin-top:9px;color:var(--bad);font-size:11px}.footer{display:flex;justify-content:space-between;gap:12px;margin:20px -16px -30px;padding:16px;border-top:1px solid #eeeaf3;font-size:10px;color:#6f687d;background:#fff}
+.btn-spin{display:inline-block;width:17px;height:17px;margin-right:8px;vertical-align:-3px;border:2px solid #ffffff66;border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}@media(min-width:760px){body{padding:24px}.app{border-radius:34px;min-height:calc(100vh - 48px)}}@media(max-width:360px){.content{padding-inline:11px}.card{padding:15px}.quick-grid{grid-template-columns:1fr}.tenor-grid{grid-template-columns:repeat(2,1fr)}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn-spin{animation:none}}
+</style>
+</head>
+<body>
+<main class="app">
+<header class="hero">
+  <div class="top"><button class="iconbtn" id="backButton" type="button" aria-label="Kembali">←</button><div class="lang">ID</div></div>
+  <div class="stage"><span class="dot"></span>Tahap 5 dari 5</div>
+  <h1>Form Pinjaman</h1>
+  <p>Sesuaikan jumlah pinjaman, tenor, dan kebutuhan pembiayaan Anda.</p>
+</header>
+<section class="content">
+  <article class="card status-card" aria-label="Status dokumen">
+    <div class="status-icon"><span class="status-check" aria-hidden="true"></span></div>
+    <div><strong>Dokumen Lengkap</strong><span>3 dokumen telah berhasil dipersiapkan.</span></div>
+  </article>
+
+  <form id="loanForm" novalidate>
+    <article class="card">
+      <h2 class="section-title">Rencana Pinjaman</h2>
+
+      <div class="field">
+        <label for="purpose">Tujuan Pinjaman</label>
+        <div class="input-wrap">
+          <select id="purpose" required>
+            <option value="">Pilih tujuan pinjaman</option>
+            <option>Modal Usaha</option><option>Renovasi Rumah</option><option>Pendidikan</option>
+            <option>Kebutuhan Keluarga</option><option>Pembelian Kendaraan</option>
+            <option>Pembiayaan Investasi</option><option>Kebutuhan Lainnya</option>
+          </select>
+        </div>
+        <div id="purposeMessage" class="msg" aria-live="polite"></div>
+      </div>
+
+      <div class="field other-field" id="otherField">
+        <label for="purposeOther">Jelaskan kebutuhan lainnya</label>
+        <div class="input-wrap"><input id="purposeOther" type="text" maxlength="80" placeholder="Masukkan tujuan penggunaan dana"></div>
+        <div id="purposeOtherMessage" class="msg" aria-live="polite"></div>
+      </div>
+
+      <fieldset class="field" style="border:0;padding:0;margin-inline:0">
+        <legend class="legend">Pilihan Cepat Nominal</legend>
+        <div class="quick-grid" id="quickAmounts">
+          <button class="choice" type="button" data-amount="20000000" aria-pressed="false">Rp20.000.000</button>
+          <button class="choice" type="button" data-amount="40000000" aria-pressed="false">Rp40.000.000</button>
+          <button class="choice" type="button" data-amount="60000000" aria-pressed="false">Rp60.000.000</button>
+          <button class="choice" type="button" data-amount="80000000" aria-pressed="false">Rp80.000.000</button>
+          <button class="choice" type="button" data-amount="100000000" aria-pressed="false">Rp100.000.000</button>
+        </div>
+      </fieldset>
+
+      <div class="field">
+        <label for="amountInput">Nominal Pinjaman</label>
+        <div class="input-wrap"><span>Rp</span><input id="amountInput" inputmode="numeric" autocomplete="off" placeholder="20.000.000"></div>
+        <div class="range-row"><input id="amountRange" type="range" min="20000000" max="100000000" step="5000000" value="20000000"><output id="amountOutput">Rp20.000.000</output></div>
+        <div id="amountMessage" class="msg" aria-live="polite"></div>
+      </div>
+
+      <fieldset class="field" style="border:0;padding:0;margin-inline:0">
+        <legend class="legend">Tenor</legend>
+        <div class="tenor-grid" id="tenorOptions">
+          <button class="choice" type="button" data-tenor="6" aria-pressed="false">6 bulan</button>
+          <button class="choice" type="button" data-tenor="12" aria-pressed="false">12 bulan</button>
+          <button class="choice" type="button" data-tenor="18" aria-pressed="false">18 bulan</button>
+          <button class="choice" type="button" data-tenor="24" aria-pressed="false">24 bulan</button>
+          <button class="choice" type="button" data-tenor="36" aria-pressed="false">36 bulan</button>
+          <button class="choice" type="button" data-tenor="48" aria-pressed="false">48 bulan</button>
+        </div>
+        <div id="tenorMessage" class="msg" aria-live="polite"></div>
+      </fieldset>
+
+      <div class="field">
+        <label for="account">Nomor Rekening KB Bank</label>
+        <div class="input-wrap"><input id="account" type="text" inputmode="numeric" maxlength="11" autocomplete="off" placeholder="Masukkan 11 digit nomor rekening KB Bank"></div>
+        <div id="accountMessage" class="msg" aria-live="polite"></div>
+      </div>
+
+      <label class="checkbox" for="agreement">
+        <input id="agreement" type="checkbox">
+        <span>Saya telah memeriksa kembali data pengajuan dan memastikan informasi yang dimasukkan sudah sesuai.</span>
+      </label>
+    </article>
+
+    <article class="card">
+      <h2 class="section-title">Ringkasan Dinamis</h2>
+      <div class="summary">
+        <div class="summary-row"><span>Tujuan pinjaman</span><strong id="summaryPurpose">-</strong></div>
+        <div class="summary-row"><span>Nominal</span><strong id="summaryAmount">Rp20.000.000</strong></div>
+        <div class="summary-row"><span>Tenor</span><strong id="summaryTenor">-</strong></div>
+        <div class="summary-row"><span>Estimasi total pembayaran</span><strong id="summaryTotal">Rp0</strong></div>
+        <div class="summary-total"><span>Estimasi angsuran per bulan</span><strong id="summaryMonthly">Rp0</strong></div>
+      </div>
+      <p class="msg">Nilai di atas merupakan estimasi frontend dan bukan keputusan kredit atau persetujuan otomatis.</p>
+    </article>
+
+    <button id="continueButton" class="continue" type="button" disabled>Lanjut ke Dashboard Pinjaman →</button>
+    <div id="globalMessage" class="global" aria-live="assertive"></div>
+  </form>
+
+  <footer class="footer"><span>🛡️ Data form disimpan lokal tanpa menyimpan berkas.</span><span>Pusat Bantuan</span></footer>
+</section>
+</main>
+<script>
+(()=>{
+"use strict";
+const STORAGE_KEY="pinjamanDemoDataV1";
+const DASHBOARD_ROUTE="./dashboard-pinjaman.html";
+const $=id=>document.getElementById(id);
+const state={amount:20000000,tenor:0,busy:false};
+const rupiah=value=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(Number(value||0));
+const digits=value=>String(value||"").replace(/\D/g,"");
+function estimate(){
+  const principal=state.amount;
+  const tenor=state.tenor;
+  if(!principal||!tenor)return{monthly:0,total:0};
+  const annualRate=.12;
+  const total=Math.round(principal*(1+(annualRate*tenor/12)));
+  return{total,monthly:Math.ceil(total/tenor)};
+}
+function setMessage(id,text="",bad=false){
+  const el=$(id);if(!el)return;el.textContent=text;el.className="msg"+(bad?" bad":"");
+}
+function syncAmount(value){
+  const bounded=Math.min(100000000,Math.max(20000000,Number(value||0)));
+  state.amount=bounded;
+  $("amountInput").value=new Intl.NumberFormat("id-ID").format(bounded);
+  $("amountRange").value=bounded;
+  $("amountOutput").textContent=rupiah(bounded);
+  document.querySelectorAll("[data-amount]").forEach(btn=>btn.setAttribute("aria-pressed",String(Number(btn.dataset.amount)===bounded)));
+  update();
+}
+function validate(){
+  const purpose=$("purpose").value;
+  const needsOther=purpose==="Kebutuhan Lainnya";
+  const other=$("purposeOther").value.trim();
+  const account=$("account").value;
+  const validPurpose=Boolean(purpose)&&(!needsOther||other.length>=3);
+  const validAmount=state.amount>=20000000&&state.amount<=100000000;
+  const validTenor=[6,12,18,24,36,48].includes(state.tenor);
+  const validAccount=/^\d{11}$/.test(account);
+  const agreed=$("agreement").checked;
+  setMessage("purposeMessage",purpose?"":"Pilih tujuan pinjaman.",!purpose);
+  setMessage("purposeOtherMessage",needsOther&&other.length<3?"Jelaskan tujuan lainnya minimal 3 karakter.":"",needsOther&&other.length<3);
+  setMessage("amountMessage",validAmount?"":"Nominal harus antara Rp20.000.000 dan Rp100.000.000.",!validAmount);
+  setMessage("tenorMessage",validTenor?"":"Pilih tenor pinjaman.",!validTenor);
+  setMessage("accountMessage",account.length===0?"":validAccount?"Format nomor rekening KB Bank valid (11 digit).":"Nomor rekening KB Bank harus tepat 11 digit angka.",account.length>0&&!validAccount);
+  $("continueButton").disabled=!(validPurpose&&validAmount&&validTenor&&validAccount&&agreed)||state.busy;
+}
+function update(){
+  const purpose=$("purpose").value==="Kebutuhan Lainnya"?$("purposeOther").value.trim():$("purpose").value;
+  const e=estimate();
+  $("summaryPurpose").textContent=purpose||"-";
+  $("summaryAmount").textContent=rupiah(state.amount);
+  $("summaryTenor").textContent=state.tenor?state.tenor+" bulan":"-";
+  $("summaryMonthly").textContent=rupiah(e.monthly);
+  $("summaryTotal").textContent=rupiah(e.total);
+  validate();
+}
+document.querySelectorAll("[data-amount]").forEach(btn=>btn.addEventListener("click",()=>syncAmount(Number(btn.dataset.amount))));
+$("amountRange").addEventListener("input",e=>syncAmount(Number(e.target.value)));
+$("amountInput").addEventListener("input",e=>{const raw=digits(e.target.value).slice(0,9);syncAmount(Number(raw||20000000))});
+document.querySelectorAll("[data-tenor]").forEach(btn=>btn.addEventListener("click",()=>{
+  state.tenor=Number(btn.dataset.tenor);
+  document.querySelectorAll("[data-tenor]").forEach(item=>item.setAttribute("aria-pressed",String(item===btn)));
+  update();
+}));
+$("purpose").addEventListener("change",()=>{
+  $("otherField").classList.toggle("show",$("purpose").value==="Kebutuhan Lainnya");
+  update();
+});
+$("purposeOther").addEventListener("input",update);
+$("account").addEventListener("input",e=>{e.target.value=digits(e.target.value).slice(0,11);update()});
+$("agreement").addEventListener("change",update);
+$("backButton").addEventListener("click",()=>window.location.assign("./upload-dokumen.html"));
+function firstInvalidControl(){
+  const purpose=$("purpose").value;
+  if(!purpose)return $("purpose");
+  if(purpose==="Kebutuhan Lainnya"&&$("purposeOther").value.trim().length<3)return $("purposeOther");
+  if(!(state.amount>=20000000&&state.amount<=100000000))return $("amountInput");
+  if(![6,12,18,24,36,48].includes(state.tenor))return document.querySelector("[data-tenor]");
+  if(!/^\d{11}$/.test($("account").value))return $("account");
+  if(!$("agreement").checked)return $("agreement");
+  return null;
+}
+function persistLoanData(data){
+  const current=(()=>{
+    try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}")}
+    catch{return{}}
+  })();
+
+  localStorage.setItem(STORAGE_KEY,JSON.stringify({...current,...data}));
+
+  Object.entries(data).forEach(([key,value])=>{
+    localStorage.setItem(key,String(value));
+  });
+}
+$("continueButton").addEventListener("click",async()=>{
+  if(state.busy)return;
+
+  update();
+  const invalid=firstInvalidControl();
+  if(invalid){
+    $("globalMessage").textContent="Lengkapi seluruh data yang wajib sebelum melanjutkan.";
+    invalid.focus();
+    return;
+  }
+
+  state.busy=true;
+  validate();
+  $("continueButton").disabled=true;
+  $("continueButton").innerHTML='<span class="btn-spin" aria-hidden="true"></span>Menyiapkan Dashboard...';
+  $("globalMessage").textContent="";
+
+  const estimation=estimate();
+  const data={
+    loanPurpose:$("purpose").value,
+    loanPurposeOther:$("purposeOther").value.trim(),
+    loanAmount:state.amount,
+    loanTenor:state.tenor,
+    estimatedInstallment:estimation.monthly,
+    estimatedTotal:estimation.total,
+    disbursementAccount:$("account").value,
+    loanFormCompleted:true
+  };
+
+  try{
+    persistLoanData(data);
+  }catch{
+    state.busy=false;
+    $("continueButton").textContent="Lanjut ke Dashboard Pinjaman →";
+    $("globalMessage").textContent="Data tidak dapat disimpan pada browser ini. Periksa izin penyimpanan situs.";
+    validate();
+    return;
+  }
+
+  await new Promise(resolve=>setTimeout(resolve,700));
+  window.location.assign(DASHBOARD_ROUTE);
+});
+syncAmount(20000000);
+update();
+})();
+</script>
+</body>
+</html>
