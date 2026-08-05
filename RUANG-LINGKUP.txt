@@ -1,0 +1,37 @@
+KB BANK FIANCE — UI PROTOTYPE
+
+RUANG LINGKUP PEMERIKSAAN
+Pemeriksaan dilakukan terhadap:
+- Struktur proyek
+- Alur navigasi antarhalaman
+- Pengelolaan state frontend
+- Konsistensi kode
+- Keterhubungan antarhalaman
+- Validasi dan perilaku UI
+- Responsivitas dasar
+- Animasi dan transisi antarmuka
+
+RUANG LINGKUP IMPLEMENTASI
+Implementasi ini merupakan UI Prototype untuk pengujian:
+- Tampilan
+- Pengalaman pengguna
+- Navigasi
+- Simulasi state
+- Alur pengajuan
+- Interaksi frontend
+
+DI LUAR RUANG LINGKUP
+Fitur berikut tidak diimplementasikan dan tidak diverifikasi:
+- Backend autentikasi
+- Integrasi SMS Gateway
+- Upload dokumen ke server
+- Enkripsi data di sisi server
+- Verifikasi PIN melalui backend
+- Mesin penilaian kelayakan pinjaman
+- Database
+- Audit log server
+- Proses keputusan pinjaman nyata
+
+CATATAN
+Status, hasil, dan proses yang tampil merupakan data demonstrasi UI.
+Tidak ada pengajuan, kontrak, persetujuan, keputusan kredit, atau pencairan dana nyata.

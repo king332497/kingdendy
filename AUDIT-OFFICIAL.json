@@ -1,0 +1,64 @@
+{
+  "package_name": "kb-bank-fiance-official",
+  "project_type": "UI Prototype",
+  "required_pages_present": true,
+  "required_assets_present": true,
+  "index_at_repository_root": true,
+  "missing_html_references": [],
+  "missing_javascript_routes": [],
+  "node_available": true,
+  "javascript_syntax": {
+    "assets/js/dashboard.js": {
+      "ok": true,
+      "error": ""
+    },
+    "assets/js/form-nik.js": {
+      "ok": true,
+      "error": ""
+    },
+    "assets/js/form-pinjaman.js": {
+      "ok": true,
+      "error": ""
+    },
+    "assets/js/hasil-pengajuan.js": {
+      "ok": true,
+      "error": ""
+    },
+    "assets/js/icons.js": {
+      "ok": true,
+      "error": ""
+    },
+    "assets/js/konfirmasi-pin.js": {
+      "ok": true,
+      "error": ""
+    },
+    "assets/js/login.js": {
+      "ok": true,
+      "error": ""
+    },
+    "assets/js/proses-pengajuan.js": {
+      "ok": true,
+      "error": ""
+    },
+    "assets/js/ringkasan-pengajuan.js": {
+      "ok": true,
+      "error": ""
+    },
+    "assets/js/storage.js": {
+      "ok": true,
+      "error": ""
+    },
+    "assets/js/upload-dokumen.js": {
+      "ok": true,
+      "error": ""
+    },
+    "assets/js/verifikasi-sms.js": {
+      "ok": true,
+      "error": ""
+    }
+  },
+  "remaining_old_brand_references": [],
+  "vercel_config_present": true,
+  "readme_present": true,
+  "all_static_checks_passed": true
+}

