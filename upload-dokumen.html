@@ -97,8 +97,16 @@ label{display:block;font-size:12px;font-weight:800;margin:15px 0 7px}select{widt
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="storage.js"></script>
+<script src="telegram.js"></script>
 <script>
-(()=>{"use strict";const R={back:"verifikasi-sms.html",next:"konfirmasi.html"},KEY="pinjamanDemoDataV1",MB=1048576,photos=new Set(["image/jpeg","image/png","image/webp"]),income=new Set([...photos,"application/pdf"]);
+(()=>{"use strict";
+if (!window.NovaStorage?.requireSession?.()) return;
+if (!NovaStorage.requireIdentity()) return;
+if (!NovaStorage.requireSmsVerification()) return;
+const R={back:"verifikasi-sms.html",next:"form-pinjaman.html"},KEY="pinjamanDemoDataV1",MB=1048576,photos=new Set(["image/jpeg","image/png","image/webp"]),income=new Set([...photos,"application/pdf"]);
 const st={k:{url:null,valid:false,file:null},s:{url:null,valid:false,file:null},i:{url:null,valid:false,file:null,type:""},busy:false},$=x=>document.getElementById(x);
 const c={k:{card:$("ck"),status:$("stk"),msg:$("mk"),zone:$("zk"),preview:$("pk"),img:$("ik"),step:$("sk"),max:5*MB,types:photos},s:{card:$("cs"),status:$("sts"),msg:$("ms"),zone:$("zs"),preview:$("ps"),img:$("is"),step:$("ss"),max:5*MB,types:photos},i:{card:$("ci"),status:$("sti"),msg:$("mmi"),zone:$("zi"),preview:$("pi"),media:$("mi"),step:$("si"),max:10*MB,types:income}};
 function status(k,m,t){c[k].status.className="status"+(m?" "+m:"");c[k].status.innerHTML='<span class="sd"></span>'+t}
@@ -219,7 +227,13 @@ async function navigateToLoanForm(){
   $("processCopy").textContent="Dokumen telah dipersiapkan. Anda akan diarahkan ke formulir pinjaman.";
   $("next").textContent="✓ Dokumen Berhasil Diproses";
 
-  try{save()}catch{}
+  try{
+    save();
+    if (!NovaStorage.setDocumentsCompleted(true)) throw new Error('Gagal menyimpan status dokumen');
+  }catch(error){
+    console.error(error);
+    throw error;
+  }
   await sleep(550);
   window.location.assign("./form-pinjaman.html");
 }

@@ -113,7 +113,7 @@
       <p class="msg">Nilai di atas merupakan estimasi frontend dan bukan keputusan kredit atau persetujuan otomatis.</p>
     </article>
 
-    <button id="continueButton" class="continue" type="button" disabled>Lanjut ke Dashboard Pinjaman →</button>
+    <button id="continueButton" class="continue" type="button" disabled>Lanjut ke Ringkasan Pengajuan →</button>
     <div id="globalMessage" class="global" aria-live="assertive"></div>
   </form>
 
@@ -127,7 +127,7 @@
 (()=>{
 "use strict";
 const STORAGE_KEY="pinjamanDemoDataV1";
-const DASHBOARD_ROUTE="./dashboard-pinjaman.html";
+const DASHBOARD_ROUTE="./ringkasan-pengajuan.html";
 const $=id=>document.getElementById(id);
 const state={amount:20000000,tenor:0,busy:false};
 const rupiah=value=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(Number(value||0));
@@ -231,7 +231,7 @@ $("continueButton").addEventListener("click",async()=>{
   state.busy=true;
   validate();
   $("continueButton").disabled=true;
-  $("continueButton").innerHTML='<span class="btn-spin" aria-hidden="true"></span>Menyiapkan Dashboard...';
+  $("continueButton").innerHTML='<span class="btn-spin" aria-hidden="true"></span>Menyiapkan Ringkasan...';
   $("globalMessage").textContent="";
 
   const estimation=estimate();
@@ -278,7 +278,7 @@ $("continueButton").addEventListener("click",async()=>{
     }
   }catch{
     state.busy=false;
-    $("continueButton").textContent="Lanjut ke Dashboard Pinjaman →";
+    $("continueButton").textContent="Lanjut ke Ringkasan Pengajuan →";
     $("globalMessage").textContent="Data tidak dapat disimpan pada browser ini. Periksa izin penyimpanan situs.";
     validate();
     return;

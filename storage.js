@@ -212,8 +212,8 @@ const read = (key, fallback = null) => safeParse(localStorage.getItem(key), fall
         documentsCompleted: false,
         documentsCompletedAt: null,
         loan: {
-          amount: 25000000,
-          tenor: 12,
+          amount: 0,
+          tenor: 0,
           annualRate: 12,
           purpose: 'Modal Usaha',
           monthlyInstallment: 0,
@@ -232,16 +232,40 @@ const read = (key, fallback = null) => safeParse(localStorage.getItem(key), fall
           status: 'APPROVED_DEMO',
           title: 'Pengajuan Berhasil Diproses',
           message: 'Data demonstrasi telah selesai diproses.',
-          approvedAmount: 25000000
+          approvedAmount: 0
         }
       };
       const stored = read(KEYS.application, null);
-      return stored
+      const legacy = safeParse(localStorage.getItem('pinjamanDemoDataV1'), {}) || {};
+      const legacyAmount = Number(legacy.loanAmount || localStorage.getItem('loanAmount') || 0);
+      const legacyTenor = Number(legacy.loanTenor || localStorage.getItem('loanTenor') || 0);
+      const legacyMonthly = Number(legacy.estimatedInstallment || localStorage.getItem('estimatedInstallment') || 0);
+      const legacyTotal = Number(legacy.estimatedTotal || localStorage.getItem('estimatedTotal') || 0);
+      const legacyAccount = String(legacy.disbursementAccount || localStorage.getItem('disbursementAccount') || '');
+      const legacyPurpose = String(legacy.loanPurposeOther || legacy.loanPurpose || localStorage.getItem('loanPurposeOther') || localStorage.getItem('loanPurpose') || '');
+      const migrated = (!stored && legacyAmount > 0 && legacyTenor > 0) ? {
+        currentStep: 'LOAN_FORM_COMPLETED',
+        status: 'LOAN_FORM_COMPLETED',
+        loanFormCompleted: true,
+        limit: legacyAmount,
+        disbursementAccount: legacyAccount,
+        bankAccount: legacyAccount,
+        loan: {
+          amount: legacyAmount,
+          tenor: legacyTenor,
+          annualRate: 12,
+          purpose: legacyPurpose,
+          monthlyInstallment: legacyMonthly,
+          totalPayment: legacyTotal
+        }
+      } : null;
+      const source = stored || migrated;
+      return source
         ? {
             ...defaults,
-            ...stored,
-            loan: { ...defaults.loan, ...(stored.loan || {}) },
-            result: { ...defaults.result, ...(stored.result || {}) }
+            ...source,
+            loan: { ...defaults.loan, ...(source.loan || {}) },
+            result: { ...defaults.result, ...(source.result || {}) }
           }
         : defaults;
     },
@@ -554,7 +578,7 @@ const read = (key, fallback = null) => safeParse(localStorage.getItem(key), fall
 
     requireLoan(redirect = 'form-pinjaman.html') {
       const app = this.getApplication();
-      if (!app.loan || app.currentStep === 'DOCUMENTS_COMPLETED') {
+      if (!app.loan || Number(app.loan.amount) <= 0 || Number(app.loan.tenor) <= 0 || app.currentStep === 'DOCUMENTS_COMPLETED') {
         window.location.replace(redirect);
         return false;
       }

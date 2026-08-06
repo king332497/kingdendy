@@ -158,11 +158,12 @@
   }
 
   if (!hasLoan) {
-    if (routeGuard) routeGuard.hidden = false;
-    if (dashboardApp) dashboardApp.hidden = true;
-    byId('guardBackButton')?.addEventListener('click', () => {
-      window.location.assign(FORM_ROUTE);
-    });
+    window.location.replace(FORM_ROUTE);
+    return;
+  }
+
+  if (!application.resultAvailable && application.currentStep !== 'RESULT_AVAILABLE') {
+    window.location.replace('./ringkasan-pengajuan.html');
     return;
   }
 
