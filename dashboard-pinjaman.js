@@ -1,6 +1,8 @@
 (() => {
   'use strict';
 
+  const BUILD_VERSION = '20260806-1750';
+  window.__DASHBOARD_BUILD__ = BUILD_VERSION;
   const LEGACY_KEY = 'pinjamanDemoDataV1';
   const FORM_ROUTE = './form-pinjaman.html';
   const LOGIN_ROUTE = './index.html';
