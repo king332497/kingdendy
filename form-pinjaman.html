@@ -120,6 +120,9 @@
   <footer class="footer"><span>🛡️ Data form disimpan lokal tanpa menyimpan berkas.</span><span>Pusat Bantuan</span></footer>
 </section>
 </main>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="storage.js"></script>
 <script>
 (()=>{
 "use strict";
@@ -245,6 +248,34 @@ $("continueButton").addEventListener("click",async()=>{
 
   try{
     persistLoanData(data);
+
+    if (window.NovaStorage) {
+      const loanSaved = NovaStorage.setLoan({
+        amount: data.loanAmount,
+        tenor: data.loanTenor,
+        purpose: data.loanPurpose === "Kebutuhan Lainnya"
+          ? data.loanPurposeOther
+          : data.loanPurpose,
+        annualRate: 12,
+        monthlyInstallment: data.estimatedInstallment,
+        totalPayment: data.estimatedTotal
+      });
+
+      const applicationSaved = NovaStorage.setApplication({
+        limit: data.loanAmount,
+        tenor: data.loanTenor,
+        annualRate: 12,
+        disbursementAccount: data.disbursementAccount,
+        bankAccount: data.disbursementAccount,
+        loanFormCompleted: true,
+        status: "LOAN_FORM_COMPLETED",
+        currentStep: "LOAN_FORM_COMPLETED"
+      });
+
+      if (!loanSaved || !applicationSaved) {
+        throw new Error("Data pengajuan tidak dapat disimpan melalui NovaStorage.");
+      }
+    }
   }catch{
     state.busy=false;
     $("continueButton").textContent="Lanjut ke Dashboard Pinjaman →";

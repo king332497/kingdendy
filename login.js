@@ -82,9 +82,17 @@
     });
 
     const profile = NovaStorage.getIdentity();
-    window.location.replace(profile?.fullName && /^\d{16}$/.test(profile?.nik || '')
-      ? 'dashboard.html'
-      : 'form-nik.html');
+    const application = NovaStorage.getApplication();
+    const hasIdentity = Boolean(profile?.fullName && /^\d{16}$/.test(profile?.nik || ''));
+    const hasLoan = Boolean(application?.loan?.amount > 0 &&
+      ['LOAN_FORM_COMPLETED', 'SUMMARY_CONFIRMED', 'PIN_CONFIRMED',
+       'SUBMISSION_PROCESSING', 'RESULT_AVAILABLE'].includes(application?.currentStep));
+
+    window.location.replace(hasIdentity && hasLoan
+      ? 'dashboard-pinjaman.html'
+      : hasIdentity
+        ? 'verifikasi-sms.html'
+        : 'form-nik.html');
   });
 
   updateButton();

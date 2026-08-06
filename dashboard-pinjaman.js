@@ -141,13 +141,46 @@
   const data = readProjectData();
   const routeGuard = byId('routeGuard');
   const dashboardApp = byId('dashboardApp');
+  const session = window.NovaStorage?.getSession?.();
+  const identity = window.NovaStorage?.getIdentity?.();
+  const application = window.NovaStorage?.getApplication?.() || {};
+  const hasIdentity = Boolean(identity?.fullName && /^\d{16}$/.test(identity?.nik || ''));
+  const hasLoan = Boolean(data.amount > 0 && data.tenor > 0);
 
-  // Dashboard tetap ditampilkan ketika halaman dibuka.
-  // Data yang tersedia dari Form Pinjaman tetap digunakan secara dinamis.
-  // Guard lama dihapus karena status penyelesaian pada versi Form Pinjaman
-  // yang sedang terpasang dapat tersimpan dalam struktur berbeda.
+  if (!session) {
+    window.location.replace(LOGIN_ROUTE);
+    return;
+  }
+
+  if (!hasIdentity) {
+    window.location.replace('./form-nik.html');
+    return;
+  }
+
+  if (!hasLoan) {
+    if (routeGuard) routeGuard.hidden = false;
+    if (dashboardApp) dashboardApp.hidden = true;
+    byId('guardBackButton')?.addEventListener('click', () => {
+      window.location.assign(FORM_ROUTE);
+    });
+    return;
+  }
+
   if (routeGuard) routeGuard.hidden = true;
   if (dashboardApp) dashboardApp.hidden = false;
+
+  // Normalisasi data lama ke struktur aplikasi utama agar halaman berikutnya
+  // selalu membaca sumber data yang sama.
+  if (application.currentStep === 'DOCUMENTS_COMPLETED' || !application.loanFormCompleted) {
+    window.NovaStorage?.setApplication?.({
+      currentStep: 'LOAN_FORM_COMPLETED',
+      status: 'LOAN_FORM_COMPLETED',
+      loanFormCompleted: true,
+      limit: data.amount,
+      disbursementAccount: data.account,
+      bankAccount: data.account
+    });
+  }
 
   const displayPurpose = data.purpose === 'Kebutuhan Lainnya'
     ? (data.purposeOther || data.purpose)

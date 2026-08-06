@@ -13,6 +13,6 @@
   document.getElementById('amount').textContent = rupiah(app.result.approvedAmount);
   document.getElementById('tenor').textContent = app.loan.tenor + ' Bulan';
 
-  document.getElementById('dashboardButton').addEventListener('click', () => location.replace('dashboard.html'));
+  document.getElementById('dashboardButton').addEventListener('click', () => location.replace('dashboard-pinjaman.html'));
   document.getElementById('backButton').style.visibility = 'hidden';
 })();
