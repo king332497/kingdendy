@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#14076a">
+  <title>KB Bank Finance — Dashboard Pinjaman</title>
+  <link rel="stylesheet" href="dashboard-pinjaman.css">
+</head>
+<body>
+  <div id="routeGuard" class="route-guard" hidden>
+    <section class="route-guard__card" aria-labelledby="guardTitle">
+      <div class="route-guard__icon" aria-hidden="true">!</div>
+      <h1 id="guardTitle">Form Pinjaman Belum Lengkap</h1>
+      <p>Lengkapi Form Pinjaman terlebih dahulu untuk membuka Dashboard Pinjaman.</p>
+      <button id="guardBackButton" type="button">Kembali ke Form Pinjaman</button>
+    </section>
+  </div>
+
+  <div id="dashboardApp" class="dashboard" hidden>
+    <div id="drawerBackdrop" class="drawer-backdrop" hidden></div>
+
+    <aside id="sidebar" class="sidebar" aria-label="Navigasi utama">
+      <div class="brand">
+        <svg class="brand__mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M10 42 30 22M30 8v48M30 22 47 11M30 22l18 19M48 23c10 0 10 16 0 16h-9V23h9Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div><strong>KB Bank Finance</strong><span>Dashboard Pinjaman</span></div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a class="nav-item is-active" href="#top"><span class="nav-icon">⌂</span><span>Beranda</span></a>
+        <a class="nav-item" href="#loanSummary"><span class="nav-icon">▣</span><span>Ringkasan Pinjaman</span></a>
+        <a class="nav-item" href="#installmentSchedule"><span class="nav-icon">⟳</span><span>Angsuran Saya</span></a>
+        <a class="nav-item" href="#applicationStatus"><span class="nav-icon">↔</span><span>Riwayat Transaksi</span></a>
+        <a class="nav-item" href="#quickActions"><span class="nav-icon">▤</span><span>Dokumen Saya</span></a>
+        <button class="nav-item nav-button" type="button" data-toast="Belum ada pesan baru."><span class="nav-icon">♧</span><span>Notifikasi &amp; Pesan</span></button>
+
+        <p class="nav-label">Pengajuan</p>
+        <a class="nav-item" href="form-pinjaman.html"><span class="nav-icon">＋</span><span>Ajukan Pinjaman Baru</span></a>
+        <button class="nav-item nav-button" type="button" data-toast="Simulasi menggunakan data pengajuan yang tersimpan."><span class="nav-icon">▦</span><span>Simulasi Pinjaman</span></button>
+
+        <p class="nav-label">Akun Saya</p>
+        <button class="nav-item nav-button" type="button" data-toast="Profil menggunakan data Form Identitas."><span class="nav-icon">♙</span><span>Profil Saya</span></button>
+        <button class="nav-item nav-button" type="button" data-toast="Pengaturan belum tersedia pada prototype ini."><span class="nav-icon">⚙</span><span>Pengaturan</span></button>
+        <button class="nav-item nav-button" type="button" data-toast="Hubungi layanan pelanggan melalui kanal resmi."><span class="nav-icon">?</span><span>Bantuan</span></button>
+        <button id="logoutButton" class="nav-item nav-button" type="button"><span class="nav-icon">↪</span><span>Logout</span></button>
+      </nav>
+
+      <article class="limit-promo">
+        <div class="limit-promo__crown" aria-hidden="true">♛</div>
+        <h2>Tingkatkan Limit Pinjaman</h2>
+        <p>Ajukan peningkatan limit untuk kebutuhan lebih besar.</p>
+        <button type="button" data-toast="Fitur peningkatan limit belum diaktifkan.">Ajukan Sekarang <span>→</span></button>
+      </article>
+    </aside>
+
+    <main class="main-content" id="top">
+      <header class="topbar">
+        <button id="menuButton" class="icon-button menu-button" type="button" aria-label="Buka menu" aria-expanded="false">☰</button>
+        <div class="welcome-copy">
+          <span>Selamat Datang,</span>
+          <h1><span id="welcomeName">Nasabah</span> <span aria-hidden="true">👋</span></h1>
+          <p>Kelola pinjaman Anda dengan mudah dan aman.</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="notification-button" type="button" aria-label="Notifikasi" data-toast="Anda memiliki 3 notifikasi.">
+            <span aria-hidden="true">♧</span><b>3</b>
+          </button>
+          <div class="profile-summary">
+            <div id="profileAvatar" class="profile-avatar">N</div>
+            <div><strong id="profileName">Nasabah</strong><span>Nasabah</span></div>
+            <span aria-hidden="true">⌄</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="top-grid">
+        <article id="loanSummary" class="limit-card">
+          <div class="limit-card__watermark" aria-hidden="true">KB</div>
+          <div class="card-title-row"><h2>Limit Pinjaman Anda</h2><span class="active-badge">● Aktif</span></div>
+          <span class="limit-label">Total Limit</span>
+          <strong id="limitAmount" class="limit-amount">Rp0</strong>
+          <div class="limit-divider"></div>
+          <div class="limit-meta"><div><span>Digunakan</span><strong id="usedAmount">Rp0</strong></div><strong id="usagePercent">0%</strong><div class="align-right"><span>Tersedia</span><strong id="availableAmount">Rp0</strong></div></div>
+          <div class="limit-progress"><i id="limitProgress"></i></div>
+        </article>
+
+        <article id="applicationStatus" class="panel status-card">
+          <div class="panel-heading"><h2>Status Pengajuan</h2><span class="form-badge">Form Lengkap</span></div>
+          <div class="stepper" aria-label="Status pengajuan">
+            <div class="step is-done"><i>✓</i><strong>Pengajuan</strong><span id="dateApplication">-</span></div>
+            <div class="step is-done"><i>✓</i><strong>Dokumen</strong><span id="dateDocuments">-</span></div>
+            <div class="step is-done"><i>✓</i><strong>Verifikasi</strong><span id="dateVerification">-</span></div>
+            <div class="step is-done"><i>✓</i><strong>Persetujuan</strong><span id="dateApproval">-</span></div>
+            <div class="step is-current"><i></i><strong>Pencairan</strong><span>Menunggu</span></div>
+          </div>
+          <div class="status-notice"><span aria-hidden="true">⌛</span><div><strong>Pengajuan Anda sedang dalam proses akhir.</strong><p>Kami akan segera memproses tahapan berikutnya.</p></div></div>
+        </article>
+      </section>
+
+      <section class="stat-grid" aria-label="Statistik pinjaman">
+        <article class="stat-card"><div class="stat-icon purple">▤</div><div><span>Total Pembayaran</span><strong id="totalPayment">Rp0</strong><small id="principalCaption">Dari Rp0</small></div></article>
+        <article class="stat-card"><div class="stat-icon green">✦</div><div><span>Sisa Pembayaran</span><strong id="remainingPayment">Rp0</strong><small id="remainingCaption">100% dari total</small></div></article>
+        <article class="stat-card"><div class="stat-icon amber">⌂</div><div><span>Angsuran per Bulan</span><strong id="monthlyPayment">Rp0</strong><small id="tenorCaption">Tenor -</small></div></article>
+        <article class="stat-card"><div class="stat-icon violet">▦</div><div><span>Jatuh Tempo Berikutnya</span><strong id="nextDueDate">-</strong><small class="danger" id="daysUntilDue">-</small></div></article>
+      </section>
+
+      <section class="bottom-grid">
+        <article id="installmentSchedule" class="panel schedule-card">
+          <div class="panel-heading"><h2>Jadwal Angsuran</h2><button type="button" class="text-button" data-toast="Semua jadwal telah ditampilkan.">Lihat Semua</button></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>No</th><th>Tanggal</th><th>Angsuran</th><th>Pokok</th><th>Bunga</th><th>Sisa Pokok</th><th>Status</th></tr></thead>
+              <tbody id="scheduleBody"></tbody>
+            </table>
+          </div>
+          <button class="detail-button" type="button" data-toast="Detail angsuran tersedia pada tabel di atas."><span>▣</span> Lihat Detail Angsuran <span>→</span></button>
+        </article>
+
+        <div class="right-column">
+          <article class="transfer-card">
+            <div class="transfer-copy">
+              <div class="transfer-title"><span aria-hidden="true">♜</span><h2>Transfer ke Rekening KB Bank</h2></div>
+              <p>Dana akan ditransfer ke rekening tujuan yang telah dipersiapkan pada proses pengajuan.</p>
+              <div class="account-box account-form">
+                <label for="dashboardAccountInput">Nomor Rekening KB Bank</label>
+                <div class="account-input-wrap">
+                  <span aria-hidden="true">KB</span>
+                  <input
+                    id="dashboardAccountInput"
+                    type="text"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    maxlength="11"
+                    placeholder="Masukkan 11 digit nomor rekening"
+                    aria-describedby="dashboardAccountMessage"
+                  >
+                </div>
+                <div class="account-form__meta">
+                  <span id="maskedAccount">•••••••----</span>
+                  <b id="accountValidityBadge">Belum valid</b>
+                </div>
+                <p id="dashboardAccountMessage" class="account-message" aria-live="polite">
+                  Nomor rekening harus terdiri dari tepat 11 digit angka.
+                </p>
+              </div>
+            </div>
+            <div class="bank-illustration" aria-hidden="true">
+              <svg viewBox="0 0 260 210"><defs><linearGradient id="g1" x1="0" x2="1"><stop stop-color="#c6a5ff"/><stop offset="1" stop-color="#7137f5"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><ellipse cx="140" cy="183" rx="92" ry="17" fill="#16075d" opacity=".55"/><path d="m60 86 76-49 77 49-15 9-62-38-61 38Z" fill="url(#g1)" filter="url(#glow)"/><rect x="75" y="95" width="124" height="14" rx="5" fill="#8055ff"/><rect x="84" y="111" width="19" height="50" rx="5" fill="#a98cff"/><rect x="116" y="111" width="19" height="50" rx="5" fill="#a98cff"/><rect x="148" y="111" width="19" height="50" rx="5" fill="#a98cff"/><rect x="180" y="111" width="12" height="50" rx="5" fill="#a98cff"/><path d="M68 163h139l15 17H53Z" fill="#6f35ec"/><path d="M50 180h175v13H50Z" rx="5" fill="#b79aff"/><text x="136" y="88" text-anchor="middle" fill="white" font-size="13" font-weight="800">KB BANK</text></svg>
+            </div>
+            <button id="transferButton" class="transfer-button" type="button" disabled>Transfer ke Rekening KB Bank <span>→</span></button>
+          </article>
+
+          <section id="quickActions" class="quick-actions" aria-label="Menu cepat">
+            <button type="button" data-toast="Detail pinjaman sedang dipersiapkan."><span>⇩</span><strong>Unduh<br>Detail Pinjaman</strong></button>
+            <button type="button" data-toast="Tiga dokumen telah dipersiapkan."><span>▤</span><strong>Lihat<br>Dokumen</strong></button>
+            <button type="button" data-toast="Hubungi Customer Care melalui kanal resmi."><span>♧</span><strong>Hubungi<br>Customer Care</strong></button>
+            <button type="button" data-toast="Fitur perpanjangan belum diaktifkan."><span>◴</span><strong>Ajukan<br>Perpanjangan</strong></button>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="transferModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="transferModalTitle" hidden>
+    <div class="modal__backdrop" data-close-modal></div>
+    <section class="modal__card">
+      <button id="modalCloseButton" class="modal__close" type="button" aria-label="Tutup modal">×</button>
+      <div id="modalIcon" class="modal__icon">♜</div>
+      <h2 id="transferModalTitle">Konfirmasi Proses Transfer</h2>
+      <p id="modalStatus" aria-live="polite">Periksa kembali rekening tujuan dan nominal pengajuan.</p>
+      <div class="modal__summary"><div><span>Rekening tujuan</span><strong id="modalAccount">-</strong></div><div><span>Nominal</span><strong id="modalAmount">Rp0</strong></div></div>
+      <div class="modal__actions"><button id="modalCancelButton" type="button" class="secondary-button">Batal</button><button id="modalContinueButton" type="button" class="primary-button">Lanjutkan</button></div>
+    </section>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="storage.js"></script>
+  <script src="dashboard-pinjaman.js"></script>
+</body>
+</html>
