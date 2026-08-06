@@ -377,13 +377,22 @@
     window.location.assign(LOGIN_ROUTE);
   });
 
-  // Modal transfer: tidak membuat klaim transaksi riil.
+  // Modal status rekening — prototipe UI; tidak menjalankan transaksi nyata.
   const modal = byId('transferModal');
+  const loadingLayer = byId('transferLoading');
+  const loadingText = byId('transferLoadingText');
   const modalCloseButton = byId('modalCloseButton');
   const modalCancelButton = byId('modalCancelButton');
   const modalContinueButton = byId('modalContinueButton');
   let lastFocused = null;
   let transferBusy = false;
+  let loadingTimerOne = 0;
+  let loadingTimerTwo = 0;
+
+  const resetLoadingTimers = () => {
+    window.clearTimeout(loadingTimerOne);
+    window.clearTimeout(loadingTimerTwo);
+  };
 
   const closeModal = () => {
     if (!modal || transferBusy) return;
@@ -392,42 +401,61 @@
     lastFocused?.focus();
   };
 
-  const openModal = () => {
-    if (!modal || !accountInput || !isValidAccount(accountInput.value)) {
+  const showDormantModal = () => {
+    if (!modal) return;
+    if (loadingLayer) loadingLayer.hidden = true;
+    modal.hidden = false;
+    modalCloseButton?.focus();
+  };
+
+  const beginAccountCheck = () => {
+    if (!accountInput || !isValidAccount(accountInput.value)) {
       accountInput?.focus();
       showToast('Masukkan nomor rekening KB Bank yang valid, tepat 11 digit.');
       return;
     }
+
     lastFocused = document.activeElement;
-    modal.hidden = false;
     document.body.style.overflow = 'hidden';
-    modalCloseButton?.focus();
+    if (loadingLayer) loadingLayer.hidden = false;
+    if (loadingText) loadingText.textContent = 'Memvalidasi nomor rekening tujuan…';
+
+    resetLoadingTimers();
+    loadingTimerOne = window.setTimeout(() => {
+      if (loadingText) loadingText.textContent = 'Memeriksa status layanan rekening…';
+    }, 700);
+    loadingTimerTwo = window.setTimeout(showDormantModal, 1650);
   };
 
-  transferButton?.addEventListener('click', openModal);
+  transferButton?.addEventListener('click', beginAccountCheck);
   modalCloseButton?.addEventListener('click', closeModal);
   modalCancelButton?.addEventListener('click', closeModal);
   modal?.querySelector('[data-close-modal]')?.addEventListener('click', closeModal);
 
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && modal && !modal.hidden) closeModal();
+    if (event.key === 'Escape') {
+      if (loadingLayer && !loadingLayer.hidden) {
+        resetLoadingTimers();
+        loadingLayer.hidden = true;
+        document.body.style.overflow = '';
+        lastFocused?.focus();
+      } else if (modal && !modal.hidden) {
+        closeModal();
+      }
+    }
   });
 
   modalContinueButton?.addEventListener('click', async () => {
     if (transferBusy) return;
     transferBusy = true;
     modalContinueButton.disabled = true;
-    modalContinueButton.textContent = 'Menyiapkan Proses Transfer...';
-    setText('modalStatus', 'Mohon tunggu, data transfer sedang dipersiapkan. Tidak ada transaksi riil yang dilakukan.');
+    modalContinueButton.innerHTML = '<span aria-hidden="true">🔒</span> Menyiapkan Informasi…';
 
-    await new Promise(resolve => window.setTimeout(resolve, 1100));
+    await new Promise(resolve => window.setTimeout(resolve, 750));
 
-    modalContinueButton.textContent = 'Proses Dipersiapkan';
-    setText('modalStatus', 'Data transfer telah dipersiapkan untuk tahapan berikutnya.');
-
-    await new Promise(resolve => window.setTimeout(resolve, 700));
-    transferBusy = false;
+    showToast('Simulasi UI: aktivasi rekening dan transaksi nyata tidak dijalankan.');
+    modalContinueButton.innerHTML = '<span aria-hidden="true">🔒</span> Lanjutkan Aktivasi';
     modalContinueButton.disabled = false;
-    modalContinueButton.textContent = 'Lanjutkan';
+    transferBusy = false;
   });
 })();
