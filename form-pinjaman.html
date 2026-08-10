@@ -20,6 +20,7 @@
 .btn-spin{display:inline-block;width:17px;height:17px;margin-right:8px;vertical-align:-3px;border:2px solid #ffffff66;border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}@media(min-width:760px){body{padding:24px}.app{border-radius:34px;min-height:calc(100vh - 48px)}}@media(max-width:360px){.content{padding-inline:11px}.card{padding:15px}.quick-grid{grid-template-columns:1fr}.tenor-grid{grid-template-columns:repeat(2,1fr)}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn-spin{animation:none}}
 </style>
+  <link rel="stylesheet" href="mobile-polish.css?v=20260807-stage1">
 </head>
 <body>
 <main class="app">
@@ -110,14 +111,14 @@
         <div class="summary-row"><span>Estimasi total pembayaran</span><strong id="summaryTotal">Rp0</strong></div>
         <div class="summary-total"><span>Estimasi angsuran per bulan</span><strong id="summaryMonthly">Rp0</strong></div>
       </div>
-      <p class="msg">Nilai di atas merupakan estimasi frontend dan bukan keputusan kredit atau persetujuan otomatis.</p>
+      <p class="msg">Estimasi pembiayaan disajikan untuk memberikan gambaran awal atas pengajuan Anda.</p>
     </article>
 
     <button id="continueButton" class="continue" type="button" disabled>Lanjut ke Ringkasan Pengajuan →</button>
     <div id="globalMessage" class="global" aria-live="assertive"></div>
   </form>
 
-  <footer class="footer"><span>🛡️ Data form disimpan lokal tanpa menyimpan berkas.</span><span>Pusat Bantuan</span></footer>
+  <footer class="footer"><span> 🔒 Keamanan informasi Anda selalu menjadi prioritas.</span><span>Pusat Bantuan</span></footer>
 </section>
 </main>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>

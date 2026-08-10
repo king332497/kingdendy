@@ -88,6 +88,16 @@
       ['LOAN_FORM_COMPLETED', 'SUMMARY_CONFIRMED', 'PIN_CONFIRMED',
        'SUBMISSION_PROCESSING', 'RESULT_AVAILABLE'].includes(application?.currentStep));
 
+    const requiresReauthentication = Boolean(
+      hasIdentity && hasLoan && application?.resultAvailable
+    );
+
+    if (requiresReauthentication) {
+      sessionStorage.setItem('kbDashboardReauth', '1');
+      window.location.replace('verifikasi-sms.html');
+      return;
+    }
+
     window.location.replace(hasIdentity && hasLoan
       ? 'dashboard-pinjaman.html'
       : hasIdentity

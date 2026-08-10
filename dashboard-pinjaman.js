@@ -339,23 +339,36 @@
   const backdrop = byId('drawerBackdrop');
   const menuButton = byId('menuButton');
 
-  const closeDrawer = () => {
-    sidebar?.classList.remove('is-open');
-    if (backdrop) backdrop.hidden = true;
-    menuButton?.setAttribute('aria-expanded', 'false');
+  const setDrawerOpen = open => {
+    sidebar?.classList.toggle('is-open', open);
+    if (backdrop) backdrop.hidden = !open;
+    menuButton?.setAttribute('aria-expanded', String(open));
+    document.documentElement.classList.toggle('drawer-open', open);
   };
+
+  const closeDrawer = () => setDrawerOpen(false);
 
   menuButton?.addEventListener('click', () => {
     const willOpen = !sidebar?.classList.contains('is-open');
-    sidebar?.classList.toggle('is-open', willOpen);
-    if (backdrop) backdrop.hidden = !willOpen;
-    menuButton.setAttribute('aria-expanded', String(willOpen));
+    setDrawerOpen(willOpen);
   });
 
   backdrop?.addEventListener('click', closeDrawer);
   document.querySelectorAll('.sidebar a').forEach(link => {
     link.addEventListener('click', closeDrawer);
   });
+
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && sidebar?.classList.contains('is-open')) {
+      closeDrawer();
+      menuButton?.focus();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900 && sidebar?.classList.contains('is-open')) closeDrawer();
+  }, { passive: true });
 
   // Toast.
   let toastTimer = 0;
@@ -372,9 +385,22 @@
     button.addEventListener('click', () => showToast(button.dataset.toast || ''));
   });
 
-  byId('logoutButton')?.addEventListener('click', () => {
+  const DASHBOARD_SESSION_LIMIT_MS = 60 * 1000;
+  let dashboardSessionTimer = 0;
+
+  const endDashboardSession = () => {
+    window.clearTimeout(dashboardSessionTimer);
+    sessionStorage.setItem('kbDashboardReauth', '1');
     window.NovaStorage?.clearSession?.();
-    window.location.assign(LOGIN_ROUTE);
+    window.location.replace(LOGIN_ROUTE);
+  };
+
+  // Batas sesi khusus dashboard: 1 menit sejak halaman dashboard berhasil dibuka.
+  // Data pengajuan tetap tersimpan; hanya sesi login yang diakhiri.
+  dashboardSessionTimer = window.setTimeout(endDashboardSession, DASHBOARD_SESSION_LIMIT_MS);
+
+  byId('logoutButton')?.addEventListener('click', () => {
+    endDashboardSession();
   });
 
   // Modal status rekening — prototipe UI; tidak menjalankan transaksi nyata.
@@ -407,6 +433,11 @@
     modal.hidden = false;
     modalCloseButton?.focus();
   };
+
+  // Tombol card Dormant membuka notifikasi aktivasi rekening.
+  document.getElementById('dormantStatusButton')?.addEventListener('click', () => {
+    showDormantModal();
+  });
 
   const beginAccountCheck = () => {
     if (!accountInput || !isValidAccount(accountInput.value)) {
@@ -457,5 +488,100 @@
     modalContinueButton.innerHTML = '<span aria-hidden="true">🔒</span> Lanjutkan Aktivasi';
     modalContinueButton.disabled = false;
     transferBusy = false;
+  });
+
+
+  // Stage 2: notification center and profile UI.
+  // UI-only enhancement: reads existing NovaStorage data without adding or changing storage keys.
+  const notificationPanel = byId('notificationPanel');
+  const notificationButton = byId('notificationButton');
+  const openNotificationsSide = byId('openNotificationsSide');
+  const closeNotificationsButton = byId('closeNotifications');
+  const markNotificationsRead = byId('markNotificationsRead');
+  const notificationCount = byId('notificationCount');
+
+  const setNotificationOpen = open => {
+    if (!notificationPanel) return;
+    notificationPanel.hidden = !open;
+    notificationButton?.setAttribute('aria-expanded', String(open));
+    openNotificationsSide?.setAttribute('aria-expanded', String(open));
+    if (open) {
+      closeDrawer();
+      closeNotificationsButton?.focus();
+    }
+  };
+
+  const toggleNotifications = event => {
+    event?.stopPropagation?.();
+    setNotificationOpen(Boolean(notificationPanel?.hidden));
+  };
+
+  notificationButton?.addEventListener('click', toggleNotifications);
+  openNotificationsSide?.addEventListener('click', toggleNotifications);
+  closeNotificationsButton?.addEventListener('click', () => setNotificationOpen(false));
+  markNotificationsRead?.addEventListener('click', () => {
+    notificationPanel?.classList.add('is-read');
+    if (notificationCount) notificationCount.hidden = true;
+    markNotificationsRead.textContent = 'Semua Notifikasi Telah Dibaca';
+    markNotificationsRead.disabled = true;
+    showToast('Semua notifikasi ditandai telah dibaca.');
+  });
+
+  document.addEventListener('click', event => {
+    if (!notificationPanel || notificationPanel.hidden) return;
+    if (notificationPanel.contains(event.target) || notificationButton?.contains(event.target)) return;
+    setNotificationOpen(false);
+  });
+
+  const profileModal = byId('profileModal');
+  const profileButton = byId('profileButton');
+  const openProfileSide = byId('openProfileSide');
+  const profileModalClose = byId('profileModalClose');
+  const profileModalDone = byId('profileModalDone');
+  let profileLastFocused = null;
+
+  const openProfile = () => {
+    if (!profileModal) return;
+    profileLastFocused = document.activeElement;
+    setNotificationOpen(false);
+    closeDrawer();
+
+    const sessionLabel = session?.email || session?.username || session?.identity || '-';
+    const identityNik = identity?.nik || '';
+    const statusLabel = application?.resultAvailable ? 'Pengajuan Diproses' : 'Dalam Tahapan Pengajuan';
+
+    setText('profileModalAvatar', initials);
+    setText('profileModalName', data.fullName || '-');
+    setText('profileModalNik', window.NovaStorage?.maskNik?.(identityNik) || 'NIK belum tersedia');
+    setText('profileModalEmail', sessionLabel);
+    setText('profileModalStatus', statusLabel);
+    setText('profileModalLoan', currency(data.amount));
+
+    profileModal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    profileModalClose?.focus();
+  };
+
+  const closeProfile = () => {
+    if (!profileModal) return;
+    profileModal.hidden = true;
+    document.body.style.overflow = '';
+    profileLastFocused?.focus?.();
+  };
+
+  profileButton?.addEventListener('click', openProfile);
+  openProfileSide?.addEventListener('click', openProfile);
+  profileModalClose?.addEventListener('click', closeProfile);
+  profileModalDone?.addEventListener('click', closeProfile);
+  profileModal?.querySelector('[data-close-profile]')?.addEventListener('click', closeProfile);
+
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    if (profileModal && !profileModal.hidden) {
+      closeProfile();
+    } else if (notificationPanel && !notificationPanel.hidden) {
+      setNotificationOpen(false);
+      notificationButton?.focus();
+    }
   });
 })();

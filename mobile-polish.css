@@ -1,0 +1,167 @@
+/*
+ * KB Finance Digital — Tahap Aman 1
+ * Mobile UX enhancement only.
+ * Tidak mengubah route, storage, data, teks, atau logika bisnis.
+ */
+
+:root {
+  --mobile-touch-min: 48px;
+  --mobile-page-gutter: clamp(16px, 4vw, 24px);
+  --mobile-control-radius: 16px;
+  --mobile-motion-fast: 180ms;
+  --mobile-motion-page: 320ms;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100dvh;
+  overscroll-behavior-y: contain;
+  -webkit-tap-highlight-color: transparent;
+  animation: kbPageEnter var(--mobile-motion-page) cubic-bezier(.22,.61,.36,1) both;
+}
+
+/* Sentuhan tombol terasa lebih natural tanpa mengubah fungsi klik. */
+:where(button, [role="button"], a, input, select, textarea) {
+  touch-action: manipulation;
+}
+
+:where(button, [role="button"], .flow-button, .portal-button, .transfer-button, .activation-button, .secondary-button, .secondary-btn, .back-button) {
+  transition:
+    transform var(--mobile-motion-fast) ease,
+    filter var(--mobile-motion-fast) ease,
+    box-shadow var(--mobile-motion-fast) ease,
+    opacity var(--mobile-motion-fast) ease;
+}
+
+:where(button, [role="button"], .flow-button, .portal-button, .transfer-button, .activation-button, .secondary-button, .secondary-btn, .back-button):active:not(:disabled) {
+  transform: scale(.975);
+}
+
+:where(button, input, select, textarea, a):focus-visible {
+  outline: 3px solid rgba(124, 58, 237, .55);
+  outline-offset: 3px;
+}
+
+/* Loading yang sudah ada dibuat lebih halus tanpa menambah alur baru. */
+:where(.spinner, .btn-spin, .transfer-loading__spinner) {
+  will-change: transform;
+  filter: drop-shadow(0 5px 12px rgba(92, 45, 190, .24));
+}
+
+:where(.loader-card, .transfer-loading__card, .process-card, .processing-card) {
+  animation: kbLoadingCardIn 280ms cubic-bezier(.22,.61,.36,1) both;
+}
+
+@keyframes kbPageEnter {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes kbLoadingCardIn {
+  from { opacity: 0; transform: scale(.97) translateY(6px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@media (max-width: 640px) {
+  html {
+    scroll-padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  }
+
+  body {
+    min-width: 320px;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Ruang tepi mobile dibuat konsisten, tetapi tidak memaksa layout desktop. */
+  :where(main, .page-shell, .flow-shell, .portal-shell, .app-shell, .dashboard-main, .dashboard-content) {
+    max-width: 100%;
+  }
+
+  :where(.flow-card, .login-card, .form-card, .portal-card, .summary-card, .result-card, .process-card, .activation-modal-card, .dormant-modal-card) {
+    border-radius: clamp(18px, 5vw, 24px);
+  }
+
+  /* Target sentuh minimum mengikuti praktik aksesibilitas mobile. */
+  :where(
+    button,
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea,
+    .flow-button,
+    .portal-button,
+    .transfer-button,
+    .activation-button,
+    .secondary-button,
+    .secondary-btn,
+    .back-button,
+    .icon-button,
+    .notification-button
+  ) {
+    min-height: var(--mobile-touch-min);
+  }
+
+  :where(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+    font-size: 16px; /* Mencegah auto-zoom Safari pada fokus input. */
+    line-height: 1.35;
+  }
+
+  :where(.field, .input-wrap, .account-input-wrap) {
+    scroll-margin-top: 18px;
+    scroll-margin-bottom: 160px;
+  }
+
+  :where(.flow-actions, .form-actions, .button-row, .modal-actions, .action-row) {
+    gap: 12px;
+  }
+
+  :where(.flow-button, .portal-button, .transfer-button, .activation-button, .secondary-button, .secondary-btn) {
+    padding-inline: 18px;
+  }
+
+  /* Modal tetap dapat dibaca pada layar pendek dan tidak tertutup home indicator. */
+  :where(.modal, .transfer-loading, .activation-modal, .dormant-modal) {
+    padding:
+      max(16px, env(safe-area-inset-top))
+      var(--mobile-page-gutter)
+      max(18px, env(safe-area-inset-bottom));
+  }
+
+  :where(.transfer-loading__card, .dormant-modal-card, .activation-modal-card) {
+    max-height: min(88dvh, 760px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 380px) {
+  :where(.flow-card, .login-card, .form-card, .portal-card, .summary-card, .result-card, .process-card) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  :where(h1, .page-title, .hero-title) {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  body,
+  :where(.loader-card, .transfer-loading__card, .process-card, .processing-card) {
+    animation: none !important;
+  }
+
+  :where(*, *::before, *::after) {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

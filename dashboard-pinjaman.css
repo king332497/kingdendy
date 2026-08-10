@@ -87,3 +87,45 @@
 .activation-button:disabled{opacity:.65;cursor:wait;transform:none}
 @media(max-width:620px){.dormant-modal-card{padding:22px 17px}.dormant-modal-card>h2{font-size:22px}.dormant-copy{padding:16px}.dormant-copy p{font-size:13px}.dormant-actions{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.transfer-loading__spinner,.transfer-loading__card,.dormant-modal-card{animation:none}}
+
+/* Stage 2 — dashboard maturity, notifications and profile UI */
+.profile-summary{border:0;background:transparent;color:inherit;text-align:left;cursor:pointer;border-radius:14px;padding:5px 7px;transition:background .2s ease,transform .2s ease}
+.profile-summary:hover{background:rgba(96,34,232,.07)}
+.profile-summary:active{transform:scale(.98)}
+.notification-button,.profile-summary{outline-offset:3px}
+.notification-panel{position:absolute;z-index:35;right:38px;top:82px;width:min(390px,calc(100vw - 32px));padding:18px;border:1px solid rgba(224,218,242,.95);border-radius:20px;background:rgba(255,255,255,.97);box-shadow:0 24px 70px rgba(42,24,98,.22);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);animation:stage2PanelIn .22s ease both}
+.notification-panel__header{display:flex;align-items:center;justify-content:space-between;gap:15px;padding-bottom:13px;border-bottom:1px solid #ece8f5}
+.notification-panel__eyebrow{display:block;color:#6a4bc9;font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+.notification-panel h2{margin:3px 0 0;font-size:20px}
+.notification-panel__close{width:38px;height:38px;border:0;border-radius:12px;color:#3b2d74;background:#f3f0fb;font-size:23px}
+.notification-list{display:grid;gap:9px;margin-top:13px}
+.notification-item{display:flex;gap:12px;padding:13px;border:1px solid #ece8f5;border-radius:15px;background:#fbfaff;transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.notification-item:hover{transform:translateY(-1px);border-color:#d8cdf5}
+.notification-item.is-new{background:linear-gradient(135deg,#fbf9ff,#f5f2ff)}
+.notification-item__icon{display:grid;place-items:center;flex:0 0 38px;height:38px;border-radius:12px;font-weight:900}
+.notification-item__icon.success{color:#13764a;background:#dff8ea}.notification-item__icon.purple{color:#5d21d8;background:#ebe3ff}.notification-item__icon.amber{color:#8b5c00;background:#fff0cb}
+.notification-item strong{display:block;color:#1f1745;font-size:13px}.notification-item p{margin:4px 0;color:#746e8b;font-size:11px;line-height:1.48}.notification-item time{color:#8a83a0;font-size:10px}
+.notification-panel__action{width:100%;min-height:44px;margin-top:13px;border:1px solid #ded6f2;border-radius:13px;color:#5422c8;background:#fff;font-weight:800}
+.notification-panel.is-read .notification-item{background:#fff}.notification-panel.is-read .notification-item.is-new{opacity:.74}.notification-panel.is-read .notification-item.is-new::after{content:'Dibaca';margin-left:auto;color:#837b9a;font-size:9px}
+.profile-modal__card{width:min(100%,480px);padding:30px;text-align:center;border:1px solid rgba(225,218,244,.96);background:linear-gradient(160deg,#fff,#faf8ff)}
+.profile-modal__avatar{width:76px;height:76px;display:grid;place-items:center;margin:0 auto 14px;border-radius:24px;color:#fff;background:linear-gradient(145deg,#7132ed,#3513a8);box-shadow:0 14px 30px rgba(83,31,204,.28);font-size:25px;font-weight:900}
+.profile-modal__card h2{font-size:24px}.profile-modal__subtitle{margin:8px auto 20px!important;max-width:350px}
+.profile-detail-list{display:grid;gap:9px;text-align:left}.profile-detail-list>div{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:13px 14px;border:1px solid #ebe6f5;border-radius:14px;background:#fff}.profile-detail-list span{color:#77708e;font-size:11px}.profile-detail-list strong{max-width:62%;overflow-wrap:anywhere;color:#241a50;font-size:12px;text-align:right}
+.profile-security-note{display:flex;align-items:center;gap:10px;margin-top:15px;padding:12px 14px;border-radius:14px;color:#5136a8;background:#f0ebff;text-align:left}.profile-security-note p{margin:0;font-size:11px;font-weight:700}
+.profile-modal__done{width:100%;min-height:49px;margin-top:15px;border:0;border-radius:14px;color:#fff;background:linear-gradient(135deg,#7432ed,#4816bd);box-shadow:0 12px 26px rgba(82,28,197,.25);font-weight:800}
+.stat-card,.limit-card,.status-card,.schedule-card,.transfer-card{animation:stage2CardIn .45s ease both}.status-card{animation-delay:.05s}.stat-card:nth-child(1){animation-delay:.07s}.stat-card:nth-child(2){animation-delay:.10s}.stat-card:nth-child(3){animation-delay:.13s}.stat-card:nth-child(4){animation-delay:.16s}
+@keyframes stage2PanelIn{from{opacity:0;transform:translateY(-8px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes stage2CardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:900px){.notification-panel{position:fixed;right:16px;top:74px}.profile-modal__card{padding:26px}}
+@media(max-width:620px){.notification-panel{left:14px;right:14px;top:70px;width:auto;max-height:calc(100dvh - 88px);overflow:auto}.profile-modal{padding:14px}.profile-modal__card{padding:25px 17px}.profile-detail-list>div{align-items:flex-start;flex-direction:column;gap:4px}.profile-detail-list strong{max-width:100%;text-align:left}}
+@media(prefers-reduced-motion:reduce){.notification-panel,.stat-card,.limit-card,.status-card,.schedule-card,.transfer-card{animation:none!important}}
+
+/* Dashboard Dormant Status Card */
+.dormant-status-card{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,#fff8ee,#ffffff);border:1px solid rgba(245,158,11,.25);border-radius:22px;padding:22px;margin:20px 0;box-shadow:0 12px 30px rgba(20,10,60,.08)}
+.dormant-status-icon{font-size:34px;filter:drop-shadow(0 6px 12px rgba(245,158,11,.25))}
+.dormant-status-content{flex:1}
+.dormant-status-content h2{margin:0 0 8px;font-size:18px;color:#1f2140}
+.dormant-status-content p{margin:10px 0 0;color:#667085;font-size:14px;line-height:1.5}
+.dormant-badge{display:inline-flex;padding:6px 12px;border-radius:999px;background:#fff0d8;color:#b45309;font-size:12px;font-weight:700}
+#dormantStatusButton{border:0;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-weight:700;padding:14px 20px;border-radius:16px;cursor:pointer;white-space:nowrap}
+@media(max-width:768px){.dormant-status-card{flex-direction:column;align-items:flex-start;padding:18px}.dormant-status-content h2{font-size:16px}#dormantStatusButton{width:100%}}

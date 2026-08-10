@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#14076a">
   <title>KB Bank Finance — Dashboard Pinjaman</title>
-  <link rel="stylesheet" href="dashboard-pinjaman.css?v=20260807-0100">
+  <link rel="stylesheet" href="dashboard-pinjaman.css?v=20260807-stage21">
+  <link rel="stylesheet" href="mobile-polish.css?v=20260807-stage1">
+  <link rel="stylesheet" href="dashboard-mobile-polish.css?v=20260807-stage21">
 </head>
 <body>
   <script>document.documentElement.classList.add("js");</script>
@@ -33,14 +35,14 @@
         <a class="nav-item" href="#installmentSchedule"><span class="nav-icon">⟳</span><span>Angsuran Saya</span></a>
         <a class="nav-item" href="#applicationStatus"><span class="nav-icon">↔</span><span>Riwayat Transaksi</span></a>
         <a class="nav-item" href="#quickActions"><span class="nav-icon">▤</span><span>Dokumen Saya</span></a>
-        <button class="nav-item nav-button" type="button" data-toast="Belum ada pesan baru."><span class="nav-icon">♧</span><span>Notifikasi &amp; Pesan</span></button>
+        <button id="openNotificationsSide" class="nav-item nav-button" type="button" aria-controls="notificationPanel" aria-expanded="false"><span class="nav-icon">♧</span><span>Notifikasi &amp; Pesan</span></button>
 
         <p class="nav-label">Pengajuan</p>
         <a class="nav-item" href="form-pinjaman.html"><span class="nav-icon">＋</span><span>Ajukan Pinjaman Baru</span></a>
         <button class="nav-item nav-button" type="button" data-toast="Simulasi menggunakan data pengajuan yang tersimpan."><span class="nav-icon">▦</span><span>Simulasi Pinjaman</span></button>
 
         <p class="nav-label">Akun Saya</p>
-        <button class="nav-item nav-button" type="button" data-toast="Profil menggunakan data Form Identitas."><span class="nav-icon">♙</span><span>Profil Saya</span></button>
+        <button id="openProfileSide" class="nav-item nav-button" type="button" aria-controls="profileModal"><span class="nav-icon">♙</span><span>Profil Saya</span></button>
         <button class="nav-item nav-button" type="button" data-toast="Pengaturan belum tersedia pada prototype ini."><span class="nav-icon">⚙</span><span>Pengaturan</span></button>
         <button class="nav-item nav-button" type="button" data-toast="Hubungi layanan pelanggan melalui kanal resmi."><span class="nav-icon">?</span><span>Bantuan</span></button>
         <button id="logoutButton" class="nav-item nav-button" type="button"><span class="nav-icon">↪</span><span>Logout</span></button>
@@ -63,16 +65,41 @@
           <p>Kelola pinjaman Anda dengan mudah dan aman.</p>
         </div>
         <div class="topbar-actions">
-          <button class="notification-button" type="button" aria-label="Notifikasi" data-toast="Anda memiliki 3 notifikasi.">
-            <span aria-hidden="true">♧</span><b>3</b>
+          <button id="notificationButton" class="notification-button" type="button" aria-label="Buka notifikasi" aria-controls="notificationPanel" aria-expanded="false">
+            <span aria-hidden="true">♧</span><b id="notificationCount">3</b>
           </button>
-          <div class="profile-summary">
+          <button id="profileButton" class="profile-summary" type="button" aria-label="Buka profil" aria-controls="profileModal">
             <div id="profileAvatar" class="profile-avatar">N</div>
-            <div><strong id="profileName">Nasabah</strong><span>Nasabah</span></div>
+            <div><strong id="profileName">Nasabah</strong><span id="profileRole">Nasabah</span></div>
             <span aria-hidden="true">⌄</span>
-          </div>
+          </button>
         </div>
       </header>
+
+      <aside id="notificationPanel" class="notification-panel" aria-labelledby="notificationTitle" hidden>
+        <div class="notification-panel__header">
+          <div>
+            <span class="notification-panel__eyebrow">Pusat Informasi</span>
+            <h2 id="notificationTitle">Notifikasi</h2>
+          </div>
+          <button id="closeNotifications" class="notification-panel__close" type="button" aria-label="Tutup notifikasi">×</button>
+        </div>
+        <div class="notification-list">
+          <article class="notification-item is-new">
+            <span class="notification-item__icon success" aria-hidden="true">✓</span>
+            <div><strong>Pengajuan berhasil diproses</strong><p>Ringkasan pengajuan dan status terbaru tersedia di dashboard.</p><time>Baru saja</time></div>
+          </article>
+          <article class="notification-item is-new">
+            <span class="notification-item__icon purple" aria-hidden="true">▤</span>
+            <div><strong>Dokumen telah dilengkapi</strong><p>Dokumen yang dibutuhkan pada tahapan pengajuan telah tercatat.</p><time>Hari ini</time></div>
+          </article>
+          <article class="notification-item is-new">
+            <span class="notification-item__icon amber" aria-hidden="true">🔒</span>
+            <div><strong>Jaga keamanan akun</strong><p>Gunakan PIN aplikasi yang unik dan jangan membagikan kode verifikasi.</p><time>Informasi</time></div>
+          </article>
+        </div>
+        <button id="markNotificationsRead" class="notification-panel__action" type="button">Tandai Semua Dibaca</button>
+      </aside>
 
       <section class="top-grid">
         <article id="loanSummary" class="limit-card">
@@ -95,6 +122,16 @@
             <div class="step is-current"><i></i><strong>Pencairan</strong><span>Menunggu</span></div>
           </div>
           <div class="status-notice"><span aria-hidden="true">⌛</span><div><strong>Pengajuan Anda sedang dalam proses akhir.</strong><p>Kami akan segera memproses tahapan berikutnya.</p></div></div>
+        </article>
+
+        <article class="dormant-status-card" id="dormantStatusCard">
+          <div class="dormant-status-icon">🔐</div>
+          <div class="dormant-status-content">
+            <h2>Aktivasi Rekening Diperlukan</h2>
+            <span class="dormant-badge">Dormant • Belum Aktif</span>
+            <p>Rekening Anda memerlukan proses aktivasi dan verifikasi sebelum dapat melanjutkan layanan.</p>
+          </div>
+          <button id="dormantStatusButton" type="button">Lanjutkan Aktivasi →</button>
         </article>
       </section>
 
@@ -182,23 +219,15 @@
       <span class="dormant-status-pill">Dormant • Belum Aktif</span>
 
       <div id="modalStatus" class="dormant-copy" aria-live="polite">
-        <p>Rekening Anda saat ini masih berstatus <strong>Dormant</strong>, sehingga beberapa layanan untuk sementara belum tersedia.</p>
-        <p>Untuk mengaktifkan kembali rekening dan melanjutkan proses pengajuan, silakan lakukan <strong>setoran saldo perdana</strong> ke rekening Anda.</p>
+        <p>Rekening Anda memerlukan <strong>aktivasi dan verifikasi</strong> sebelum melanjutkan layanan.</p>
+        <p><strong>💳 Saldo Perdana</strong><br>Lakukan pengisian saldo awal sesuai ketentuan rekening.</p>
       </div>
 
       <section class="dormant-info" aria-labelledby="activationInfoTitle">
         <h3 id="activationInfoTitle">✨ Informasi Aktivasi</h3>
         <article class="dormant-info-card">
           <span aria-hidden="true">🛡️</span>
-          <div><h4>Dana Tetap Aman</h4><p>Seluruh dana yang Anda setorkan tetap tersimpan di rekening Anda dan sepenuhnya menjadi milik Anda.</p></div>
-        </article>
-        <article class="dormant-info-card">
-          <span aria-hidden="true">💳</span>
-          <div><h4>Tanpa Potongan Dana</h4><p>Setoran saldo perdana tidak dikenakan biaya maupun pemotongan.</p></div>
-        </article>
-        <article class="dormant-info-card">
-          <span aria-hidden="true">🚀</span>
-          <div><h4>Layanan Siap Dilanjutkan</h4><p>Setelah rekening aktif, proses pengajuan akan dilanjutkan sesuai tahapan layanan.</p></div>
+          <div><h4>Aman & Terverifikasi</h4><p>Setelah rekening aktif, layanan akan dilanjutkan sesuai ketentuan yang berlaku.</p></div>
         </article>
       </section>
 
@@ -216,10 +245,31 @@
     </section>
   </div>
 
+
+
+  <div id="profileModal" class="modal profile-modal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle" hidden>
+    <div class="modal__backdrop" data-close-profile></div>
+    <section class="modal__card profile-modal__card">
+      <button id="profileModalClose" class="modal__close" type="button" aria-label="Tutup profil">×</button>
+      <div id="profileModalAvatar" class="profile-modal__avatar">N</div>
+      <h2 id="profileModalTitle">Profil Saya</h2>
+      <p class="profile-modal__subtitle">Informasi akun berdasarkan data yang telah Anda lengkapi.</p>
+      <div class="profile-detail-list">
+        <div><span>Nama Lengkap</span><strong id="profileModalName">-</strong></div>
+        <div><span>Nomor Identitas</span><strong id="profileModalNik">-</strong></div>
+        <div><span>Email / Username</span><strong id="profileModalEmail">-</strong></div>
+        <div><span>Status Pengajuan</span><strong id="profileModalStatus">-</strong></div>
+        <div><span>Nominal Pengajuan</span><strong id="profileModalLoan">-</strong></div>
+      </div>
+      <div class="profile-security-note"><span aria-hidden="true">🔒</span><p>Keamanan data Anda adalah prioritas kami.</p></div>
+      <button id="profileModalDone" class="profile-modal__done" type="button">Kembali ke Dashboard</button>
+    </section>
+  </div>
+
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
   <script src="storage.js?v=20260807-0100"></script>
-  <script src="dashboard-pinjaman.js?v=20260807-0100"></script>
+  <script src="dashboard-pinjaman.js?v=20260807-stage2"></script>
 </body>
 </html>
