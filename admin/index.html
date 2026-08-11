@@ -1,0 +1,6 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Admin — Session Monitor</title><link rel="stylesheet" href="admin.css"></head><body>
+<div class="shell"><aside><div class="brand">ADMIN PANEL</div><nav><button class="active">User Sessions</button></nav><button id="logout" class="logout">Keluar</button></aside><main><header><div><h1>Realtime User Sessions</h1><p>Pantau posisi user dan atur halaman workflow yang aman.</p></div><button id="refresh">Segarkan</button></header>
+<section class="stats"><article><span>Total User</span><strong id="total">0</strong></article><article><span>Online</span><strong id="online">0</strong></article><article><span>Target Aktif</span><strong id="targets">0</strong></article></section>
+<section class="panel"><div class="toolbar"><input id="search" type="search" placeholder="Cari user / nama / status"><span id="status">Memuat…</span></div><div class="tablewrap"><table><thead><tr><th>User</th><th>Status</th><th>Halaman sekarang</th><th>Last seen</th><th>Target</th><th>Aksi</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+<div id="toast" role="status" aria-live="polite"></div></main></div>
+<script src="admin.js"></script></body></html>
