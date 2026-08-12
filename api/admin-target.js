@@ -1,5 +1,5 @@
 const { requireAdmin, requireCsrf, db, setSecurityHeaders } = require('./_admin-common');
-const SAFE = new Set(['','form-nik.html','upload-dokumen.html','form-pinjaman.html','ringkasan-pengajuan.html','proses-pengajuan.html','hasil-pengajuan.html','dashboard-pinjaman.html']);
+const SAFE = new Set(['','status:login-required','status:verification-pending','status:confirmation-pending','form-nik.html','upload-dokumen.html','form-pinjaman.html','ringkasan-pengajuan.html','proses-pengajuan.html','hasil-pengajuan.html','dashboard-pinjaman.html']);
 module.exports = async (req,res) => {
   setSecurityHeaders(res);
   if (req.method !== 'POST') { res.setHeader('Allow','POST'); return res.status(405).end(); }
