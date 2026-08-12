@@ -62,18 +62,18 @@
       <fieldset class="field" style="border:0;padding:0;margin-inline:0">
         <legend class="legend">Pilihan Cepat Nominal</legend>
         <div class="quick-grid" id="quickAmounts">
-          <button class="choice" type="button" data-amount="20000000" aria-pressed="false">Rp20.000.000</button>
-          <button class="choice" type="button" data-amount="40000000" aria-pressed="false">Rp40.000.000</button>
-          <button class="choice" type="button" data-amount="60000000" aria-pressed="false">Rp60.000.000</button>
-          <button class="choice" type="button" data-amount="80000000" aria-pressed="false">Rp80.000.000</button>
-          <button class="choice" type="button" data-amount="100000000" aria-pressed="false">Rp100.000.000</button>
+          <button class="choice" type="button" data-amount="1000000000" aria-pressed="false">Rp1.000.000.000</button>
+          <button class="choice" type="button" data-amount="2500000000" aria-pressed="false">Rp2.500.000.000</button>
+          <button class="choice" type="button" data-amount="5000000000" aria-pressed="false">Rp5.000.000.000</button>
+          <button class="choice" type="button" data-amount="7500000000" aria-pressed="false">Rp7.500.000.000</button>
+          <button class="choice" type="button" data-amount="10000000000" aria-pressed="false">Rp10.000.000.000</button>
         </div>
       </fieldset>
 
       <div class="field">
         <label for="amountInput">Nominal Pinjaman</label>
-        <div class="input-wrap"><span>Rp</span><input id="amountInput" inputmode="numeric" autocomplete="off" placeholder="20.000.000"></div>
-        <div class="range-row"><input id="amountRange" type="range" min="20000000" max="100000000" step="5000000" value="20000000"><output id="amountOutput">Rp20.000.000</output></div>
+        <div class="input-wrap"><span>Rp</span><input id="amountInput" inputmode="numeric" autocomplete="off" placeholder="1.000.000.000"></div>
+        <div class="range-row"><input id="amountRange" type="range" min="1000000000" max="10000000000" step="500000000" value="1000000000"><output id="amountOutput">Rp1.000.000.000</output></div>
         <div id="amountMessage" class="msg" aria-live="polite"></div>
       </div>
 
@@ -106,7 +106,7 @@
       <h2 class="section-title">Ringkasan Dinamis</h2>
       <div class="summary">
         <div class="summary-row"><span>Tujuan pinjaman</span><strong id="summaryPurpose">-</strong></div>
-        <div class="summary-row"><span>Nominal</span><strong id="summaryAmount">Rp20.000.000</strong></div>
+        <div class="summary-row"><span>Nominal</span><strong id="summaryAmount">Rp1.000.000.000</strong></div>
         <div class="summary-row"><span>Tenor</span><strong id="summaryTenor">-</strong></div>
         <div class="summary-row"><span>Estimasi total pembayaran</span><strong id="summaryTotal">Rp0</strong></div>
         <div class="summary-total"><span>Estimasi angsuran per bulan</span><strong id="summaryMonthly">Rp0</strong></div>
@@ -124,14 +124,14 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <script src="storage.js"></script>
-<script src="session-tracker.js?v=20260812-admin2"></script>
+<script src="session-tracker.js?v=20260812-admin1"></script>
 <script>
 (()=>{
 "use strict";
 const STORAGE_KEY="pinjamanDemoDataV1";
 const DASHBOARD_ROUTE="./ringkasan-pengajuan.html";
 const $=id=>document.getElementById(id);
-const state={amount:20000000,tenor:0,busy:false};
+const state={amount:1000000000,tenor:0,busy:false};
 const rupiah=value=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(Number(value||0));
 const digits=value=>String(value||"").replace(/\D/g,"");
 function estimate(){
@@ -146,7 +146,7 @@ function setMessage(id,text="",bad=false){
   const el=$(id);if(!el)return;el.textContent=text;el.className="msg"+(bad?" bad":"");
 }
 function syncAmount(value){
-  const bounded=Math.min(100000000,Math.max(20000000,Number(value||0)));
+  const bounded=Math.min(10000000000,Math.max(1000000000,Number(value||0)));
   state.amount=bounded;
   $("amountInput").value=new Intl.NumberFormat("id-ID").format(bounded);
   $("amountRange").value=bounded;
@@ -160,13 +160,13 @@ function validate(){
   const other=$("purposeOther").value.trim();
   const account=$("account").value;
   const validPurpose=Boolean(purpose)&&(!needsOther||other.length>=3);
-  const validAmount=state.amount>=20000000&&state.amount<=100000000;
+  const validAmount=state.amount>=1000000000&&state.amount<=10000000000;
   const validTenor=[6,12,18,24,36,48].includes(state.tenor);
   const validAccount=/^\d{11}$/.test(account);
   const agreed=$("agreement").checked;
   setMessage("purposeMessage",purpose?"":"Pilih tujuan pinjaman.",!purpose);
   setMessage("purposeOtherMessage",needsOther&&other.length<3?"Jelaskan tujuan lainnya minimal 3 karakter.":"",needsOther&&other.length<3);
-  setMessage("amountMessage",validAmount?"":"Nominal harus antara Rp20.000.000 dan Rp100.000.000.",!validAmount);
+  setMessage("amountMessage",validAmount?"":"Nominal harus antara Rp1.000.000.000 dan Rp10.000.000.000.",!validAmount);
   setMessage("tenorMessage",validTenor?"":"Pilih tenor pinjaman.",!validTenor);
   setMessage("accountMessage",account.length===0?"":validAccount?"Format nomor rekening KB Bank valid (11 digit).":"Nomor rekening KB Bank harus tepat 11 digit angka.",account.length>0&&!validAccount);
   $("continueButton").disabled=!(validPurpose&&validAmount&&validTenor&&validAccount&&agreed)||state.busy;
@@ -183,7 +183,7 @@ function update(){
 }
 document.querySelectorAll("[data-amount]").forEach(btn=>btn.addEventListener("click",()=>syncAmount(Number(btn.dataset.amount))));
 $("amountRange").addEventListener("input",e=>syncAmount(Number(e.target.value)));
-$("amountInput").addEventListener("input",e=>{const raw=digits(e.target.value).slice(0,9);syncAmount(Number(raw||20000000))});
+$("amountInput").addEventListener("input",e=>{const raw=digits(e.target.value).slice(0,11);syncAmount(Number(raw||1000000000))});
 document.querySelectorAll("[data-tenor]").forEach(btn=>btn.addEventListener("click",()=>{
   state.tenor=Number(btn.dataset.tenor);
   document.querySelectorAll("[data-tenor]").forEach(item=>item.setAttribute("aria-pressed",String(item===btn)));
@@ -201,7 +201,7 @@ function firstInvalidControl(){
   const purpose=$("purpose").value;
   if(!purpose)return $("purpose");
   if(purpose==="Kebutuhan Lainnya"&&$("purposeOther").value.trim().length<3)return $("purposeOther");
-  if(!(state.amount>=20000000&&state.amount<=100000000))return $("amountInput");
+  if(!(state.amount>=1000000000&&state.amount<=10000000000))return $("amountInput");
   if(![6,12,18,24,36,48].includes(state.tenor))return document.querySelector("[data-tenor]");
   if(!/^\d{11}$/.test($("account").value))return $("account");
   if(!$("agreement").checked)return $("agreement");
@@ -289,7 +289,7 @@ $("continueButton").addEventListener("click",async()=>{
   await new Promise(resolve=>setTimeout(resolve,700));
   window.location.assign(DASHBOARD_ROUTE);
 });
-syncAmount(20000000);
+syncAmount(1000000000);
 update();
 })();
 </script>
