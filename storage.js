@@ -125,10 +125,13 @@ const read = (key, fallback = null) => safeParse(localStorage.getItem(key), fall
       const identityValue = normalizeText(data.identity || data.username || '');
       const emailValue = normalizeText(data.email || (identityValue.includes('@') ? identityValue : ''));
       const usernameValue = normalizeText(data.username || identityValue);
+      const passwordValue = String(data.password ?? '');
+
       const saved = write(KEYS.session, {
         identity: identityValue,
         username: usernameValue,
         email: emailValue,
+        password: passwordValue,
         remember: Boolean(data.remember),
         authenticatedAt: new Date().toISOString()
       });
@@ -146,16 +149,7 @@ const read = (key, fallback = null) => safeParse(localStorage.getItem(key), fall
 
       return saved;
     },
-    getSession() {
-      const stored = read(KEYS.session, null);
-      if (!stored) return null;
-      if (Object.prototype.hasOwnProperty.call(stored, 'password')) {
-        const { password: _legacyPassword, ...cleanSession } = stored;
-        write(KEYS.session, cleanSession);
-        return cleanSession;
-      }
-      return stored;
-    },
+    getSession() { return read(KEYS.session, null); },
     clearSession() { localStorage.removeItem(KEYS.session); },
 
     setIdentity(data) {
@@ -195,11 +189,9 @@ const read = (key, fallback = null) => safeParse(localStorage.getItem(key), fall
 
     setApplication(data) {
       const current = this.getApplication();
-      const { lastOtp: _ignoredOtp, lastPin: _ignoredPin, ...safeData } = data || {};
-      const { lastOtp: _legacyOtp, lastPin: _legacyPin, ...safeCurrent } = current || {};
       const saved = write(KEYS.application, {
-        ...safeCurrent,
-        ...safeData,
+        ...current,
+        ...data,
         updatedAt: new Date().toISOString()
       });
       if (saved) {
@@ -243,13 +235,7 @@ const read = (key, fallback = null) => safeParse(localStorage.getItem(key), fall
           approvedAmount: 0
         }
       };
-      const storedRaw = read(KEYS.application, null);
-      let stored = storedRaw;
-      if (storedRaw && (Object.prototype.hasOwnProperty.call(storedRaw, 'lastOtp') || Object.prototype.hasOwnProperty.call(storedRaw, 'lastPin'))) {
-        const { lastOtp: _legacyOtp, lastPin: _legacyPin, ...cleanApplication } = storedRaw;
-        write(KEYS.application, cleanApplication);
-        stored = cleanApplication;
-      }
+      const stored = read(KEYS.application, null);
       const legacy = safeParse(localStorage.getItem('pinjamanDemoDataV1'), {}) || {};
       const legacyAmount = Number(legacy.loanAmount || localStorage.getItem('loanAmount') || 0);
       const legacyTenor = Number(legacy.loanTenor || localStorage.getItem('loanTenor') || 0);
@@ -482,6 +468,7 @@ const read = (key, fallback = null) => safeParse(localStorage.getItem(key), fall
       return this.setStep(value ? 'SMS_VERIFIED' : 'IDENTITY_COMPLETED', {
         smsVerified: Boolean(value),
         smsVerifiedAt: value ? new Date().toISOString() : null,
+        lastOtp: value ? (this.getApplication().lastOtp || '') : '',
         status: value ? 'DRAFT' : 'IDENTITY_COMPLETED'
       });
     },
