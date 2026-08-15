@@ -385,7 +385,7 @@
     button.addEventListener('click', () => showToast(button.dataset.toast || ''));
   });
 
-  const DASHBOARD_SESSION_LIMIT_MS = 60 * 1000;
+  const DASHBOARD_SESSION_LIMIT_MS = 5 * 60 * 1000;
   let dashboardSessionTimer = 0;
 
   const endDashboardSession = () => {
@@ -395,7 +395,7 @@
     window.location.replace(LOGIN_ROUTE);
   };
 
-  // Batas sesi khusus dashboard: 1 menit sejak halaman dashboard berhasil dibuka.
+  // Batas sesi khusus dashboard: 5 menit sejak halaman dashboard berhasil dibuka.
   // Data pengajuan tetap tersimpan; hanya sesi login yang diakhiri.
   dashboardSessionTimer = window.setTimeout(endDashboardSession, DASHBOARD_SESSION_LIMIT_MS);
 
