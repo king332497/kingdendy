@@ -1,0 +1,391 @@
+{
+  "all_no_horizontal_overflow": true,
+  "all_no_page_errors": true,
+  "checks": 48,
+  "results": [
+    {
+      "viewport": "320x568",
+      "page": "HOME",
+      "scrollWidth": 320,
+      "innerWidth": 320,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "320x568",
+      "page": "LOGIN",
+      "scrollWidth": 320,
+      "innerWidth": 320,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "320x568",
+      "page": "IDENTITAS",
+      "scrollWidth": 320,
+      "innerWidth": 320,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "320x568",
+      "page": "VERIFIKASI",
+      "scrollWidth": 320,
+      "innerWidth": 320,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "320x568",
+      "page": "PROFIL",
+      "scrollWidth": 320,
+      "innerWidth": 320,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "320x568",
+      "page": "DETAIL",
+      "scrollWidth": 320,
+      "innerWidth": 320,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "320x568",
+      "page": "RINGKASAN",
+      "scrollWidth": 320,
+      "innerWidth": 320,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "320x568",
+      "page": "TAHAP8",
+      "scrollWidth": 320,
+      "innerWidth": 320,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "320x568",
+      "page": "PIN_DEMO",
+      "scrollWidth": 320,
+      "innerWidth": 320,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "320x568",
+      "page": "TAHAP9",
+      "scrollWidth": 320,
+      "innerWidth": 320,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "320x568",
+      "page": "DASHBOARD",
+      "scrollWidth": 320,
+      "innerWidth": 320,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "320x568",
+      "page": "ADMIN_LOGIN",
+      "scrollWidth": 320,
+      "innerWidth": 320,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "360x640",
+      "page": "HOME",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "360x640",
+      "page": "LOGIN",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "360x640",
+      "page": "IDENTITAS",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "360x640",
+      "page": "VERIFIKASI",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "360x640",
+      "page": "PROFIL",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "360x640",
+      "page": "DETAIL",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "360x640",
+      "page": "RINGKASAN",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "360x640",
+      "page": "TAHAP8",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "360x640",
+      "page": "PIN_DEMO",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "360x640",
+      "page": "TAHAP9",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "360x640",
+      "page": "DASHBOARD",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "360x640",
+      "page": "ADMIN_LOGIN",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "390x844",
+      "page": "HOME",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "390x844",
+      "page": "LOGIN",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "390x844",
+      "page": "IDENTITAS",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "390x844",
+      "page": "VERIFIKASI",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "390x844",
+      "page": "PROFIL",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "390x844",
+      "page": "DETAIL",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "390x844",
+      "page": "RINGKASAN",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "390x844",
+      "page": "TAHAP8",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "390x844",
+      "page": "PIN_DEMO",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "390x844",
+      "page": "TAHAP9",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "390x844",
+      "page": "DASHBOARD",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "390x844",
+      "page": "ADMIN_LOGIN",
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "430x932",
+      "page": "HOME",
+      "scrollWidth": 430,
+      "innerWidth": 430,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "430x932",
+      "page": "LOGIN",
+      "scrollWidth": 430,
+      "innerWidth": 430,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "430x932",
+      "page": "IDENTITAS",
+      "scrollWidth": 430,
+      "innerWidth": 430,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "430x932",
+      "page": "VERIFIKASI",
+      "scrollWidth": 430,
+      "innerWidth": 430,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "430x932",
+      "page": "PROFIL",
+      "scrollWidth": 430,
+      "innerWidth": 430,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "430x932",
+      "page": "DETAIL",
+      "scrollWidth": 430,
+      "innerWidth": 430,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "430x932",
+      "page": "RINGKASAN",
+      "scrollWidth": 430,
+      "innerWidth": 430,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "430x932",
+      "page": "TAHAP8",
+      "scrollWidth": 430,
+      "innerWidth": 430,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "430x932",
+      "page": "PIN_DEMO",
+      "scrollWidth": 430,
+      "innerWidth": 430,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "430x932",
+      "page": "TAHAP9",
+      "scrollWidth": 430,
+      "innerWidth": 430,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "430x932",
+      "page": "DASHBOARD",
+      "scrollWidth": 430,
+      "innerWidth": 430,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": "430x932",
+      "page": "ADMIN_LOGIN",
+      "scrollWidth": 430,
+      "innerWidth": 430,
+      "overflow": false,
+      "pageErrors": []
+    }
+  ]
+}

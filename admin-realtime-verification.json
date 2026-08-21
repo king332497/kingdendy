@@ -1,0 +1,16 @@
+{
+  "sessionId": "37558B",
+  "adminRole": "admin",
+  "onlineInitial": true,
+  "moveStatus": 202,
+  "navigateRoute": "TAHAP_8",
+  "adminRealtimeUpdated": true,
+  "auditSuccess": true,
+  "arbitraryRouteRejected": true,
+  "csrfRejected": true,
+  "offlineAfterDisconnect": true,
+  "offlineMoveRejected": true,
+  "auditOfflineRejected": true,
+  "runtimeNoFormRead": true,
+  "pass": true
+}

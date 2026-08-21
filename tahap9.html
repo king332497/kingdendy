@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#16082f" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; base-uri 'none';">
+  <title>Tahap 9 — Menganalisis Pengajuan</title>
+  <style>
+    :root{--bg1:#200c43;--bg2:#14072d;--bg3:#090417;--gold:#f6cd54;--gold2:#fff19a;--text:#fff;--muted:#cfc6d9;--shell:520px}
+    *{box-sizing:border-box}html,body{max-width:100%;overflow-x:hidden}body{margin:0;min-height:100svh;color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at 50% -10%,rgba(91,42,153,.34),transparent 35%),linear-gradient(180deg,#090310,#120625)}
+    button{font:inherit;color:inherit}.app{width:min(100%,var(--shell));min-height:100svh;margin:auto;position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(circle at 98% 38%,rgba(255,185,36,.09),transparent 22%),radial-gradient(circle at 4% 3%,rgba(108,55,172,.18),transparent 25%),linear-gradient(180deg,var(--bg1),var(--bg2) 42%,var(--bg3));box-shadow:0 26px 70px rgba(0,0,0,.4)}
+    .app:before{content:"";position:absolute;width:620px;height:620px;left:-390px;top:-300px;border-radius:50%;border:1px solid rgba(213,174,255,.08);box-shadow:0 0 0 70px rgba(255,255,255,.014),0 0 0 140px rgba(255,255,255,.010),0 0 0 210px rgba(255,255,255,.007);z-index:-2}.app:after{content:"";position:absolute;width:420px;height:420px;right:-285px;bottom:55px;border-radius:50%;border:74px solid rgba(219,157,38,.78);box-shadow:inset 0 0 25px rgba(255,245,179,.38),0 0 0 1px rgba(255,235,132,.55),0 0 24px rgba(250,176,35,.18);z-index:-2}
+    .badge{position:fixed;z-index:50;top:max(10px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);padding:7px 11px;border-radius:999px;background:#f8db6a;color:#2b1b00;border:1px solid rgba(255,255,255,.35);font-size:11px;font-weight:800;letter-spacing:.08em;white-space:nowrap;box-shadow:0 7px 18px rgba(0,0,0,.26)}
+
+    .top{display:flex;justify-content:flex-end;align-items:center;padding:24px 24px 0}.brand{text-align:right;line-height:1}.brand .name{font-size:30px;letter-spacing:-.055em}.brand .kb{background:linear-gradient(#ffc32d,#ee980b);-webkit-background-clip:text;background-clip:text;color:transparent}.brand .star{color:#f0eef5}.brand small{display:block;margin-top:7px;color:#bcb3ca;font-size:11px;letter-spacing:.04em}
+    .content{padding:70px 28px 34px}.eyebrow{margin:0 0 10px;color:#fff18d;font-size:12px;font-weight:700;letter-spacing:.16em}h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:46px;font-weight:400;line-height:1.03;letter-spacing:-.035em}h1 strong{display:block;margin-top:6px;font-weight:400;background:linear-gradient(#fff0a0,#ffc846 35%,#f0a02e 60%,#ffe58d);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:.4px rgba(246,205,84,.65)}.lead{margin:15px 0 28px;color:#ded8e7;font-size:15px;line-height:1.55}
+    .card{padding:22px;border-radius:26px;border:1px solid rgba(247,205,84,.36);background:linear-gradient(180deg,rgba(60,28,101,.70),rgba(17,7,39,.84));box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 18px 45px rgba(0,0,0,.27);backdrop-filter:blur(16px)}
+    .orb{width:112px;height:112px;margin:6px auto 24px;border-radius:50%;position:relative;display:grid;place-items:center;background:radial-gradient(circle,#5e2d99 0 34%,#241047 35% 48%,rgba(246,205,84,.10) 49% 55%,transparent 56%);box-shadow:0 0 38px rgba(246,205,84,.10)}.orb:before,.orb:after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(246,205,84,.58);border-left-color:transparent;animation:spin 1.3s linear infinite}.orb:after{inset:10px;border-color:rgba(255,241,154,.28);border-right-color:transparent;animation-direction:reverse;animation-duration:1.8s}.orb span{font-size:25px;color:#ffe06d}@keyframes spin{to{transform:rotate(360deg)}}
+    .progress-track{height:6px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden}.progress{height:100%;width:8%;border-radius:inherit;background:linear-gradient(90deg,#cc8e1f,#ffe781);transition:width .45s ease}.progress-text{display:flex;justify-content:space-between;gap:10px;margin-top:8px;color:#aba1b5;font-size:10.5px}.steps{margin:20px 0 0;padding:0;list-style:none}.steps li{display:flex;gap:12px;align-items:center;padding:12px 0;border-top:1px solid rgba(255,255,255,.08);color:#9d93a8;font-size:12px}.dot{width:11px;height:11px;border-radius:50%;border:2px solid rgba(255,255,255,.22);flex:0 0 auto}.steps li.active{color:#ffe377}.steps li.active .dot{border-color:#ffe377;box-shadow:0 0 0 4px rgba(246,205,84,.08)}.steps li.done{color:#dcffdb}.steps li.done .dot{border-color:#b8ffb5;background:#b8ffb5}.finish{margin-top:18px;padding:13px 14px;border-radius:15px;border:1px solid rgba(174,255,173,.20);background:rgba(124,255,122,.06);color:#dcffdb;font-size:12px;line-height:1.45}
+    .meta{margin-top:17px;text-align:center;color:#a9a0b4;font-size:11px;line-height:1.55}footer{padding:0 28px 34px;text-align:center;color:#8e8499;font-size:11px;line-height:1.5}
+    @media(max-width:420px){.content{padding-left:22px;padding-right:22px;padding-top:62px}.top{padding-left:20px;padding-right:20px}h1{font-size:42px}.card{padding:18px}}@media(min-width:760px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}}@media(prefers-reduced-motion:reduce){.orb:before,.orb:after{animation:none}.progress{transition:none}}
+  </style>
+  <script src="/page-transition.js?v=1"></script>
+</head>
+<body>
+  <div class="badge">KB Finansia Multi Finance</div>
+  <main class="app">
+<div class="top"><div class="brand"><div class="name"><span class="kb">KB</span><span class="star">star</span></div><small>by KB Bank</small></div></div>
+    <section class="content">
+      <p class="eyebrow">TAHAP 9 · PROSES</p>
+      <h1>Menganalisis <strong>Pengajuan</strong></h1>
+      <p class="lead">Animasi . keputusan kredit, scoring, atau koneksi ke sistem bank.</p>
+      <div class="card">
+        <div class="orb" aria-hidden="true"><span>◇</span></div>
+        <div class="progress-track" aria-hidden="true"><div class="progress" id="progress"></div></div>
+        <div class="progress-text"><span id="progressLabel">Menyiapkan proses…</span><strong id="progressPercent">8%</strong></div>
+        <ul class="steps">
+          <li class="active" data-step="0"><span class="dot"></span><span>Menyiapkan data contoh</span></li>
+          <li data-step="1"><span class="dot"></span><span>Memeriksa kelengkapan</span></li>
+          <li data-step="2"><span class="dot"></span><span>Menyusun hasil</span></li>
+          <li data-step="3"><span class="dot"></span><span>Menyelesaikan proses</span></li>
+        </ul>
+        <div class="finish" id="finishState" hidden><strong>Analisis Selesai.</strong><br>keputusan kredit dibuat pada halaman ini.</div>
+        <div class="meta">scoring kredit, pengiriman data pengajuan pada Tahap.</div>
+      </div>
+    </section>
+    <footer>KB Bank (PT Bank KB Indonesia Tbk.</footer>
+  </main>
+  <script>
+    (()=>{
+      "use strict";
+      const progress=document.getElementById("progress");
+      const percent=document.getElementById("progressPercent");
+      const label=document.getElementById("progressLabel");
+      const items=[...document.querySelectorAll(".steps li")];
+      const finish=document.getElementById("finishState");
+      const states=[
+        {p:28,t:"Menyiapkan data contoh…"},
+        {p:53,t:"Memeriksa kelengkapan…"},
+        {p:78,t:"Menyusun hasil…"},
+        {p:100,t:"Proses selesai"}
+      ];
+      let i=0;
+      function render(){
+        const current=states[i]; progress.style.width=current.p+"%"; percent.textContent=current.p+"%"; label.textContent=current.t;
+        items.forEach((item,index)=>{item.classList.toggle("done",index<i);item.classList.toggle("active",index===i);});
+        if(i===states.length-1){
+          finish.hidden=false;
+          label.textContent="Proses selesai · membuka dashboard…";
+          window.setTimeout(()=>{ window.smoothNavigate ? window.smoothNavigate("dashboard.html") : (window.location.href="dashboard.html"); },900);
+          return;
+        }
+        i++; window.setTimeout(render,850);
+      }
+      window.setTimeout(render,350);
+    })();
+  </script>
+  <script src="/simulation-runtime.js?v=5" defer></script>
+</body>
+</html>

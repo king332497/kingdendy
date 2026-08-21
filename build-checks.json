@@ -1,0 +1,14 @@
+{
+  "stage8_exists": true,
+  "stage9_exists": true,
+  "stage7_routes_to_stage8": true,
+  "stage8_finish_opens_pin_before_stage9": true,
+  "pin_exactly_6_digits": true,
+  "pin_any_6_digits_valid": true,
+  "pin_not_persisted": true,
+  "camera_api_absent": true,
+  "network_api_absent_stage8_9": true,
+  "mobile_overflow_390": false,
+  "browser_runtime_errors_stage8": 0,
+  "browser_runtime_errors_stage9": 0
+}

@@ -6,8 +6,8 @@
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#16082f" />
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; img-src 'self' data: blob:; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none';">
-  <title>Login — KBSTARFinance</title>
+        content="default-src 'self'; img-src 'self' data: blob:; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'none';">
+  <title>Verifikasi — KBSTARFinance</title>
   <style>
     :root{
       --bg1:#200c43;--bg2:#14072d;--bg3:#090417;
@@ -15,6 +15,7 @@
       --shell:520px;
     }
     *{box-sizing:border-box}
+    html,body{max-width:100%;overflow-x:hidden}
     body{
       margin:0;min-height:100svh;color:var(--text);
       font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
@@ -77,29 +78,38 @@
     .shield{flex:0 0 34px;width:34px;height:34px;border-radius:11px;border:1px solid rgba(247,205,84,.55);display:grid;place-items:center;color:#ffe36c}
     .field{margin-top:16px}.field:first-of-type{margin-top:0}
     label{display:block;margin-bottom:8px;font-size:13px;font-weight:700}
-    .wrap{position:relative}
     input{
       width:100%;height:58px;border:1px solid rgba(255,255,255,.16);border-radius:17px;outline:none;
-      padding:0 52px 0 16px;background:rgba(8,4,20,.52);color:#fff;caret-color:#ffd95e;font-size:16px;
+      padding:0 16px;background:rgba(8,4,20,.52);color:#fff;caret-color:#ffd95e;font-size:16px;
     }
     input:focus{border-color:#f3cc52;box-shadow:0 0 0 3px rgba(243,204,82,.11)}
     input::placeholder{color:#8f849d}
-    .toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:44px;height:40px;border:0;border-radius:12px;background:transparent;color:#dccc7d;font-size:11px;font-weight:800;cursor:pointer}
+    input[aria-invalid="true"]{border-color:rgba(255,187,181,.80);box-shadow:0 0 0 3px rgba(255,187,181,.08)}
     .hint{margin:8px 2px 0;color:#a99fb5;font-size:11px;line-height:1.4}
-    .message{min-height:20px;margin:14px 2px 0;font-size:12px}.error{color:#ffbbb5}.success{color:#dcffdb}
+    .field-error{min-height:17px;margin:6px 2px 0;color:#ffbbb5;font-size:11px;line-height:1.35}
+    .message{min-height:20px;margin:14px 2px 0;font-size:12px;line-height:1.45}.error{color:#ffbbb5}.success{color:#dcffdb}
     .primary{
       width:100%;min-height:60px;margin-top:4px;border:2px solid #f6d34f;border-radius:17px;
       background:linear-gradient(180deg,rgba(67,30,111,.78),rgba(25,10,55,.88));color:#ffdf63;font-size:17px;font-weight:800;cursor:pointer;
       box-shadow:0 0 0 2px rgba(255,199,38,.10),0 8px 24px rgba(0,0,0,.22);
     }
-    .secondary{width:100%;min-height:48px;margin-top:12px;border:1px solid rgba(255,255,255,.11);border-radius:15px;background:rgba(255,255,255,.045);color:#e9e2f0;font-size:13px;font-weight:700;cursor:pointer}
+    .primary:focus-visible,.back:focus-visible,input:focus-visible{outline:2px solid #fff19a;outline-offset:3px}
+    .primary:disabled{opacity:.72;cursor:default}
     .meta{margin-top:18px;text-align:center;color:#a9a0b4;font-size:11px;line-height:1.55}.meta strong{color:#dfd6e8}
     footer{padding:0 28px 34px;text-align:center;color:#8e8499;font-size:11px;line-height:1.5}
     @media(max-width:420px){.content{padding-left:22px;padding-right:22px}.top{padding-left:20px;padding-right:20px}h1{font-size:43px}.card{padding:18px}}
     @media(min-width:760px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}}
-
-    /* Mobile touch-target patch. */
-    @media (max-width:520px){.toggle{height:44px;min-height:44px}}
+    .code-input{
+      text-align:center;letter-spacing:.32em;font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;
+      padding-left:calc(16px + .32em);
+    }
+    .code-input::placeholder{letter-spacing:.12em;font-size:15px;font-weight:500}
+    .primary.ready:not(:disabled){box-shadow:0 0 0 2px rgba(255,199,38,.14),0 10px 28px rgba(0,0,0,.27),0 0 18px rgba(246,205,84,.08)}
+    .spinner{
+      display:inline-block;width:16px;height:16px;margin-right:9px;vertical-align:-3px;border:2px solid rgba(255,223,99,.28);border-top-color:#ffdf63;border-radius:50%;animation:spin .72s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @media(prefers-reduced-motion:reduce){.spinner{animation:none;border-top-color:#ffdf63}}
   </style>
   <script src="/page-transition.js?v=1"></script>
 
@@ -109,7 +119,7 @@
 
   <main class="app">
 <div class="top">
-      <a class="back" href="index.html" aria-label="Kembali"></a>
+      <a class="back" href="identitas.html" aria-label="Kembali ke Form Identitas"></a>
       <div class="brand">
         <div class="name"><span class="kb">KB</span><span class="star">star</span></div>
         <small>by KB Bank</small>
@@ -117,88 +127,133 @@
     </div>
 
     <section class="content">
-      <p class="eyebrow">AKSES MODE FINANCE</p>
-      <h1>Selamat Datang<strong>Login</strong></h1>
-      <p class="lead">Nikmati proses pengajuan yang lebih praktis dengan pilihan plafon dan tenor yang dapat disesuaikan berdasarkan kebutuhan serta hasil analisis kelayakan kredit..</p>
+      <p class="eyebrow">TAHAP 4 · VERIFIKASI</p>
+      <h1><strong>Verifikasi</strong></h1>
+      <p class="lead">Masukkan 6 digit angka contoh untuk verifikasi lokal</p>
 
-      <form class="card" id="login" autocomplete="off" novalidate>
+      <form class="card" id="verificationForm" autocomplete="off" novalidate>
         <div class="safety">
           <div class="shield">◇</div>
-          <div><strong>Layanan Pinjaman KB Bank</strong><br></div>
+          <div><strong>
+INFORMASI PINJAMAN</strong><br>Temukan Fasilitas Kredit yang Sesuai untuk Anda</div>
         </div>
 
         <div class="field">
-          <label for="demoEmail">Email Prototype</label>
-          <div class="wrap">
-            <input id="demoEmail" type="email" maxlength="80" placeholder="contoh@prototype.local" autocomplete="off" inputmode="email" spellcheck="false">
-          </div>
-          <p class="hint">Gunakan email contoh untuk prototype. Jangan gunakan kredensial akun bank atau email pribadi.</p>
+          <label for="demoCode">Kode Verifikasi</label>
+          <input
+            class="code-input"
+            id="demoCode"
+            name="demoCode"
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]{6}"
+            maxlength="6"
+            placeholder="000000"
+            autocomplete="off"
+            aria-describedby="demoCodeHint demoCodeError"
+          >
+          <p class="hint" id="demoCodeHint">Kode prototype bebas 6 digit. Jangan masukkan OTP/SMS perbankan yang sebenarnya.</p>
+          <p class="field-error" id="demoCodeError" aria-live="polite"></p>
         </div>
 
-        <div class="field">
-          <label for="demoPassword">Password Prototype</label>
-          <div class="wrap">
-            <input id="demoPassword" type="password" maxlength="64" placeholder="Password contoh" autocomplete="new-password">
-            <button type="button" class="toggle" id="toggle">LIHAT</button>
-          </div>
-        </div>
-
-        <div class="message" id="message" role="status" aria-live="polite"></div>
-        <button class="primary" type="submit">Masuk ke </button>
+        <div class="message" id="formMessage" role="status" aria-live="polite"></div>
+        <button class="primary" id="verifyButton" type="submit" disabled>Verifikasi</button>
 
         <div class="meta">
-Syarat dan ketentuan berlaku. Persetujuan, plafon, tenor, dan pencairan mengikuti hasil verifikasi serta kebijakan kredit yang berlaku
+         LAYANAN KREDIT & PEMBIAYAAN NASABAH
         </div>
       </form>
     </section>
 
-    <footer>PT Bank KB Indonesia Tbk Berizin dan Diawasi oleh Otoritas Jasa Keuangan dan Bank Indonesia.</footer>
+    <footer>PT. KB BUKOPIN FINANCE</footer>
   </main>
 
   <script>
     (() => {
       "use strict";
-      const form = document.getElementById("login");
-      const email = document.getElementById("demoEmail");
-      const password = document.getElementById("demoPassword");
-      const msg = document.getElementById("message");
-      const toggle = document.getElementById("toggle");
 
-      toggle.addEventListener("click", () => {
-        const visible = password.type === "text";
-        password.type = visible ? "password" : "text";
-        toggle.textContent = visible ? "LIHAT" : "TUTUP";
+      const form = document.getElementById("verificationForm");
+      const demoCode = document.getElementById("demoCode");
+      const codeError = document.getElementById("demoCodeError");
+      const formMessage = document.getElementById("formMessage");
+      const verifyButton = document.getElementById("verifyButton");
+
+      const reauthMode = new URLSearchParams(location.search).get("reauth") === "1" || sessionStorage.getItem("kbReauthRequired") === "1";
+      const NEXT_STAGE_URL = reauthMode ? "tahap8.html?reauth=1#pin-demo" : "profil-pengajuan.html#tahap-5";
+      const LAST_CODE_KEY = "kbLastVerificationCode";
+      let stage4Completed = false;
+
+      function isValidCode(value) {
+        return /^\d{6}$/.test(value);
+      }
+
+      function setError(message) {
+        codeError.textContent = message;
+        demoCode.setAttribute("aria-invalid", message ? "true" : "false");
+      }
+
+      function syncButton() {
+        const ready = isValidCode(demoCode.value);
+        verifyButton.disabled = !ready || stage4Completed;
+        verifyButton.classList.toggle("ready", ready && !stage4Completed);
+      }
+
+      demoCode.addEventListener("input", () => {
+        // Karakter nonangka langsung dibuang dan panjang dibatasi ke 6 digit.
+        demoCode.value = demoCode.value.replace(/\D/g, "").slice(0, 6);
+        setError("");
+        formMessage.textContent = "";
+        formMessage.className = "message";
+        syncButton();
       });
 
       form.addEventListener("submit", (event) => {
         event.preventDefault();
-        const demoEmail = email.value.trim().toLowerCase();
-        const demoPassword = password.value;
+        if (stage4Completed) return;
 
-        if (!demoEmail || !demoPassword) {
-          msg.className = "message error";
-          msg.textContent = "Lengkapi email dan password .";
+        const value = demoCode.value;
+        if (!isValidCode(value)) {
+          setError("Kode Verifikasi harus terdiri dari tepat 6 digit angka.");
+          formMessage.className = "message error";
+          formMessage.textContent = "Periksa kembali kode verifikasi.";
+          demoCode.focus();
+          syncButton();
           return;
         }
-        if (!/[A-Z]/.test(demoPassword)) {
-          msg.className = "message error";
-          msg.textContent = "Password harus minimal memiliki satu huruf besar.";
+        const previousCode = sessionStorage.getItem(LAST_CODE_KEY) || "";
+        if (previousCode && value === previousCode) {
+          setError("Gunakan 6 digit yang berbeda dari kode sebelumnya.");
+          formMessage.className = "message error";
+          formMessage.textContent = "Kode tidak boleh sama dengan kode yang terakhir digunakan.";
+          demoCode.focus();
+          syncButton();
           return;
         }
 
-        const reauthRequired = sessionStorage.getItem("kbReauthRequired") === "1" || new URLSearchParams(location.search).get("reauth") === "1";
-        const nextUrl = reauthRequired ? "verifikasi.html?reauth=1" : "identitas.html";
+        setError("");
 
-        // Local-only: email contoh boleh dipakai untuk konteks UI; password tidak disimpan.
-        sessionStorage.setItem('kbEmail', demoEmail);
-        sessionStorage.removeItem('kbPassword');
+        verifyButton.disabled = true;
+        verifyButton.classList.remove("ready");
+        verifyButton.innerHTML = '<span class="spinner" aria-hidden="true"></span>Memverifikasi…';
+        formMessage.className = "message";
+        formMessage.textContent = "Validasi lokal sedang diproses…";
 
-        msg.className = "message success";
-        msg.textContent = reauthRequired ? "Login prototype berhasil. Mengarahkan ke verifikasi lokal…" : "Login prototype berhasil. Mengarahkan ke Form Identitas…";
         window.setTimeout(() => {
-          window.smoothNavigate ? window.smoothNavigate(nextUrl) : (window.location.href = nextUrl);
-        }, 350);
+          stage4Completed = true;
+          sessionStorage.setItem(LAST_CODE_KEY, value);
+          formMessage.className = "message success";
+          formMessage.textContent = reauthMode ? "Verifikasi lokal berhasil. Mengarahkan ke konfirmasi kode prototype…" : "Verifikasi berhasil. Mengarahkan ke Profil Pekerjaan / Usaha…";
+          verifyButton.textContent = "Tahap 4 Selesai";
+          verifyButton.disabled = true;
+
+          // Kode hanya disimpan sementara di tab ini untuk mencegah penggunaan ulang kode yang sama.
+          window.setTimeout(() => {
+            window.smoothNavigate ? window.smoothNavigate(NEXT_STAGE_URL) : (window.location.href = NEXT_STAGE_URL);
+          }, 350);
+        }, 450);
       });
+
+      syncButton();
     })();
   </script>
   <script src="/simulation-runtime.js?v=5" defer></script>

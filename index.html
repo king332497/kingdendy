@@ -1,77 +1,617 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Login KB BANK FINANCE">
-  <title>KB BANK FIANCE — Masuk</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="mobile-polish.css?v=20260807-stage1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#16082f" />
+  <title>KBSTARFinance</title>
+  <style>
+    :root{
+      --bg-1:#14072d;
+      --bg-2:#1f0c42;
+      --bg-3:#090417;
+      --gold-1:#fff2a0;
+      --gold-2:#f6d05a;
+      --gold-3:#d69518;
+      --text:#fff;
+      --muted:#d8d2df;
+      --line:rgba(245,196,59,.78);
+      --shell:520px;
+      --radius:28px;
+      --shadow:0 26px 70px rgba(0,0,0,.38);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 50% -8%, rgba(88,35,145,.34), transparent 34%),
+        linear-gradient(180deg,#090310 0%,#120625 100%);
+      color:var(--text);
+    }
+
+    a{color:inherit}
+
+    .page{
+      width:min(100%, var(--shell));
+      margin:0 auto;
+      min-height:100svh;
+      position:relative;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 14% 1%, rgba(97,45,150,.18), transparent 24%),
+        radial-gradient(circle at 100% 50%, rgba(255,177,24,.07), transparent 24%),
+        linear-gradient(180deg,var(--bg-2) 0%,var(--bg-1) 38%,var(--bg-3) 100%);
+      box-shadow:var(--shadow);
+      isolation:isolate;
+    }
+
+    .page::before{
+      content:"";
+      position:absolute;
+      inset:-14% -38% auto -30%;
+      height:420px;
+      border-radius:50%;
+      border:1px solid rgba(185,145,240,.09);
+      box-shadow:
+        0 0 0 62px rgba(255,255,255,.018),
+        0 0 0 124px rgba(255,255,255,.012),
+        0 0 0 186px rgba(255,255,255,.008);
+      transform:rotate(-12deg);
+      pointer-events:none;
+      z-index:-2;
+    }
+
+    .page::after{
+      content:"";
+      position:absolute;
+      left:-36%;
+      right:-25%;
+      bottom:-10%;
+      height:340px;
+      border-radius:50%;
+      border:1px solid rgba(243,186,48,.20);
+      box-shadow:
+        0 0 0 44px rgba(248,192,55,.025),
+        0 0 0 88px rgba(248,192,55,.018);
+      transform:rotate(9deg);
+      pointer-events:none;
+      z-index:-2;
+    }
+
+    .demo-badge{
+      position:fixed;
+      z-index:50;
+      top:max(10px, env(safe-area-inset-top));
+      left:50%;
+      transform:translateX(-50%);
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:11px;
+      letter-spacing:.08em;
+      font-weight:700;
+      color:#2b1b00;
+      background:#f8db6a;
+      border:1px solid rgba(255,255,255,.35);
+      box-shadow:0 7px 18px rgba(0,0,0,.26);
+      white-space:nowrap;
+    }
+
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    .language{
+      margin:28px 22px 0 auto;
+      width:max-content;
+      height:42px;
+      padding:0 10px 0 12px;
+      display:flex;align-items:center;gap:10px;
+      border-radius:20px;
+      border:1px solid #e7c949;
+      background:rgba(14,7,39,.38);
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.02);
+      color:#f6f1fb;
+    }
+    .chev{
+      width:10px;height:10px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+      transform:rotate(45deg) translateY(-2px);
+    }
+    .flag{
+      width:33px;height:28px;border-radius:7px;overflow:hidden;border:1px solid rgba(255,255,255,.55);
+      box-shadow:0 3px 10px rgba(0,0,0,.28);
+      background:linear-gradient(#d40000 0 50%, #fff 50% 100%);
+    }
+
+    .logo-wrap{
+      padding:30px 40px 0;
+    }
+    .logo{
+      position:relative;
+      display:inline-block;
+      line-height:.9;
+      letter-spacing:-.055em;
+      font-weight:500;
+      font-size:54px;
+    }
+    .logo .kb{
+      background:linear-gradient(180deg,#ffc02b 0%,#f39b0b 100%);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+      text-shadow:0 0 16px rgba(255,179,29,.10);
+    }
+    .logo .star{
+      color:#f1f2f6;
+      font-weight:400;
+    }
+    .logo .accent-star{
+      position:absolute;
+      top:-17px;
+      left:119px;
+      color:#ffcf31;
+      font-size:24px;
+      filter:drop-shadow(0 0 7px rgba(255,197,35,.38));
+    }
+    .logo-sub{
+      color:#beb5d0;
+      font-size:16px;
+      margin:11px 0 0 56px;
+      letter-spacing:.02em;
+    }
+
+    .hero{
+      padding:74px 38px 28px;
+      position:relative;
+    }
+
+    .gold-ring{
+      position:absolute;
+      width:260px;height:260px;
+      right:-135px;
+      top:12px;
+      border-radius:50%;
+      border:48px solid #dda132;
+      background:transparent;
+      box-shadow:
+        inset 0 0 18px rgba(255,241,182,.55),
+        0 0 0 2px rgba(255,239,140,.88),
+        0 0 28px rgba(255,181,35,.33);
+      opacity:.95;
+      z-index:-1;
+    }
+    .gold-ring::after{
+      content:"";
+      position:absolute;inset:-48px;border-radius:50%;
+      background:radial-gradient(circle at 35% 25%, rgba(255,255,255,.28), transparent 18%),
+                 repeating-radial-gradient(circle at center, rgba(255,255,255,.04) 0 1px, transparent 1px 3px);
+      mix-blend-mode:screen;opacity:.55;
+      pointer-events:none;
+    }
+
+    .eyebrow{
+      color:#fff490;
+      font-size:14px;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+      white-space:nowrap;
+      margin:0 0 18px;
+    }
+
+    .divider{
+      height:1px;
+      background:linear-gradient(90deg, rgba(245,187,38,.55), rgba(255,220,85,.96), rgba(245,187,38,.25));
+      position:relative;
+      margin-bottom:18px;
+      width:87%;
+    }
+    .divider::after{
+      content:"✦";
+      position:absolute;left:58%;top:50%;
+      transform:translate(-50%,-50%);
+      color:#ffd955;
+      font-size:19px;
+      text-shadow:0 0 10px rgba(255,207,64,.85);
+      background:#1a0b35;
+      padding:0 7px;
+    }
+
+    h1{
+      margin:0;
+      font-family:Georgia, "Times New Roman", serif;
+      font-weight:400;
+      line-height:.96;
+      letter-spacing:-.04em;
+      text-shadow:0 3px 14px rgba(0,0,0,.36);
+    }
+
+    .title-small{
+      display:block;
+      font-size:52px;
+      color:#fff;
+      -webkit-text-stroke:.5px rgba(51,30,77,.4);
+      text-shadow:0 2px 0 rgba(255,255,255,.15),0 5px 13px rgba(0,0,0,.35);
+      margin-bottom:9px;
+    }
+    .title-big{
+      display:block;
+      font-size:68px;
+      text-transform:uppercase;
+      background:linear-gradient(180deg,#fff0a1 0%,#ffc74d 24%,#f6a22d 48%,#ffe08f 72%,#e4971d 100%);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+      -webkit-text-stroke:.65px #f7ce5c;
+      text-shadow:0 3px 13px rgba(255,159,20,.14);
+    }
+
+    .title-line{
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, rgba(241,172,22,.18), #ffc433 52%, rgba(241,172,22,.15));
+      margin:18px 0 20px;
+      box-shadow:0 0 8px rgba(255,183,30,.65);
+    }
+
+    .subtitle{
+      margin:0;
+      max-width:82%;
+      color:#f8f6fb;
+      font-size:18px;
+      line-height:1.45;
+      letter-spacing:-.015em;
+    }
+
+    .brand-note{
+      margin-top:22px;
+      display:flex;
+      align-items:center;
+      gap:16px;
+      color:#fff18b;
+      font-size:16px;
+      line-height:1.35;
+    }
+    .brand-note strong{color:#ffd65e;font-weight:700}
+    .bank-icon{
+      width:43px;height:43px;flex:0 0 43px;
+      border:1.5px solid #f4d252;border-radius:12px;
+      display:grid;place-items:center;
+      background:linear-gradient(180deg,rgba(55,25,99,.72),rgba(24,10,48,.88));
+      box-shadow:inset 0 0 15px rgba(255,215,67,.08);
+      font-size:23px;
+    }
+
+    .cta-wrap{
+      padding:10px 40px 16px;
+    }
+    .cta{
+      min-height:68px;
+      width:100%;
+      border-radius:18px;
+      border:2px solid #f6d34f;
+      background:
+        radial-gradient(circle at 50% 5%, rgba(120,65,174,.20), transparent 50%),
+        linear-gradient(180deg,rgba(61,28,103,.62),rgba(25,10,55,.72));
+      box-shadow:
+        0 0 0 2px rgba(255,199,38,.13),
+        inset 0 0 0 1px rgba(255,255,255,.05),
+        0 0 22px rgba(255,178,21,.12);
+      color:#ffdf63;
+      font-size:21px;
+      font-weight:800;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:15px;
+      text-decoration:none;
+      transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+      cursor:pointer;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .cta:hover{
+      transform:translateY(-1px);
+      box-shadow:
+        0 0 0 2px rgba(255,199,38,.16),
+        inset 0 0 0 1px rgba(255,255,255,.06),
+        0 9px 30px rgba(255,178,21,.16);
+    }
+    .cta:active{transform:translateY(1px) scale(.995)}
+    .cta-arrow{
+      width:16px;height:16px;border-top:3px solid currentColor;border-right:3px solid currentColor;
+      transform:rotate(45deg);
+    }
+
+    .version{
+      text-align:center;
+      color:#bcb2c9;
+      font-size:14px;
+      padding:8px 0 34px;
+    }
+
+    .simulasi{
+      scroll-margin-top:24px;
+      margin:0 20px 28px;
+      padding:20px;
+      border-radius:20px;
+      background:rgba(255,255,255,.055);
+      border:1px solid rgba(255,255,255,.10);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+    .simulasi h2{
+      margin:0 0 8px;
+      font-size:20px;
+    }
+    .simulasi p{
+      margin:0;
+      color:#d5cedd;
+      font-size:14px;
+      line-height:1.55;
+    }
+    .simulasi code{
+      color:#ffe27a;
+      font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    @media (max-width:420px){
+
+      .language{margin-right:18px}
+      .logo-wrap{padding-left:30px}
+      .hero{padding-left:30px;padding-right:30px;padding-top:66px}
+      .eyebrow{font-size:12px}
+      .title-small{font-size:45px}
+      .title-big{font-size:59px}
+      .subtitle{font-size:17px;max-width:88%}
+      .cta-wrap{padding-left:30px;padding-right:30px}
+      .cta{font-size:19px}
+    }
+
+    @media (min-width:760px){
+      body{padding:24px 0}
+      .page{border-radius:34px;min-height:auto}
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      .cta{transition:none}
+    }
+
+    /* Mobile safety patch: mempertahankan baseline, hanya untuk layar <=350px. */
+    @media (max-width:350px){
+      .demo-badge{font-size:9px;letter-spacing:.045em;padding:6px 9px}
+      .hero{padding-left:18px;padding-right:18px}
+      .cta-wrap{padding-left:18px;padding-right:18px}
+      .cta{font-size:16px;gap:10px;white-space:nowrap}
+      .cta-arrow{width:13px;height:13px}
+      .title-small{font-size:42px}
+      .title-big{font-size:54px}
+      .subtitle{max-width:94%;font-size:16px}
+    }
+
+  
+
+    /* Informasi KBstar + corporate footer — scoped, tidak memengaruhi flow utama. */
+    .kb-public-info{
+      --kbi-bg:#0c051a;--kbi-card:rgba(60,28,101,.48);--kbi-card-2:rgba(17,7,39,.72);
+      --kbi-gold:#f6cd54;--kbi-gold-soft:#fff19a;--kbi-text:#fff;--kbi-muted:#cfc6d9;
+      --kbi-border:rgba(246,205,84,.22);
+      margin:0;padding:26px 28px 30px;color:var(--kbi-text);border-top:1px solid var(--kbi-border);
+      background:linear-gradient(180deg,rgba(13,5,29,.18),rgba(9,4,23,.72));
+    }
+    .kb-public-info *{box-sizing:border-box}
+    .kb-public-alert{
+      margin:0 0 20px;padding:12px 14px;border:1px solid rgba(246,205,84,.28);border-radius:15px;
+      background:rgba(246,205,84,.07);color:#e8e0ec;font-size:11px;line-height:1.6;
+    }
+    .kb-public-alert strong{color:var(--kbi-gold-soft)}
+    .kb-public-info a{color:inherit;text-decoration:none}
+    .kb-kbstar-panel{
+      display:grid;grid-template-columns:minmax(210px,.85fr) minmax(0,1.4fr);gap:22px;align-items:center;
+      padding:18px;border:1px solid var(--kbi-border);border-radius:22px;background:var(--kbi-card-2);overflow:hidden;
+    }
+    .kb-kbstar-art{
+      min-height:210px;position:relative;overflow:hidden;border-radius:18px;padding:22px;
+      background:linear-gradient(135deg,#6518ba 0%,#8428da 60%,#e39a23 145%);
+    }
+    .kb-kbstar-art:before,.kb-kbstar-art:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+    .kb-kbstar-art:before{width:220px;height:220px;left:-110px;bottom:-135px;background:rgba(73,16,126,.42)}
+    .kb-kbstar-art:after{width:185px;height:185px;right:-90px;top:-95px;background:rgba(255,184,37,.72)}
+    .kb-kbstar-word{position:relative;z-index:2;font-size:22px;letter-spacing:-.04em}.kb-kbstar-word .kb-k{color:#ffc62d}.kb-kbstar-word .kb-s{color:#fff}
+    .kb-kbstar-tagline{position:relative;z-index:2;margin-top:25px;max-width:180px;font-size:24px;font-weight:800;line-height:1.14;letter-spacing:-.025em}
+    .kb-phone{position:absolute;z-index:3;width:65px;height:130px;border:4px solid #251c2c;border-radius:17px;background:#16111b;padding:5px;box-shadow:0 16px 28px rgba(0,0,0,.34)}
+    .kb-phone:before{content:"";display:block;height:100%;border-radius:10px;background:linear-gradient(180deg,#7b25d1,#3d126c)}
+    .kb-phone.p1{right:78px;top:62px;transform:rotate(-15deg)}.kb-phone.p2{right:24px;top:28px;transform:rotate(18deg)}
+    .kb-public-eyebrow{margin:0 0 8px;color:var(--kbi-gold);font-size:11px;font-weight:850;letter-spacing:.12em;text-transform:uppercase}
+    .kb-public-title{margin:0;font-size:25px;line-height:1.25;letter-spacing:-.025em;color:#fff}
+    .kb-public-copy{margin:10px 0 0;color:var(--kbi-muted);font-size:13px;line-height:1.7;max-width:660px}
+    .kb-public-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:17px}
+    .kb-public-action{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 14px;border-radius:13px;border:1px solid rgba(246,205,84,.25);background:rgba(246,205,84,.07);color:var(--kbi-gold-soft)!important;font-size:11.5px;font-weight:800;transition:background .18s ease,border-color .18s ease}
+    .kb-public-action:hover{background:rgba(246,205,84,.12);border-color:rgba(246,205,84,.44)}
+    .kb-corp-grid{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:18px;margin-top:18px}
+    .kb-corp-col{padding:17px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:var(--kbi-card)}
+    .kb-corp-col h3{margin:0 0 12px;color:var(--kbi-gold);font-size:13px;letter-spacing:.01em}
+    .kb-corp-col p{margin:0 0 7px;color:var(--kbi-muted);font-size:11px;line-height:1.55}
+    .kb-corp-col strong{color:#fff;font-weight:800}
+    .kb-corp-links{display:grid;gap:8px}
+    .kb-corp-links a{color:var(--kbi-muted)!important;font-size:11px;line-height:1.4}
+    .kb-corp-links a:hover{color:var(--kbi-gold-soft)!important}
+    .kb-corp-legal{margin-top:18px;padding-top:16px;border-top:1px solid rgba(246,205,84,.14);color:#aaa0b5;font-size:10px;line-height:1.65}
+    .kb-corp-legal strong{color:#ddd5e4}
+    .kb-corp-bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:10px;color:#8f859a;font-size:9.5px}
+    @media(max-width:760px){
+      .kb-public-info{padding:22px 20px 27px}.kb-kbstar-panel{grid-template-columns:1fr;padding:14px}.kb-kbstar-art{min-height:220px}.kb-corp-grid{grid-template-columns:1fr}.kb-public-title{font-size:22px}
+    }
+    @media(max-width:380px){
+      .kb-public-info{padding-left:16px;padding-right:16px}.kb-kbstar-art{min-height:205px;padding:18px}.kb-kbstar-tagline{font-size:21px;max-width:155px}.kb-phone{width:58px;height:116px}.kb-phone.p1{right:65px;top:70px}.kb-phone.p2{right:18px;top:36px}.kb-public-actions{display:grid}.kb-public-action{width:100%}
+    }
+    @media(prefers-reduced-motion:reduce){.kb-public-action{transition:none}}
+</style>
+  <script src="/page-transition.js?v=1"></script>
 </head>
 <body>
-  <main class="app-phone">
-    <section class="mobile-hero">
-      <div class="statusbar">
-        <span>PT. KB BUKOPIN FINANCE</span>
-        <div class="status-icons"><span>KB FINANCE</span><span>⌁</span><span class="battery">22</span></div>
+  <div class="demo-badge" aria-label="Tampilan prototype"></div>
+
+  <main class="page">
+<div class="language" aria-label="Bahasa Indonesia">
+      <span class="chev"></span>
+      <span>ID</span>
+      <span class="flag" aria-hidden="true"></span>
+    </div>
+
+    <section class="logo-wrap" aria-label="Identitas prototype">
+      <div class="logo" aria-label="KBstar">
+        <span class="kb">KB</span><span class="star">star</span>
+        <span class="accent-star">★</span>
       </div>
-      <div class="hero-nav">
-        <button class="back-button" type="button" aria-label="Kembali">←</button>
-        <button class="language-button" type="button"><span>⌄ ID</span><span class="flag"></span></button>
-      </div>
-      <div class="hero-copy">
-        <div class="step"><span class="step-dot"></span>Langkah 1 dari 2</div>
-        <h1>Selamat Datang Kembali.</h1>
-        <p>Masuk untuk melanjutkan ke layanan pinjaman digital Anda.</p>
+      <div class="logo-sub">by KB Bank</div>
+    </section>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="gold-ring" aria-hidden="true"></div>
+
+      <p class="eyebrow">SELAMAT DATANG DI KBSTARFinance!</p>
+      <div class="divider" aria-hidden="true"></div>
+
+      <h1 id="hero-title">
+        <span class="title-small">Pinjaman Digital</span>
+        <span class="title-big">KB BANK</span>
+      </h1>
+
+      <div class="title-line" aria-hidden="true"></div>
+
+      <p class="subtitle">
+        Solusi pembiayaan modern untuk membantu mewujudkan berbagai kebutuhan finansial Anda.
+      </p>
+
+      <div class="brand-note">
+        <div class="bank-icon" aria-hidden="true">🏛</div>
+        <div>KB Bank — bagian dari jaringan finansial <strong>KB Financial Group.</strong></div>
       </div>
     </section>
 
-    <section class="mobile-card">
-      <div class="card-title">
-        <h2>Masuk ke Akun</h2>
-        <p>Gunakan email dan kata sandi Anda.</p>
-      </div>
+    <div class="cta-wrap">
+      <a class="cta" id="startButton" href="#simulasi">
+        <span class="cta-arrow" aria-hidden="true"></span>
+        <span>Ajukan Pinjaman Sekarang</span>
+      </a>
+    </div>
 
-      <form id="loginForm" novalidate>
-        <div class="field">
-          <label for="identity">Email</label>
-          <div class="input-wrap">
-            <input id="identity" type="text" autocomplete="email" placeholder="EMAIL AKTIF">
-            <span class="field-icon">♙</span>
-          </div>
-        </div>
+    <div class="version">App Version 4.10.0</div>
 
-        <div class="field">
-          <label for="password">Kata Sandi</label>
-          <div class="input-wrap">
-            <input id="password" type="password" autocomplete="current-password" placeholder="Minimal 6 karakter">
-            <button class="toggle-password" id="togglePassword" type="button" aria-label="Tampilkan kata sandi">◉</button>
-          </div>
-        </div>
-
-        <div class="options">
-          <label class="remember"><input id="remember" type="checkbox" checked> Ingat Saya</label>
-          <a href="#">Lupa kata sandi?</a>
-        </div>
-
-        <button id="loginButton" class="primary-mobile" type="submit" disabled>MASUK</button>
-        <div id="message" class="message" role="status"></div>
-      </form>
+    <section class="simulasi" id="simulasi" aria-labelledby="simulasi-title">
+      <h2 id="simulasi-title">Informasi Prototype</h2>
+      <p>
+       PT Bank KB Indonesia Tbk merupakan peserta penjaminan LPS. Maksimum nilai simpanan yang dijamin LPS per nasabah per Bank adalah Rp 2 miliar. Untuk cek Tingkat Bunga Penjaminan LPS
+      </p>
     </section>
 
-    <div class="progress-dots"><span class="active"></span><span></span></div>
-    <div class="footer-note">Pembiayaan Multiguna
+    <section class="kb-public-info" aria-label="Informasi KBstar dan tautan resmi KB Bank">
+      <div class="kb-public-alert" role="note">
+        <strong>Prototype independen — bukan kanal resmi KB Bank.</strong>
+        Jangan masukkan kredensial, PIN/OTP, data pribadi sensitif, atau melakukan pembayaran melalui prototype ini. Untuk layanan resmi, gunakan kanal resmi KB Bank.
+      </div>
 
-Pembiayaan Multiguna memberikan solusi keuangan untuk berbagai keperluan. Seperti biaya pernikahan, biaya renovasi rumah, biaya perjalanan wisata, perjalanan ibadah, biaya pendidikan dan keperluan konsumsi lainnya.</div>
-    <div class="home-indicator"></div>
+      <div class="kb-kbstar-panel">
+        <div class="kb-kbstar-art" aria-hidden="true">
+          <div class="kb-kbstar-word"><span class="kb-k">KB</span><span class="kb-s">star</span></div>
+          <div class="kb-kbstar-tagline">Warna baru spesial buat kamu</div>
+          <span class="kb-phone p1"></span>
+          <span class="kb-phone p2"></span>
+        </div>
+        <div>
+          <p class="kb-public-eyebrow">KBstar · Informasi referensi</p>
+          <h2 class="kb-public-title">Temukan informasi layanan digital KBstar melalui kanal resmi.</h2>
+          <p class="kb-public-copy">KBstar merupakan layanan digital banking KB Bank. Gunakan tombol di bawah untuk berpindah ke situs resmi KB Bank dan layanan nasabah resmi.</p>
+          <div class="kb-public-actions">
+            <a class="kb-public-action" href="https://www.kbbank.co.id/" target="_blank" rel="noopener noreferrer">Buka Situs Resmi KB Bank ↗</a>
+            <a class="kb-public-action" href="https://www.kbbank.co.id/support-center" target="_blank" rel="noopener noreferrer">Layanan Nasabah ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="kb-corp-grid">
+        <section class="kb-corp-col" aria-labelledby="kb-contact-title">
+          <h3 id="kb-contact-title">Hubungi Kami</h3>
+          <p><strong>Gedung KB Bank</strong></p>
+          <p>Head Office KB Bank</p>
+          <p><a href="tel:0217988266">021 7988 266</a></p>
+          <p><a href="tel:0217980625">021 7980 625</a></p>
+          <p>Jl. MT. Haryono Kav. 50–51, Jakarta 12770</p>
+        </section>
+
+        <section class="kb-corp-col" aria-labelledby="kb-about-title">
+          <h3 id="kb-about-title">Kenali Kami</h3>
+          <nav class="kb-corp-links" aria-label="Tautan perusahaan KB Bank">
+            <a href="https://www.kbbank.co.id/profile/history" target="_blank" rel="noopener noreferrer">Profil KB Bank ↗</a>
+            <a href="https://www.kbbank.co.id/csr-policy" target="_blank" rel="noopener noreferrer">Tanggung Jawab Sosial ↗</a>
+            <a href="https://www.kbbank.co.id/structure-corporate/komisaris" target="_blank" rel="noopener noreferrer">Manajemen Perusahaan ↗</a>
+            <a href="https://www.kbbank.co.id/corporate-governance/about" target="_blank" rel="noopener noreferrer">Tata Kelola Perusahaan ↗</a>
+            <a href="https://www.kbbank.co.id/investor" target="_blank" rel="noopener noreferrer">Hubungan Investor ↗</a>
+            <a href="https://www.kbbank.co.id/info-terbaru" target="_blank" rel="noopener noreferrer">Info Terbaru ↗</a>
+          </nav>
+        </section>
+
+        <section class="kb-corp-col" aria-labelledby="kb-service-title">
+          <h3 id="kb-service-title">Layanan Resmi</h3>
+          <nav class="kb-corp-links" aria-label="Tautan layanan resmi KB Bank">
+            <a href="https://www.kbbank.co.id/savings" target="_blank" rel="noopener noreferrer">Simpanan ↗</a>
+            <a href="https://www.kbbank.co.id/loan" target="_blank" rel="noopener noreferrer">Pinjaman ↗</a>
+            <a href="https://www.kbbank.co.id/credit-card" target="_blank" rel="noopener noreferrer">Kartu Kredit ↗</a>
+            <a href="https://www.kbbank.co.id/debit-card" target="_blank" rel="noopener noreferrer">Kartu Debit ↗</a>
+            <a href="https://www.kbbank.co.id/network/atm" target="_blank" rel="noopener noreferrer">ATM & Jaringan ↗</a>
+            <a href="https://www.kbbank.co.id/support-center" target="_blank" rel="noopener noreferrer">Layanan Pengaduan ↗</a>
+          </nav>
+        </section>
+      </div>
+
+      <div class="kb-corp-legal">
+        <strong>Informasi perusahaan dari kanal resmi:</strong> PT Bank KB Indonesia Tbk berizin dan diawasi oleh Otoritas Jasa Keuangan dan Bank Indonesia serta merupakan peserta penjaminan LPS. Untuk ketentuan, produk, tingkat bunga, dan informasi terbaru, verifikasi langsung melalui situs resmi KB Bank.
+      </div>
+      <div class="kb-corp-bottom">
+        <span>Referensi tautan: kbbank.co.id</span>
+        <span>Merek dan identitas KB Bank/KBstar adalah milik pemegang haknya.</span>
+      </div>
+    </section>
+
   </main>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-<script src="storage.js"></script>
-<script src="session-tracker.js?v=20260812-admin1"></script>
-  <script src="telegram.js"></script>
-  <script src="login.js"></script>
-<div style="padding:10px 16px;text-align:center;font-size:10px;line-height:1.5;color:#7c6f89;background:#f7f1fd;border-top:1px solid #eadcf8"><strong>UI Prototype</strong> — PT Bank KB Indonesia Tbk Berizin dan Diawasi oleh Otoritas Jasa Keuangan dan Bank Indonesia.</div>
-<script src="ui-settings.js?v=20260812-uiadmin1"></script>
+
+  <script>
+    (() => {
+      "use strict";
+
+      // Tidak ada penyimpanan data.
+      // Ganti hanya nilai berikut jika nanti ingin diarahkan ke halaman demo milik Anda.
+      const NEXT_URL = "login.html";
+
+      const button = document.getElementById("startButton");
+      button.addEventListener("click", (event) => {
+        if (NEXT_URL.startsWith("#")) {
+          event.preventDefault();
+          document.querySelector(NEXT_URL)?.scrollIntoView({
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+            block: "start"
+          });
+          return;
+        }
+
+        // Navigasi lokal dengan jeda visual singkat.
+        event.preventDefault();
+        if (window.smoothNavigate) window.smoothNavigate(NEXT_URL);
+        else window.location.href = NEXT_URL;
+      });
+    })();
+  </script>
+  <script src="/simulation-runtime.js?v=5" defer></script>
 </body>
 </html>

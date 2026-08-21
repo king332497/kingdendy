@@ -1,0 +1,43 @@
+{
+  "stage8": {
+    "title": "Tahap 8 — Verifikasi Dokumen Demo",
+    "mobile": {
+      "inner": 390,
+      "scroll": 390
+    },
+    "finish_disabled_initial": true,
+    "face_status": "Selesai",
+    "doc_status": "Selesai",
+    "sign_status": "Selesai",
+    "finish_enabled_after_tasks": true,
+    "pin_modal_open": true,
+    "pin_warning": "PIN DEMO · BUKAN PIN PERBANKAN",
+    "pin_back_closes": true,
+    "sanitized_non_digits": "12345",
+    "invalid_pin_error": "PIN Demo harus tepat 6 digit angka.",
+    "success_status": "Konfirmasi Demo Berhasil",
+    "pin_cleared": true,
+    "next_stage_source": true,
+    "desktop": {
+      "inner": 1440,
+      "scroll": 1425
+    },
+    "runtime_error_count": 0,
+    "runtime_errors": []
+  },
+  "stage9": {
+    "title": "Tahap 9 — Menganalisis Pengajuan Simulasi",
+    "mobile": {
+      "inner": 390,
+      "scroll": 390
+    },
+    "progress": "100%",
+    "finished": true,
+    "desktop": {
+      "inner": 1440,
+      "scroll": 1425
+    },
+    "runtime_error_count": 0,
+    "runtime_errors": []
+  }
+}

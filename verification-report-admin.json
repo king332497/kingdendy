@@ -1,0 +1,68 @@
+{
+  "project": "KBSTARFinance Simulation — Admin Realtime Edition",
+  "generated_at": "2026-08-14T22:45:00+07:00",
+  "architecture": "Admin Panel -> authenticated backend POST -> SSE user channel -> client whitelist -> internal navigation; admin receives SSE session updates",
+  "verified": {
+    "admin_authentication": true,
+    "admin_authorization_role": "admin",
+    "anonymous_session_id": true,
+    "online_presence": true,
+    "current_page_tracking": true,
+    "progress_tracking": true,
+    "route_whitelist_backend": true,
+    "route_whitelist_browser": true,
+    "arbitrary_url_rejected": true,
+    "arbitrary_javascript_not_supported": true,
+    "csrf_required_for_admin_mutations": true,
+    "online_user_navigation_command_delivered_over_sse": true,
+    "admin_current_page_updates_over_sse_after_target_presence": true,
+    "offline_user_move_rejected": true,
+    "offline_command_queue_disabled": true,
+    "audit_success_recorded_after_target_presence": true,
+    "audit_offline_rejection_recorded": true,
+    "runtime_does_not_read_form_values": true,
+    "sensitive_fields_not_in_monitoring_payload": true,
+    "mobile_no_horizontal_overflow": true,
+    "mobile_page_errors_zero": true,
+    "mobile_checks": 48
+  },
+  "baseline_css": {
+    "index.html": {
+      "css_identical_to_frozen_baseline": true
+    },
+    "login.html": {
+      "css_identical_to_frozen_baseline": true
+    },
+    "identitas.html": {
+      "css_identical_to_frozen_baseline": true
+    },
+    "verifikasi.html": {
+      "css_identical_to_frozen_baseline": true
+    },
+    "profil-pengajuan.html": {
+      "css_identical_to_frozen_baseline": true
+    },
+    "tahap8.html": {
+      "css_identical_to_frozen_baseline": true
+    },
+    "tahap9.html": {
+      "css_identical_to_frozen_baseline": true
+    },
+    "dashboard.html": {
+      "css_identical_to_frozen_baseline": true
+    }
+  },
+  "tested_viewports": [
+    "320x568",
+    "360x640",
+    "390x844",
+    "430x932"
+  ],
+  "test_commands": [
+    "npm run test:runtime",
+    "npm run test:realtime",
+    "python /mnt/data/mobile_regression_admin_setcontent.py"
+  ],
+  "deployment_constraint": "Included backend is stateful single-process Node. Horizontal scaling requires shared realtime/session state (for example Redis/pub-sub) and persistent audit storage.",
+  "browser_e2e_note": "The environment blocks browser navigation to localhost/file URLs. Realtime transport was verified at HTTP/SSE integration level, and client whitelist/navigation behavior was verified separately in a JavaScript runtime unit test."
+}

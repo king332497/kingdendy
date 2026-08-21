@@ -1,0 +1,40 @@
+{
+  "project": "KBSTARFinance UI Simulation",
+  "version": "v7-tahap8",
+  "checks": {
+    "baseline_unchanged": {
+      "index.html": true,
+      "login.html": true,
+      "identitas.html": true,
+      "verifikasi.html": true
+    },
+    "stage7_to_stage8": true,
+    "stage8_exists": true,
+    "stage8_no_camera_api": true,
+    "stage8_no_network_upload": true,
+    "stage8_no_storage": true,
+    "signature_not_exportable": true,
+    "no_stage9": true
+  },
+  "browser_test": {
+    "method": "Chromium headless via set_content (localhost navigation blocked by sandbox policy)",
+    "mobile_390": {
+      "scroll_width": 390,
+      "inner_width": 390,
+      "horizontal_overflow": false,
+      "face_demo": true,
+      "dummy_document": true,
+      "signature_canvas": true,
+      "complete_enabled_after_all": true,
+      "complete_state": true,
+      "javascript_errors": 0
+    },
+    "desktop_1440": {
+      "scroll_width": 1440,
+      "inner_width": 1440,
+      "app_width": 520,
+      "horizontal_overflow": false,
+      "javascript_errors": 0
+    }
+  }
+}

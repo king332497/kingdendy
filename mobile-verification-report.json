@@ -1,0 +1,748 @@
+{
+  "project": "KBSTARFinance Simulasi — Final Mobile Audit",
+  "tested_viewports": [
+    {
+      "width": 320,
+      "height": 568
+    },
+    {
+      "width": 360,
+      "height": 640
+    },
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 430,
+      "height": 932
+    }
+  ],
+  "files": [
+    "index.html",
+    "login.html",
+    "identitas.html",
+    "verifikasi.html",
+    "profil-pengajuan.html",
+    "tahap8.html",
+    "tahap9.html",
+    "dashboard.html"
+  ],
+  "static_checks": {
+    "index.html": {
+      "exists": true,
+      "viewport_mobile": true,
+      "has_overflow_guard": true,
+      "external_network_calls": false,
+      "js_alert": false
+    },
+    "login.html": {
+      "exists": true,
+      "viewport_mobile": true,
+      "has_overflow_guard": true,
+      "external_network_calls": false,
+      "js_alert": false
+    },
+    "identitas.html": {
+      "exists": true,
+      "viewport_mobile": true,
+      "has_overflow_guard": true,
+      "external_network_calls": false,
+      "js_alert": false
+    },
+    "verifikasi.html": {
+      "exists": true,
+      "viewport_mobile": true,
+      "has_overflow_guard": true,
+      "external_network_calls": false,
+      "js_alert": false
+    },
+    "profil-pengajuan.html": {
+      "exists": true,
+      "viewport_mobile": true,
+      "has_overflow_guard": true,
+      "external_network_calls": false,
+      "js_alert": false
+    },
+    "tahap8.html": {
+      "exists": true,
+      "viewport_mobile": true,
+      "has_overflow_guard": true,
+      "external_network_calls": false,
+      "js_alert": false
+    },
+    "tahap9.html": {
+      "exists": true,
+      "viewport_mobile": true,
+      "has_overflow_guard": true,
+      "external_network_calls": false,
+      "js_alert": false
+    },
+    "dashboard.html": {
+      "exists": true,
+      "viewport_mobile": true,
+      "has_overflow_guard": true,
+      "external_network_calls": false,
+      "js_alert": false
+    }
+  },
+  "navigation_chain": {
+    "index.html -> login.html": true,
+    "login.html -> identitas.html": true,
+    "identitas.html -> verifikasi.html": true,
+    "verifikasi.html -> profil-pengajuan.html": true,
+    "profil-pengajuan.html -> tahap8.html": true,
+    "tahap8.html -> tahap9.html": true,
+    "tahap9.html -> dashboard.html": true
+  },
+  "hash_comparison_to_v9_baseline": {
+    "index.html": {
+      "baseline_sha256": "f15f24759aa75f4ea16d2aedbf34c48c5c18e04614735a5c04914d4f54d02531",
+      "final_sha256": "fcb8684ae1f503e3b865f12ca6a6313b31d07da62dbfd44e9f1723603c1beba9",
+      "changed": true
+    },
+    "login.html": {
+      "baseline_sha256": "37c2a9b5a3fd20a4ee0d16299937e4fb84654060c1957c65c5e24d068a7984c4",
+      "final_sha256": "28d11d5f00e106e1893d907c3c8e6c41d761d9fe69a07a621a33319cf79a5a23",
+      "changed": true
+    },
+    "identitas.html": {
+      "baseline_sha256": "b747b9a4eec2513a76f519e49c6931a75d0ebaa5b908ba998744f95e5a4a3f55",
+      "final_sha256": "b747b9a4eec2513a76f519e49c6931a75d0ebaa5b908ba998744f95e5a4a3f55",
+      "changed": false
+    },
+    "verifikasi.html": {
+      "baseline_sha256": "6223e39cd32dabf2ba09308c25a47333ddc7a1966112a4f027b4e00a83fa8a96",
+      "final_sha256": "6223e39cd32dabf2ba09308c25a47333ddc7a1966112a4f027b4e00a83fa8a96",
+      "changed": false
+    },
+    "profil-pengajuan.html": {
+      "baseline_sha256": "60a95ba065cbe15026c53b647137a90032db326724ccf168ad0cfc2159d76a06",
+      "final_sha256": "60a95ba065cbe15026c53b647137a90032db326724ccf168ad0cfc2159d76a06",
+      "changed": false
+    },
+    "tahap8.html": {
+      "baseline_sha256": "638bdf27c4ab0efe594a6512b02945c406c29a447cb35d8e38268a695881c281",
+      "final_sha256": "57bb538ffbb43f6c418bc2cf6fd9d1a5f246f25e184038ffddcd7e766a63ceef",
+      "changed": true
+    },
+    "tahap9.html": {
+      "baseline_sha256": "7ccc5bee5bcbfc15afe8760d576055d5679117ddc7d655ef81246c9f72e52eaa",
+      "final_sha256": "7ccc5bee5bcbfc15afe8760d576055d5679117ddc7d655ef81246c9f72e52eaa",
+      "changed": false
+    },
+    "dashboard.html": {
+      "baseline_sha256": "b56488bcb734d5cf6371f36113a82f0c5706e9778a404712cf3dc7f1cea8383f",
+      "final_sha256": "83aa2b0c53a6a57d76ac7a49fa069265a929f5d543160bdd0e54fa52a1e5ccc6",
+      "changed": true
+    }
+  },
+  "viewport_results": [
+    {
+      "file": "index.html",
+      "width": 320,
+      "height": 568,
+      "metrics": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyScrollWidth": 320,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "login.html",
+      "width": 320,
+      "height": 568,
+      "metrics": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyScrollWidth": 320,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": [
+        "The Content Security Policy directive 'frame-ancestors' is ignored when delivered via a <meta> element."
+      ]
+    },
+    {
+      "file": "identitas.html",
+      "width": 320,
+      "height": 568,
+      "metrics": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyScrollWidth": 320,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": [
+        "The Content Security Policy directive 'frame-ancestors' is ignored when delivered via a <meta> element."
+      ]
+    },
+    {
+      "file": "verifikasi.html",
+      "width": 320,
+      "height": 568,
+      "metrics": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyScrollWidth": 320,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "profil-pengajuan.html",
+      "width": 320,
+      "height": 568,
+      "metrics": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyScrollWidth": 320,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "tahap8.html",
+      "width": 320,
+      "height": 568,
+      "metrics": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyScrollWidth": 320,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "tahap9.html",
+      "width": 320,
+      "height": 568,
+      "metrics": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyScrollWidth": 320,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "dashboard.html",
+      "width": 320,
+      "height": 568,
+      "metrics": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyScrollWidth": 320,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "index.html",
+      "width": 360,
+      "height": 640,
+      "metrics": {
+        "viewport": 360,
+        "scrollWidth": 360,
+        "bodyScrollWidth": 360,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "login.html",
+      "width": 360,
+      "height": 640,
+      "metrics": {
+        "viewport": 360,
+        "scrollWidth": 360,
+        "bodyScrollWidth": 360,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": [
+        "The Content Security Policy directive 'frame-ancestors' is ignored when delivered via a <meta> element."
+      ]
+    },
+    {
+      "file": "identitas.html",
+      "width": 360,
+      "height": 640,
+      "metrics": {
+        "viewport": 360,
+        "scrollWidth": 360,
+        "bodyScrollWidth": 360,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": [
+        "The Content Security Policy directive 'frame-ancestors' is ignored when delivered via a <meta> element."
+      ]
+    },
+    {
+      "file": "verifikasi.html",
+      "width": 360,
+      "height": 640,
+      "metrics": {
+        "viewport": 360,
+        "scrollWidth": 360,
+        "bodyScrollWidth": 360,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "profil-pengajuan.html",
+      "width": 360,
+      "height": 640,
+      "metrics": {
+        "viewport": 360,
+        "scrollWidth": 360,
+        "bodyScrollWidth": 360,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "tahap8.html",
+      "width": 360,
+      "height": 640,
+      "metrics": {
+        "viewport": 360,
+        "scrollWidth": 360,
+        "bodyScrollWidth": 360,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "tahap9.html",
+      "width": 360,
+      "height": 640,
+      "metrics": {
+        "viewport": 360,
+        "scrollWidth": 360,
+        "bodyScrollWidth": 360,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "dashboard.html",
+      "width": 360,
+      "height": 640,
+      "metrics": {
+        "viewport": 360,
+        "scrollWidth": 360,
+        "bodyScrollWidth": 360,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "index.html",
+      "width": 390,
+      "height": 844,
+      "metrics": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "login.html",
+      "width": 390,
+      "height": 844,
+      "metrics": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": [
+        "The Content Security Policy directive 'frame-ancestors' is ignored when delivered via a <meta> element."
+      ]
+    },
+    {
+      "file": "identitas.html",
+      "width": 390,
+      "height": 844,
+      "metrics": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": [
+        "The Content Security Policy directive 'frame-ancestors' is ignored when delivered via a <meta> element."
+      ]
+    },
+    {
+      "file": "verifikasi.html",
+      "width": 390,
+      "height": 844,
+      "metrics": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "profil-pengajuan.html",
+      "width": 390,
+      "height": 844,
+      "metrics": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "tahap8.html",
+      "width": 390,
+      "height": 844,
+      "metrics": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "tahap9.html",
+      "width": 390,
+      "height": 844,
+      "metrics": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "dashboard.html",
+      "width": 390,
+      "height": 844,
+      "metrics": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "index.html",
+      "width": 430,
+      "height": 932,
+      "metrics": {
+        "viewport": 430,
+        "scrollWidth": 430,
+        "bodyScrollWidth": 430,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "login.html",
+      "width": 430,
+      "height": 932,
+      "metrics": {
+        "viewport": 430,
+        "scrollWidth": 430,
+        "bodyScrollWidth": 430,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": [
+        "The Content Security Policy directive 'frame-ancestors' is ignored when delivered via a <meta> element."
+      ]
+    },
+    {
+      "file": "identitas.html",
+      "width": 430,
+      "height": 932,
+      "metrics": {
+        "viewport": 430,
+        "scrollWidth": 430,
+        "bodyScrollWidth": 430,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": [
+        "The Content Security Policy directive 'frame-ancestors' is ignored when delivered via a <meta> element."
+      ]
+    },
+    {
+      "file": "verifikasi.html",
+      "width": 430,
+      "height": 932,
+      "metrics": {
+        "viewport": 430,
+        "scrollWidth": 430,
+        "bodyScrollWidth": 430,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "profil-pengajuan.html",
+      "width": 430,
+      "height": 932,
+      "metrics": {
+        "viewport": 430,
+        "scrollWidth": 430,
+        "bodyScrollWidth": 430,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "tahap8.html",
+      "width": 430,
+      "height": 932,
+      "metrics": {
+        "viewport": 430,
+        "scrollWidth": 430,
+        "bodyScrollWidth": 430,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "tahap9.html",
+      "width": 430,
+      "height": 932,
+      "metrics": {
+        "viewport": 430,
+        "scrollWidth": 430,
+        "bodyScrollWidth": 430,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    },
+    {
+      "file": "dashboard.html",
+      "width": 430,
+      "height": 932,
+      "metrics": {
+        "viewport": 430,
+        "scrollWidth": 430,
+        "bodyScrollWidth": 430,
+        "noHorizontalOverflow": true,
+        "outside": [],
+        "smallControls": []
+      },
+      "pageerrors": [],
+      "console_errors": [],
+      "csp_meta_warnings": []
+    }
+  ],
+  "internal_stage_5_7": [
+    {
+      "width": 320,
+      "stage6": {
+        "stage": 6,
+        "viewport": 320,
+        "scrollWidth": 320
+      },
+      "stage7": {
+        "stage": 7,
+        "viewport": 320,
+        "scrollWidth": 320
+      },
+      "pageerrors": []
+    },
+    {
+      "width": 390,
+      "stage6": {
+        "stage": 6,
+        "viewport": 390,
+        "scrollWidth": 390
+      },
+      "stage7": {
+        "stage": 7,
+        "viewport": 390,
+        "scrollWidth": 390
+      },
+      "pageerrors": []
+    }
+  ],
+  "stage8_pin_dialog": [
+    {
+      "width": 320,
+      "metrics": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "left": 12,
+        "right": 308,
+        "width": 296,
+        "height": 532,
+        "fitsWidth": true
+      },
+      "pageerrors": []
+    },
+    {
+      "width": 390,
+      "metrics": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "left": 12,
+        "right": 378,
+        "width": 366,
+        "height": 527.4,
+        "fitsWidth": true
+      },
+      "pageerrors": []
+    }
+  ],
+  "dashboard_badge_320": {
+    "text": "SIMULASI · DATA DEMO · BUKAN LAYANAN PERBANKAN NYATA",
+    "whiteSpace": "normal",
+    "overflow": "visible",
+    "textOverflow": "clip",
+    "height": 44,
+    "left": 80,
+    "right": 240,
+    "fits": true
+  },
+  "summary": {
+    "all_files_present": true,
+    "all_navigation_targets_present": true,
+    "all_viewports_no_horizontal_overflow": true,
+    "javascript_page_errors": 0,
+    "actual_console_errors": 0,
+    "stage6_7_no_overflow": true,
+    "pin_dialog_fits_mobile": true,
+    "dashboard_badge_full_text_mobile": true
+  }
+}

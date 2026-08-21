@@ -1,0 +1,92 @@
+{
+  "generated_at_utc": "2026-08-14T16:52:19.994955+00:00",
+  "target": "Vercel Functions + Upstash Redis shared state",
+  "baseline_frozen": {
+    "index.html": {
+      "unchanged": true,
+      "sha256": "000b70c3113c4a436edf1b62960f1796bbdde4a3d4771c39c9c00b64a912acba"
+    },
+    "login.html": {
+      "unchanged": true,
+      "sha256": "63186c56e43da4f3bdc01a2f19bd97400f1c6dda7eca3f46bce3370aa64469ee"
+    },
+    "identitas.html": {
+      "unchanged": true,
+      "sha256": "0abf8e8b9019bc1051bfe904e3ba9166e1a091ad2a7a803295d77063a6945dfa"
+    },
+    "verifikasi.html": {
+      "unchanged": true,
+      "sha256": "aabda2d15e4ca3f3aafa2da6e0d835f116312bf071f28f234785ed521abf835f"
+    },
+    "profil-pengajuan.html": {
+      "unchanged": true,
+      "sha256": "157ab22703ef5c42cb6a62ea0befccf99e199450734a98ff23214a799a77d8ab"
+    },
+    "tahap8.html": {
+      "unchanged": true,
+      "sha256": "f2cdc7f1d290038fcc6bc002b0e7fd87e6fe4d74fbeccc6d391e12e0d2a375c4"
+    },
+    "tahap9.html": {
+      "unchanged": true,
+      "sha256": "f942dc30546a8d4a3281d8f309df9891d53e30de3dc0f9e7f7b54bff5fdabd18"
+    },
+    "dashboard.html": {
+      "unchanged": true,
+      "sha256": "751dbc1c8f59ab5eb109933dd93bf902f9d70907519fc10e7e9ecc01f08c82db"
+    }
+  },
+  "changed_existing_files": [
+    "admin.html",
+    "simulation-runtime.js",
+    "package.json"
+  ],
+  "added": [
+    "vercel.json",
+    ".env.example",
+    "VERCEL-DEPLOY.md",
+    "lib/realtime-backend.js",
+    "api/health.js",
+    "api/session/bootstrap.js",
+    "api/session/presence.js",
+    "api/session/command.js",
+    "api/admin/login.js",
+    "api/admin/me.js",
+    "api/admin/logout.js",
+    "api/admin/sessions.js",
+    "api/admin/audit.js",
+    "api/admin/move.js"
+  ],
+  "realtime": {
+    "transport": "short polling through same-origin Vercel Functions",
+    "user_command_poll_ms": 2200,
+    "user_presence_ms": 5000,
+    "admin_poll_ms": 2200,
+    "online_threshold_ms": 15000,
+    "shared_state": "Upstash Redis REST"
+  },
+  "security": {
+    "anonymous_session_id": true,
+    "backend_route_whitelist": true,
+    "browser_route_whitelist": true,
+    "arbitrary_url": false,
+    "arbitrary_javascript": false,
+    "csrf": true,
+    "admin_auth": true,
+    "http_only_admin_cookie": true,
+    "same_origin_write_checks": true,
+    "login_rate_limit_shared": true,
+    "sensitive_form_monitoring": false,
+    "audit_sensitive_data": false
+  },
+  "local_tests": {
+    "static_security": "PASS",
+    "runtime_navigation_with_mock_redis": "PASS",
+    "node_syntax": "PASS"
+  },
+  "not_verified_here": [
+    "actual user Vercel deployment after replacing files",
+    "actual Upstash credentials/reachability in user account",
+    "browser E2E across the public production domain"
+  ],
+  "health_endpoint": "/api/health"
+}

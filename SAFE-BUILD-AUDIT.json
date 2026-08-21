@@ -1,0 +1,21 @@
+{
+  "source": "KB-Grup-financial-main%20%2813%29-dokumen-unggah (1).zip",
+  "changed_runtime_files": [
+    "login.html",
+    "identitas.html",
+    "verifikasi.html",
+    "tahap8.html"
+  ],
+  "stage8_scan_resolution_preserved": "720x960 ideal",
+  "stage8_scan_sequence_preserved": [
+    "right",
+    "left",
+    "up",
+    "down",
+    "hold"
+  ],
+  "stage8_local_file_columns": 5,
+  "telegram_runtime_refs_in_changed_html": 0,
+  "password_persisted_to_sessionStorage": false,
+  "js_syntax": "PASS"
+}

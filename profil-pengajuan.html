@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#16082f" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'none';">
+  <title>Prototype Pengajuan — KBSTARFinance</title>
+  <style>
+    :root{
+      --bg1:#200c43;--bg2:#14072d;--bg3:#090417;
+      --gold:#f6cd54;--gold2:#fff19a;--text:#fff;--muted:#cfc6d9;
+      --shell:520px;
+    }
+    *{box-sizing:border-box}
+    html,body{max-width:100%;overflow-x:hidden}
+    body{
+      margin:0;min-height:100svh;color:var(--text);
+      font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      background:radial-gradient(circle at 50% -10%,rgba(91,42,153,.34),transparent 35%),linear-gradient(180deg,#090310,#120625);
+    }
+    button,input,select{font:inherit} a{color:inherit;text-decoration:none}
+    .app{
+      width:min(100%,var(--shell));min-height:100svh;margin:auto;position:relative;overflow:hidden;isolation:isolate;
+      background:
+        radial-gradient(circle at 98% 38%,rgba(255,185,36,.09),transparent 22%),
+        radial-gradient(circle at 4% 3%,rgba(108,55,172,.18),transparent 25%),
+        linear-gradient(180deg,var(--bg1),var(--bg2) 42%,var(--bg3));
+      box-shadow:0 26px 70px rgba(0,0,0,.4);
+    }
+    .app:before{
+      content:"";position:absolute;width:620px;height:620px;left:-390px;top:-300px;border-radius:50%;
+      border:1px solid rgba(213,174,255,.08);
+      box-shadow:0 0 0 70px rgba(255,255,255,.014),0 0 0 140px rgba(255,255,255,.010),0 0 0 210px rgba(255,255,255,.007);
+      z-index:-2;
+    }
+    .app:after{
+      content:"";position:absolute;width:420px;height:420px;right:-285px;bottom:55px;border-radius:50%;
+      border:74px solid rgba(219,157,38,.78);
+      box-shadow:inset 0 0 25px rgba(255,245,179,.38),0 0 0 1px rgba(255,235,132,.55),0 0 24px rgba(250,176,35,.18);
+      z-index:-2;
+    }
+    .badge{
+      position:fixed;z-index:50;top:max(10px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);
+      padding:7px 11px;border-radius:999px;background:#f8db6a;color:#2b1b00;border:1px solid rgba(255,255,255,.35);
+      font-size:11px;font-weight:800;letter-spacing:.08em;white-space:nowrap;box-shadow:0 7px 18px rgba(0,0,0,.26);
+    }
+
+    
+
+    
+
+    
+
+    .top{display:flex;justify-content:space-between;align-items:center;padding:24px 24px 0}
+    .back{
+      width:44px;height:44px;border-radius:15px;border:1px solid rgba(247,205,84,.44);background:rgba(15,7,34,.42);
+      display:grid;place-items:center;color:#ffe879;cursor:pointer;
+    }
+    .back:before{content:"";width:11px;height:11px;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(2px,-2px)}
+    .brand{text-align:right;line-height:1}
+    .brand .name{font-size:30px;letter-spacing:-.055em}.brand .kb{background:linear-gradient(#ffc32d,#ee980b);-webkit-background-clip:text;background-clip:text;color:transparent}.brand .star{color:#f0eef5}
+    .brand small{display:block;margin-top:7px;color:#bcb3ca;font-size:11px;letter-spacing:.04em}
+    .content{padding:52px 28px 34px}
+    .view[hidden]{display:none!important}
+    .eyebrow{margin:0 0 10px;color:#fff18d;font-size:12px;font-weight:700;letter-spacing:.16em}
+    h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:48px;font-weight:400;line-height:1.02;letter-spacing:-.035em}
+    h1 strong{display:block;margin-top:6px;font-weight:400;background:linear-gradient(#fff0a0,#ffc846 35%,#f0a02e 60%,#ffe58d);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:.4px rgba(246,205,84,.65)}
+    .lead{margin:15px 0 28px;max-width:390px;color:#ded8e7;font-size:15px;line-height:1.55}
+    .card{
+      padding:22px;border-radius:26px;border:1px solid rgba(247,205,84,.36);
+      background:linear-gradient(180deg,rgba(60,28,101,.70),rgba(17,7,39,.84));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 18px 45px rgba(0,0,0,.27);
+      backdrop-filter:blur(16px);
+    }
+    .safety{display:flex;gap:12px;align-items:flex-start;margin-bottom:20px;padding:13px 14px;border-radius:16px;border:1px solid rgba(255,234,133,.17);background:rgba(255,255,255,.045);color:#e9e3ef;font-size:12px;line-height:1.45}
+    .shield{flex:0 0 34px;width:34px;height:34px;border-radius:11px;border:1px solid rgba(247,205,84,.55);display:grid;place-items:center;color:#ffe36c}
+    .field{margin-top:16px}.field:first-of-type{margin-top:0}
+    label,.label{display:block;margin-bottom:8px;font-size:13px;font-weight:700}
+    input,select{
+      width:100%;height:58px;border:1px solid rgba(255,255,255,.16);border-radius:17px;outline:none;
+      padding:0 16px;background:rgba(8,4,20,.52);color:#fff;caret-color:#ffd95e;font-size:16px;
+    }
+    select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,#dccc7d 50%),linear-gradient(135deg,#dccc7d 50%,transparent 50%);background-position:calc(100% - 21px) 24px,calc(100% - 15px) 24px;background-size:6px 6px,6px 6px;background-repeat:no-repeat;padding-right:44px}
+    select option{background:#180b31;color:#fff}
+    input:focus,select:focus{border-color:#f3cc52;box-shadow:0 0 0 3px rgba(243,204,82,.11)}
+    input::placeholder{color:#8f849d}
+    input[aria-invalid="true"],select[aria-invalid="true"]{border-color:rgba(255,187,181,.80);box-shadow:0 0 0 3px rgba(255,187,181,.08)}
+    .hint{margin:8px 2px 0;color:#a99fb5;font-size:11px;line-height:1.4}
+    .field-error{min-height:17px;margin:6px 2px 0;color:#ffbbb5;font-size:11px;line-height:1.35}
+    .message{min-height:20px;margin:14px 2px 0;font-size:12px;line-height:1.45}.error{color:#ffbbb5}.success{color:#dcffdb}
+    .primary{
+      width:100%;min-height:60px;margin-top:4px;border:2px solid #f6d34f;border-radius:17px;
+      background:linear-gradient(180deg,rgba(67,30,111,.78),rgba(25,10,55,.88));color:#ffdf63;font-size:17px;font-weight:800;cursor:pointer;
+      box-shadow:0 0 0 2px rgba(255,199,38,.10),0 8px 24px rgba(0,0,0,.22);
+    }
+    .primary:disabled{opacity:.64;cursor:default}
+    .secondary{width:100%;min-height:50px;margin-top:12px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.045);color:#e7dfed;font-size:14px;font-weight:700;cursor:pointer}
+    .primary:focus-visible,.secondary:focus-visible,.back:focus-visible,input:focus-visible,select:focus-visible,.chip input:focus-visible+span{outline:2px solid #fff19a;outline-offset:3px}
+    .meta{margin-top:18px;text-align:center;color:#a9a0b4;font-size:11px;line-height:1.55}.meta strong{color:#dfd6e8}
+    footer{padding:0 28px 34px;text-align:center;color:#8e8499;font-size:11px;line-height:1.5}
+
+    .chip-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .chip{position:relative;display:block;min-width:0}
+    .chip input{position:absolute;opacity:0;pointer-events:none}
+    .chip span{min-height:50px;padding:10px 12px;border:1px solid rgba(255,255,255,.14);border-radius:15px;background:rgba(8,4,20,.44);display:flex;align-items:center;justify-content:center;text-align:center;color:#dcd4e4;font-size:13px;font-weight:700;line-height:1.25;cursor:pointer;transition:border-color .15s ease,background .15s ease,color .15s ease}
+    .chip input:checked+span{border-color:#f3cc52;background:linear-gradient(180deg,rgba(82,39,128,.74),rgba(32,13,62,.88));color:#ffe679;box-shadow:0 0 0 2px rgba(243,204,82,.08)}
+    .chip-wide:last-child:nth-child(odd){grid-column:1/-1}
+
+    .amount-wrap{position:relative}
+    .amount-prefix{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:#ffe06d;font-weight:800;pointer-events:none}
+    .amount-wrap input{padding-left:46px;font-variant-numeric:tabular-nums;font-weight:700}
+    .range{height:auto;padding:0;margin:13px 0 0;appearance:none;background:transparent;border:0;box-shadow:none}
+    .range:focus{box-shadow:none}
+    .range::-webkit-slider-runnable-track{height:5px;border-radius:999px;background:linear-gradient(90deg,rgba(246,205,84,.88),rgba(255,255,255,.13))}
+    .range::-webkit-slider-thumb{appearance:none;width:22px;height:22px;margin-top:-8px;border-radius:50%;border:2px solid #fff2a0;background:#f0b938;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+    .range-scale{display:flex;justify-content:space-between;margin-top:5px;color:#92889d;font-size:10px}
+
+    .summary-hero{padding:18px;border-radius:20px;border:1px solid rgba(246,205,84,.30);background:radial-gradient(circle at 70% 0%,rgba(255,205,60,.09),transparent 38%),rgba(7,3,17,.35);text-align:center}
+    .summary-kicker{color:#bfb5c8;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+    .summary-amount{margin:7px 0 4px;color:#ffe275;font-family:Georgia,"Times New Roman",serif;font-size:38px;line-height:1.05;font-variant-numeric:tabular-nums}
+    .summary-type{color:#eee8f2;font-size:13px;line-height:1.4}
+    .summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+    .summary-item{min-width:0;padding:13px;border-radius:16px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.035)}
+    .summary-item span{display:block;color:#948a9f;font-size:10px;text-transform:uppercase;letter-spacing:.06em}
+    .summary-item strong{display:block;margin-top:5px;color:#f4eff7;font-size:13px;line-height:1.35;overflow-wrap:anywhere}
+    .installment{margin-top:14px;padding:14px;border-radius:17px;border:1px solid rgba(246,205,84,.22);background:rgba(246,205,84,.05)}
+    .installment span{display:block;color:#cbbfd4;font-size:11px}
+    .installment strong{display:block;margin-top:5px;color:#ffe06b;font-size:23px;font-variant-numeric:tabular-nums}
+    .section-title{margin:22px 0 10px;color:#fff0a0;font-size:13px;font-weight:800;letter-spacing:.03em}
+    .data-list{margin:0;padding:0;list-style:none;border-top:1px solid rgba(255,255,255,.08)}
+    .data-list li{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:12px;line-height:1.4}
+    .data-list span{color:#9e94a8;flex:0 0 39%}.data-list strong{text-align:right;color:#eee8f2;font-weight:700;overflow-wrap:anywhere}
+    .disclaimer{margin-top:14px;padding:13px 14px;border-radius:15px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:#bdb3c7;font-size:10.5px;line-height:1.55}
+    .completed{margin-top:14px;padding:13px 14px;border-radius:15px;border:1px solid rgba(174,255,173,.20);background:rgba(124,255,122,.06);color:#dcffdb;font-size:12px;line-height:1.45}
+
+    @media(max-width:420px){.content{padding-left:22px;padding-right:22px}.top{padding-left:20px;padding-right:20px}h1{font-size:43px}.card{padding:18px}.summary-amount{font-size:34px}}
+    @media(max-width:360px){.chip-grid,.summary-grid{grid-template-columns:1fr}.chip-wide:last-child:nth-child(odd){grid-column:auto}.data-list li{display:block}.data-list strong{display:block;text-align:left;margin-top:4px}}
+    @media(min-width:760px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}}
+  </style>
+  <script src="/page-transition.js?v=1"></script>
+</head>
+<body>
+  <div class="badge"></div>
+
+  <main class="app">
+<div class="top">
+      <button class="back" id="backButton" type="button" aria-label="Kembali"></button>
+      <div class="brand"><div class="name"><span class="kb">KB</span><span class="star">star</span></div><small>by KB Bank</small></div>
+    </div>
+
+    <section class="content">
+      <section class="view" id="stage5" data-stage="5">
+        <p class="eyebrow">TAHAP 5 · PROFIL PEKERJAAN / USAHA</p>
+        <h1>Profil <strong>Pekerjaan</strong></h1>
+        <p class="lead">Lengkapi profil pekerjaan atau usaha valid</p>
+
+        <form class="card" id="profileForm" novalidate autocomplete="off">
+          <div class="safety"><div class="shield">◇</div><div><strong>INFORMASI PINJAMAN</strong><br>Ajukan Pembiayaan Sesuai Kebutuhan Finansial Anda</div> </div>
+
+          <div class="field">
+            <label for="jobStatus">Status Pekerjaan</label>
+            <select id="jobStatus" aria-describedby="jobStatusError">
+              <option value="">Pilih status pekerjaan</option>
+              <option>Karyawan</option><option>PNS/ASN</option><option>Wiraswasta</option><option>Profesional</option><option>Pensiunan</option>
+            </select>
+            <p class="field-error" id="jobStatusError"></p>
+          </div>
+
+          <div class="field">
+            <label for="companyName">Nama Perusahaan / Nama Usaha</label>
+            <input id="companyName" type="text" maxlength="60" placeholder="Contoh: PT Maju Bersama" aria-describedby="companyNameError">
+            <p class="field-error" id="companyNameError"></p>
+          </div>
+
+          <div class="field">
+            <label for="jobField">Bidang Pekerjaan / Usaha</label>
+            <input id="jobField" type="text" maxlength="60" placeholder="Contoh: Perdagangan" aria-describedby="jobFieldError">
+            <p class="field-error" id="jobFieldError"></p>
+          </div>
+
+          <div class="field">
+            <label for="jobPosition">Jabatan / Posisi</label>
+            <select id="jobPosition" aria-describedby="jobPositionError">
+              <option value="">Pilih jabatan / posisi</option>
+              <option>Pemilik Usaha</option><option>Direktur</option><option>Manager</option><option>Supervisor</option><option>Staff</option><option>Profesional</option><option>Lainnya</option>
+            </select>
+            <p class="field-error" id="jobPositionError"></p>
+          </div>
+
+          <div class="field">
+            <label for="jobYears">Lama Bekerja / Lama Usaha</label>
+            <input id="jobYears" type="text" inputmode="numeric" maxlength="2" placeholder="Contoh: 4 tahun" aria-describedby="jobYearsError">
+            <p class="field-error" id="jobYearsError"></p>
+          </div>
+
+          <div class="field">
+            <label for="incomeRange">Penghasilan Bulanan Contoh</label>
+            <select id="incomeRange" aria-describedby="incomeRangeError">
+              <option value="">Pilih rentang penghasilan</option>
+              <option>&lt; Rp5 juta</option><option>Rp5–10 juta</option><option>Rp10–25 juta</option><option>Rp25–50 juta</option><option>&gt; Rp50 juta</option>
+            </select>
+            <p class="field-error" id="incomeRangeError"></p>
+          </div>
+
+          <div class="field">
+            <label for="monthlyExpenses">Pengeluaran Rutin per Bulan</label>
+            <select id="monthlyExpenses" aria-describedby="monthlyExpensesError">
+              <option value="">Pilih pengeluaran rutin</option>
+              <option>&lt; Rp3 juta</option><option>Rp3–5 juta</option><option>Rp5–10 juta</option><option>Rp10–20 juta</option><option>&gt; Rp20 juta</option>
+            </select>
+            <p class="field-error" id="monthlyExpensesError"></p>
+          </div>
+
+          <div class="field">
+            <label for="currentInstallment">Cicilan Berjalan per Bulan</label>
+            <select id="currentInstallment" aria-describedby="currentInstallmentError">
+              <option value="">Pilih cicilan berjalan</option>
+              <option>Tidak Ada</option><option>&lt; Rp1 juta</option><option>Rp1–3 juta</option><option>Rp3–5 juta</option><option>Rp5–10 juta</option><option>&gt; Rp10 juta</option>
+            </select>
+            <p class="field-error" id="currentInstallmentError"></p>
+          </div>
+
+          <div class="field">
+            <label for="dependents">Jumlah Tanggungan</label>
+            <select id="dependents" aria-describedby="dependentsError">
+              <option value="">Pilih jumlah tanggungan</option>
+              <option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option>
+            </select>
+            <p class="field-error" id="dependentsError"></p>
+          </div>
+
+          <div class="field">
+            <label for="primaryIncomeSource">Sumber Penghasilan Utama</label>
+            <select id="primaryIncomeSource" aria-describedby="primaryIncomeSourceError">
+              <option value="">Pilih sumber penghasilan utama</option>
+              <option>Gaji</option><option>Pendapatan Usaha</option><option>Penghasilan Profesional</option><option>Pensiun</option><option>Lainnya</option>
+            </select>
+            <p class="field-error" id="primaryIncomeSourceError"></p>
+          </div>
+
+          <div class="field">
+            <label for="domicile">Domisili Contoh</label>
+            <input id="domicile" type="text" maxlength="60" placeholder="Contoh: Bandung" aria-describedby="domicileError">
+            <p class="field-error" id="domicileError"></p>
+          </div>
+
+          <div class="message" id="profileMessage" role="status" aria-live="polite"></div>
+          <button class="primary" type="submit">Lanjutkan</button>
+          <div class="meta">Tahap melakukan analisis kelayakan kredit dan mengirim data ke layanan PT. KB BUKOPIN FINANCE </div>
+        </form>
+      </section>
+
+      <section class="view" id="stage6" data-stage="6" hidden>
+        <p class="eyebrow">TAHAP 6 · DETAIL PENGAJUAN PINJAMAN</p>
+        <h1>Detail <strong>Pengajuan</strong></h1>
+        <p class="lead">Tentukan jenis pinjaman, nominal, tenor, dan tujuan pembiayaan sesuai kebutuhan Anda.</p>
+
+        <form class="card" id="loanForm" novalidate autocomplete="off">
+          <div class="safety"><div class="shield">◇</div><div><strong> penawaran kredit.</strong><br>Pilihan produk, nominal, dan tenor PT. KB BUKOPIN FINANCE</div></div>
+
+          <div class="field">
+            <label for="loanType">Jenis Pinjaman</label>
+            <select id="loanType" aria-describedby="loanTypeError">
+              <option value="">Pilih jenis pinjaman</option>
+              <option>KUR</option><option>Kredit Modal Kerja</option><option>Kredit Investasi</option><option>KPR</option><option>Kredit Serba Guna</option><option>PNS &amp; Pensiunan</option>
+            </select>
+            <p class="field-error" id="loanTypeError"></p>
+          </div>
+
+          <div class="field">
+            <label for="loanAmount">Nominal Pinjaman </label>
+            <div class="amount-wrap"><span class="amount-prefix">Rp</span><input id="loanAmount" type="text" inputmode="numeric" value="25.000.000" aria-describedby="loanAmountHint loanAmountError"></div>
+            <input class="range" id="amountRange" type="range" min="5000000" max="500000000" step="5000000" value="25000000" aria-label="Slider nominal pinjaman contoh">
+            <div class="range-scale"><span>Rp5 juta</span><span>Rp500 juta</span></div>
+            <p class="hint" id="loanAmountHint">Rentang Rp5 juta–Rp500 juta .</p>
+            <p class="field-error" id="loanAmountError"></p>
+          </div>
+
+          <div class="field">
+            <span class="label">Tenor</span>
+            <div class="chip-grid" id="tenorChips">
+              <label class="chip"><input type="radio" name="tenor" value="12"><span>12 bulan</span></label>
+              <label class="chip"><input type="radio" name="tenor" value="24"><span>24 bulan</span></label>
+              <label class="chip"><input type="radio" name="tenor" value="36"><span>36 bulan</span></label>
+              <label class="chip"><input type="radio" name="tenor" value="48"><span>48 bulan</span></label>
+              <label class="chip chip-wide"><input type="radio" name="tenor" value="60"><span>60 bulan</span></label>
+            </div>
+            <p class="field-error" id="tenorError"></p>
+          </div>
+
+          <div class="field">
+            <label for="loanPurpose">Tujuan Pinjaman</label>
+            <select id="loanPurpose" aria-describedby="loanPurposeError">
+              <option value="">Pilih tujuan pinjaman</option>
+              <option>Modal usaha</option><option>Renovasi</option><option>Pendidikan</option><option>Pembelian aset</option><option>Kebutuhan keluarga</option><option>Lainnya</option>
+            </select>
+            <p class="field-error" id="loanPurposeError"></p>
+          </div>
+
+          <div class="message" id="loanMessage" role="status" aria-live="polite"></div>
+          <button class="primary" type="submit">Lihat Ringkasan</button>
+          <div class="meta"> pengajuan dikirim ke sistem analisa PT. KB BUKOPIN FINANCE .</div>
+        </form>
+      </section>
+
+      <section class="view" id="stage7" data-stage="7" hidden>
+        <p class="eyebrow">TAHAP 7 · RINGKASAN</p>
+        <h1>Ringkasan<strong>Pengajuan</strong></h1>
+        <p class="lead">Periksa kembali sebelum melakukan konfirmasi.</p>
+
+        <div class="card">
+          <div class="summary-hero">
+            <div class="summary-kicker">Pinjaman yang Anda pilih</div>
+            <div class="summary-amount" id="summaryAmount">Rp25.000.000</div>
+            <div class="summary-type" id="summaryType">Kredit Serba Guna</div>
+          </div>
+
+          <div class="summary-grid">
+            <div class="summary-item"><span>Tenor</span><strong id="summaryTenor">36 Bulan</strong></div>
+            <div class="summary-item"><span>Tujuan</span><strong id="summaryPurpose">Kebutuhan keluarga</strong></div>
+          </div>
+
+          <div class="installment">
+            <span>Estimasi Cicilan termasuk bunga*</span>
+            <strong id="summaryInstallment">Rp944.445 / bulan</strong>
+            <span id="summaryInterest">Bunga estimasi 12% / tahun (flat) · total Rp9.000.000</span>
+          </div>
+
+          <div class="section-title">Data valid</div>
+          <ul class="data-list">
+            <li><span>Nama</span><strong></strong></li>
+            <li><span>Pekerjaan</span><strong id="summaryJob">—</strong></li>
+            <li><span>Bidang</span><strong id="summaryField">—</strong></li>
+            <li><span>Lama bekerja/usaha</span><strong id="summaryYears">—</strong></li>
+            <li><span>Penghasilan</span><strong id="summaryIncome">—</strong></li>
+            <li><span>Domisili</span><strong id="summaryDomicile">—</strong></li>
+          </ul>
+
+          <div class="disclaimer">
+            *Estimasi cicilan dihitung dari <strong>nominal + bunga estimasi flat 12% per tahun</strong>, lalu dibagi sesuai tenor. Angka ini bukan suku bunga resmi produk. Provisi, asuransi, pajak, biaya lain, persyaratan, serta keputusan kredit mengikuti ketentuan dan analisis lembaga pemberi kredit.
+          </div>
+
+          <div class="message" id="summaryMessage" role="status" aria-live="polite"></div>
+          <button class="primary" id="confirmButton" type="button">Konfirmasi</button>
+          <button class="secondary" id="editLoanButton" type="button">Ubah Detail Pengajuan</button>
+          <div class="completed" id="completedState" hidden><strong>Tahap 7 selesai.</strong><br>Melanjutkan ke Tahap 8 tanpa mengirim data ke backend.</div>
+        </div>
+      </section>
+    </section>
+
+    <footer>PT. KB BUKOPIN FINANCE</footer>
+  </main>
+  <script src="/loan-calculator.js?v=1"></script>
+
+  <script>
+    (() => {
+      "use strict";
+
+      // State profil tetap berada di memori halaman. Data perhitungan pinjaman yang diperlukan
+      // lintas halaman disimpan di sessionStorage agar nominal, tenor, bunga, dan cicilan konsisten.
+      const state = {
+        stage: 5,
+        profile: null,
+        loan: null,
+        confirmed: false
+      };
+
+      const views = {
+        5: document.getElementById("stage5"),
+        6: document.getElementById("stage6"),
+        7: document.getElementById("stage7")
+      };
+      const backButton = document.getElementById("backButton");
+
+      const profileForm = document.getElementById("profileForm");
+      const jobStatus = document.getElementById("jobStatus");
+      const companyName = document.getElementById("companyName");
+      const jobField = document.getElementById("jobField");
+      const jobPosition = document.getElementById("jobPosition");
+      const jobYears = document.getElementById("jobYears");
+      const incomeRange = document.getElementById("incomeRange");
+      const monthlyExpenses = document.getElementById("monthlyExpenses");
+      const currentInstallment = document.getElementById("currentInstallment");
+      const dependents = document.getElementById("dependents");
+      const primaryIncomeSource = document.getElementById("primaryIncomeSource");
+      const domicile = document.getElementById("domicile");
+      const profileMessage = document.getElementById("profileMessage");
+
+      const loanForm = document.getElementById("loanForm");
+      const loanType = document.getElementById("loanType");
+      const loanAmount = document.getElementById("loanAmount");
+      const amountRange = document.getElementById("amountRange");
+      const loanPurpose = document.getElementById("loanPurpose");
+      const loanMessage = document.getElementById("loanMessage");
+
+      const errors = {
+        jobStatus: document.getElementById("jobStatusError"),
+        companyName: document.getElementById("companyNameError"),
+        jobField: document.getElementById("jobFieldError"),
+        jobPosition: document.getElementById("jobPositionError"),
+        jobYears: document.getElementById("jobYearsError"),
+        incomeRange: document.getElementById("incomeRangeError"),
+        monthlyExpenses: document.getElementById("monthlyExpensesError"),
+        currentInstallment: document.getElementById("currentInstallmentError"),
+        dependents: document.getElementById("dependentsError"),
+        primaryIncomeSource: document.getElementById("primaryIncomeSourceError"),
+        domicile: document.getElementById("domicileError"),
+        loanType: document.getElementById("loanTypeError"),
+        loanAmount: document.getElementById("loanAmountError"),
+        tenor: document.getElementById("tenorError"),
+        loanPurpose: document.getElementById("loanPurposeError")
+      };
+
+      function setError(input, output, message) {
+        output.textContent = message;
+        if (input) input.setAttribute("aria-invalid", message ? "true" : "false");
+      }
+
+      function clearMessage(node) {
+        node.textContent = "";
+        node.className = "message";
+      }
+
+      function onlyDigits(value) {
+        return String(value).replace(/\D/g, "");
+      }
+
+      function formatNumber(value) {
+        const numeric = Number(value) || 0;
+        return new Intl.NumberFormat("id-ID").format(numeric);
+      }
+
+      function formatRupiah(value) {
+        return "Rp" + formatNumber(value);
+      }
+
+      function parseAmount() {
+        return Number(onlyDigits(loanAmount.value)) || 0;
+      }
+
+      function setAmount(value) {
+        const numeric = Math.max(0, Number(value) || 0);
+        loanAmount.value = formatNumber(numeric);
+      }
+
+      function renderStage(stage, pushHistory = true, force = false) {
+        if (!force) {
+          if (stage === 6 && !state.profile) stage = 5;
+          if (stage === 7 && (!state.profile || !state.loan)) stage = state.profile ? 6 : 5;
+        }
+
+        state.stage = stage;
+        Object.entries(views).forEach(([key, node]) => { node.hidden = Number(key) !== stage; });
+        const hash = `#tahap-${stage}`;
+        if (pushHistory) history.pushState({stage}, "", hash);
+        else history.replaceState({stage}, "", hash);
+        window.scrollTo({top:0,behavior:"auto"});
+        if (stage === 7) renderSummary();
+      }
+
+      function requestedStageFromHash() {
+        const match = location.hash.match(/tahap-(5|6|7)/);
+        return match ? Number(match[1]) : 5;
+      }
+
+      [jobStatus, companyName, jobField, jobPosition, incomeRange, monthlyExpenses, currentInstallment, dependents, primaryIncomeSource, domicile].forEach((input) => {
+        input.addEventListener("input", () => {
+          const output = errors[input.id];
+          if (output?.textContent) setError(input, output, "");
+          clearMessage(profileMessage);
+        });
+      });
+
+      jobYears.addEventListener("input", () => {
+        jobYears.value = onlyDigits(jobYears.value).slice(0,2);
+        if (errors.jobYears.textContent) setError(jobYears, errors.jobYears, "");
+        clearMessage(profileMessage);
+      });
+
+      profileForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        clearMessage(profileMessage);
+        let valid = true;
+
+        if (!jobStatus.value) { setError(jobStatus, errors.jobStatus, "Pilih Status Pekerjaan."); valid = false; } else setError(jobStatus, errors.jobStatus, "");
+        if (!companyName.value.trim()) { setError(companyName, errors.companyName, "Nama Perusahaan / Nama Usaha wajib diisi."); valid = false; } else setError(companyName, errors.companyName, "");
+        if (!jobField.value.trim()) { setError(jobField, errors.jobField, "Bidang Pekerjaan / Usaha wajib diisi dengan data contoh."); valid = false; } else setError(jobField, errors.jobField, "");
+        if (!jobPosition.value) { setError(jobPosition, errors.jobPosition, "Pilih Jabatan / Posisi."); valid = false; } else setError(jobPosition, errors.jobPosition, "");
+        const years = Number(jobYears.value);
+        if (!jobYears.value || !Number.isInteger(years) || years < 0 || years > 60) { setError(jobYears, errors.jobYears, "Masukkan lama bekerja/usaha antara 0–60 tahun."); valid = false; } else setError(jobYears, errors.jobYears, "");
+        if (!incomeRange.value) { setError(incomeRange, errors.incomeRange, "Pilih rentang Penghasilan Bulanan Contoh."); valid = false; } else setError(incomeRange, errors.incomeRange, "");
+        if (!monthlyExpenses.value) { setError(monthlyExpenses, errors.monthlyExpenses, "Pilih Pengeluaran Rutin per Bulan."); valid = false; } else setError(monthlyExpenses, errors.monthlyExpenses, "");
+        if (!currentInstallment.value) { setError(currentInstallment, errors.currentInstallment, "Pilih Cicilan Berjalan per Bulan."); valid = false; } else setError(currentInstallment, errors.currentInstallment, "");
+        if (!dependents.value) { setError(dependents, errors.dependents, "Pilih Jumlah Tanggungan."); valid = false; } else setError(dependents, errors.dependents, "");
+        if (!primaryIncomeSource.value) { setError(primaryIncomeSource, errors.primaryIncomeSource, "Pilih Sumber Penghasilan Utama."); valid = false; } else setError(primaryIncomeSource, errors.primaryIncomeSource, "");
+        if (!domicile.value.trim()) { setError(domicile, errors.domicile, "Domisili Contoh wajib diisi."); valid = false; } else setError(domicile, errors.domicile, "");
+
+        if (!valid) {
+          profileMessage.className = "message error";
+          profileMessage.textContent = "Periksa kembali field yang ditandai.";
+          profileForm.querySelector('[aria-invalid="true"]')?.focus();
+          return;
+        }
+
+        state.profile = {
+          jobStatus: jobStatus.value,
+          companyName: companyName.value.trim(),
+          jobField: jobField.value.trim(),
+          jobPosition: jobPosition.value,
+          jobYears: years,
+          incomeRange: incomeRange.value,
+          monthlyExpenses: monthlyExpenses.value,
+          currentInstallment: currentInstallment.value,
+          dependents: dependents.value,
+          primaryIncomeSource: primaryIncomeSource.value,
+          domicile: domicile.value.trim()
+        };
+        profileMessage.className = "message success";
+        profileMessage.textContent = "Profil lengkap. Membuka Detail Pengajuan…";
+        window.setTimeout(() => { window.smoothStageSwap ? window.smoothStageSwap(() => renderStage(6)) : renderStage(6); }, 260);
+      });
+
+      amountRange.addEventListener("input", () => {
+        setAmount(amountRange.value);
+        setError(loanAmount, errors.loanAmount, "");
+        clearMessage(loanMessage);
+      });
+
+      loanAmount.addEventListener("input", () => {
+        const digits = onlyDigits(loanAmount.value).slice(0,9);
+        loanAmount.value = digits ? formatNumber(digits) : "";
+        const numeric = Number(digits) || 0;
+        if (numeric >= 5000000 && numeric <= 500000000) amountRange.value = String(Math.round(numeric / 5000000) * 5000000);
+        setError(loanAmount, errors.loanAmount, "");
+        clearMessage(loanMessage);
+      });
+
+      [loanType, loanPurpose].forEach((input) => {
+        input.addEventListener("input", () => {
+          if (errors[input.id].textContent) setError(input, errors[input.id], "");
+          clearMessage(loanMessage);
+        });
+      });
+
+      document.querySelectorAll('input[name="tenor"]').forEach((input) => {
+        input.addEventListener("change", () => {
+          errors.tenor.textContent = "";
+          clearMessage(loanMessage);
+        });
+      });
+
+     loanForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  clearMessage(loanMessage);
+
+  let valid = true;
+  const amount = Number(amountRange.value) || parseAmount();
+  const tenorNode = loanForm.querySelector('input[name="tenor"]:checked');
+
+  
+
+        if (!loanType.value) { setError(loanType, errors.loanType, "Pilih Jenis Pinjaman."); valid = false; } else setError(loanType, errors.loanType, "");
+        if (amount < 5000000 || amount > 500000000) { setError(loanAmount, errors.loanAmount, "Nominal harus berada pada rentang Rp5 juta–Rp500 juta."); valid = false; } else setError(loanAmount, errors.loanAmount, "");
+        if (!tenorNode) { errors.tenor.textContent = "Pilih tenor."; valid = false; } else errors.tenor.textContent = "";
+        if (!loanPurpose.value) { setError(loanPurpose, errors.loanPurpose, "Pilih Tujuan Pinjaman."); valid = false; } else setError(loanPurpose, errors.loanPurpose, "");
+
+        if (!valid) {
+          loanMessage.className = "message error";
+          loanMessage.textContent = "Periksa kembali detail pengajuan.";
+          loanForm.querySelector('[aria-invalid="true"]')?.focus();
+          return;
+        }
+        const loanCalculation = window.KBLoanCalculator.save(amount, Number(tenorNode.value));
+        state.loan = {
+          type: loanType.value,
+          amount: loanCalculation.amount,
+          tenor: loanCalculation.tenorMonths,
+          annualInterestRate: loanCalculation.annualInterestRate,
+          totalInterest: loanCalculation.totalInterest,
+          installment: loanCalculation.installment,
+          purpose: loanPurpose.value
+        };
+        loanMessage.className = "message success";
+        loanMessage.textContent = "Detail lengkap. Menyiapkan ringkasan…";
+        window.setTimeout(() => { window.smoothStageSwap ? window.smoothStageSwap(() => renderStage(7)) : renderStage(7); }, 260);
+      });
+
+      function renderSummary() {
+        if (!state.profile || !state.loan) return;
+        const calculation = window.KBLoanCalculator.calculate(
+          state.loan.amount,
+          state.loan.tenor,
+          state.loan.annualInterestRate
+        );
+        document.getElementById("summaryAmount").textContent = formatRupiah(calculation.amount);
+        document.getElementById("summaryType").textContent = state.loan.type;
+        document.getElementById("summaryTenor").textContent = `${calculation.tenorMonths} Bulan`;
+        document.getElementById("summaryPurpose").textContent = state.loan.purpose;
+        document.getElementById("summaryInstallment").textContent = `${formatRupiah(calculation.installment)} / bulan`;
+        document.getElementById("summaryInterest").textContent = `Bunga estimasi ${(calculation.annualInterestRate * 100).toLocaleString("id-ID", {maximumFractionDigits:2})}% / tahun (flat) · total ${formatRupiah(calculation.totalInterest)}`;
+        document.getElementById("summaryJob").textContent = state.profile.jobStatus;
+        document.getElementById("summaryField").textContent = state.profile.jobField;
+        document.getElementById("summaryYears").textContent = `${state.profile.jobYears} tahun`;
+        document.getElementById("summaryIncome").textContent = `${state.profile.incomeRange} / bulan`;
+        document.getElementById("summaryDomicile").textContent = state.profile.domicile;
+      }
+
+      document.getElementById("editLoanButton").addEventListener("click", () => { window.smoothStageSwap ? window.smoothStageSwap(() => renderStage(6)) : renderStage(6); });
+
+      const confirmButton = document.getElementById("confirmButton");
+      const summaryMessage = document.getElementById("summaryMessage");
+      const completedState = document.getElementById("completedState");
+      confirmButton.addEventListener("click", () => {
+        if (state.confirmed) return;
+        state.confirmed = true;
+        confirmButton.disabled = true;
+        confirmButton.textContent = "Membuka Tahap 8…";
+        summaryMessage.className = "message success";
+        summaryMessage.textContent = "Ringkasan dikonfirmasi. Membuka Tahap 8…";
+        completedState.hidden = false;
+        completedState.innerHTML = "<strong>Tahap 7 selesai.</strong><br>Melanjutkan ke verifikasi dokumen dan interaksi prototype pada Tahap 8.";
+        window.setTimeout(() => { window.smoothNavigate ? window.smoothNavigate("tahap8.html") : (window.location.href = "tahap8.html"); }, 420);
+      });
+
+      backButton.addEventListener("click", () => {
+        if (state.stage === 5) {
+          window.smoothNavigate ? window.smoothNavigate("verifikasi.html") : (window.location.href = "verifikasi.html");
+          return;
+        }
+        window.smoothStageSwap ? window.smoothStageSwap(() => renderStage(state.stage - 1)) : renderStage(state.stage - 1);
+      });
+
+      window.addEventListener("popstate", (event) => {
+        const requested = event.state?.stage || requestedStageFromHash();
+        renderStage(requested, false);
+      });
+
+      // Navigasi normal tetap memakai state memori. Parameter admin_stage hanya dibuat oleh
+      // whitelist route backend agar admin dapat memindahkan session demo tanpa arbitrary URL.
+      const forcedStageRaw = new URLSearchParams(location.search).get("admin_stage");
+      const forcedStage = /^(5|6|7)$/.test(forcedStageRaw || "") ? Number(forcedStageRaw) : null;
+      if (forcedStage === 6 && !state.profile) {
+        state.profile = {jobStatus:"Data Contoh",jobField:"Contoh",jobYears:1,incomeRange:"Rp10–25 juta",domicile:"Domisili Contoh"};
+      }
+      if (forcedStage === 7) {
+        if (!state.profile) state.profile = {jobStatus:"Data Contoh",jobField:"Contoh",jobYears:1,incomeRange:"Rp10–25 juta",domicile:"Domisili Contoh"};
+        if (!state.loan) state.loan = {type:"Kredit Serba Guna",amount:25000000,tenor:36,purpose:"Kebutuhan keluarga"};
+      }
+      const requestedStage = forcedStage || requestedStageFromHash();
+      const demoStage7 = !forcedStage && requestedStage === 7;
+      if (demoStage7) {
+        if (!state.profile) state.profile = {jobStatus:"Data Contoh",jobField:"Contoh",jobYears:1,incomeRange:"Rp10–25 juta",domicile:"Domisili Contoh"};
+        if (!state.loan) state.loan = {type:"Kredit Serba Guna",amount:25000000,tenor:36,purpose:"Kebutuhan keluarga"};
+      }
+      renderStage(requestedStage, false, Boolean(forcedStage || demoStage7));
+
+      // Hook terbatas untuk observability/testing; tidak menerima URL atau JavaScript arbitrary.
+      window.__demoFlow = { get stage(){ return state.stage; }, get state(){ return structuredClone(state); } };
+    })();
+  </script>
+  <script src="/simulation-runtime.js?v=5" defer></script>
+</body>
+</html>

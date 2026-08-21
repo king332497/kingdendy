@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#120625">
+  <title>Admin Panel — Prototype</title>
+  <style>
+    :root{--bg:#0b0418;--panel:#180b31;--panel2:#211040;--gold:#f4ce5b;--text:#f8f5fb;--muted:#aaa0b6;--ok:#b8ffb5;--err:#ffb9b4;--line:rgba(255,255,255,.10)}
+    *{box-sizing:border-box}html{color-scheme:dark}body{margin:0;min-height:100svh;background:radial-gradient(circle at 20% -10%,#35145d 0,transparent 34%),linear-gradient(180deg,#100522,#080311);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}.shell{width:min(1180px,calc(100% - 28px));margin:auto;padding:24px 0 48px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}.brand{font-size:23px;font-weight:900}.brand span{color:var(--gold)}.sub{color:var(--muted);font-size:12px;margin-top:4px}.badge{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(244,206,91,.30);background:rgba(244,206,91,.07);color:#ffe983;padding:7px 10px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:.06em}.grid{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:18px}.card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(39,18,73,.88),rgba(17,7,36,.92));border-radius:22px;box-shadow:0 20px 50px rgba(0,0,0,.25);overflow:hidden}.card-head{padding:18px 18px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}.card h2{font-size:16px;margin:0}.card p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.4}.content{padding:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}.stat{padding:14px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.035)}.stat span{display:block;color:var(--muted);font-size:10px}.stat strong{display:block;margin-top:6px;font-size:22px}.table-wrap{overflow:auto}.users{width:100%;border-collapse:collapse;min-width:760px}.users th,.users td{text-align:left;padding:12px 10px;border-bottom:1px solid rgba(255,255,255,.075);font-size:12px}.users th{color:#cfc5d8;font-size:10px;text-transform:uppercase;letter-spacing:.05em}.status{display:inline-flex;align-items:center;gap:7px}.dot{width:8px;height:8px;border-radius:50%;background:#74707b}.online .dot{background:#80ef7d;box-shadow:0 0 0 4px rgba(128,239,125,.09)}.btn{min-height:40px;border-radius:12px;border:1px solid rgba(244,206,91,.40);background:rgba(244,206,91,.07);color:#ffe67b;padding:0 12px;font-weight:800;font-size:11px}.btn:disabled{opacity:.38;cursor:not-allowed}.btn.secondary{border-color:var(--line);background:rgba(255,255,255,.04);color:#ded6e6}.btn.danger{border-color:rgba(255,120,120,.25);color:#ffc0bc}.actions{display:flex;gap:7px}.empty{padding:26px;text-align:center;color:var(--muted);font-size:12px}.audit{display:grid;gap:10px;max-height:610px;overflow:auto}.audit-item{padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.028);font-size:11px}.audit-item strong{display:block;color:#fff}.audit-item small{display:block;margin-top:5px;color:var(--muted);line-height:1.45}.ok{color:var(--ok)}.fail{color:var(--err)}.login-wrap{min-height:calc(100svh - 80px);display:grid;place-items:center}.login{width:min(430px,100%);padding:24px}.field{margin-top:16px}label{display:block;margin-bottom:7px;font-size:11px;font-weight:800}input,select{width:100%;min-height:48px;border:1px solid rgba(255,255,255,.14);border-radius:13px;background:rgba(5,2,14,.52);color:#fff;padding:0 13px;outline:none}input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(244,206,91,.08)}.primary{width:100%;min-height:50px;margin-top:16px;border:1px solid var(--gold);border-radius:14px;background:linear-gradient(180deg,#4c2779,#281348);color:#ffe776;font-weight:900}.error{min-height:18px;color:var(--err);font-size:11px;margin-top:8px}.modal[hidden]{display:none}.modal{position:fixed;z-index:50;inset:0;padding:16px;background:rgba(3,1,8,.76);backdrop-filter:blur(7px);display:grid;place-items:center}.dialog{width:min(520px,100%);max-height:calc(100svh - 32px);overflow:auto;padding:20px;border:1px solid rgba(244,206,91,.35);border-radius:22px;background:linear-gradient(180deg,#29134c,#110724);box-shadow:0 26px 70px rgba(0,0,0,.42)}.dialog h3{margin:0;font-size:21px}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:15px 0}.detail{padding:11px;border-radius:13px;border:1px solid var(--line);background:rgba(255,255,255,.03)}.detail span{display:block;color:var(--muted);font-size:9px}.detail strong{display:block;margin-top:5px;font-size:12px}.dialog-actions{display:flex;gap:9px;margin-top:16px}.dialog-actions .btn{flex:1}.confirm-box{margin-top:15px;padding:13px;border-radius:14px;border:1px solid rgba(244,206,91,.22);background:rgba(244,206,91,.05);font-size:12px;line-height:1.5}.hidden{display:none!important}@media(max-width:860px){.grid{grid-template-columns:1fr}.audit{max-height:360px}}@media(max-width:650px){.table-wrap{overflow:visible}.users{min-width:0;display:block}.users thead{display:none}.users tbody{display:grid;gap:10px}.users tr{display:block;padding:12px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.025)}.users td{display:grid;grid-template-columns:108px minmax(0,1fr);gap:10px;align-items:center;padding:7px 0;border:0;font-size:11px}.users td::before{content:attr(data-label);color:var(--muted);font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}.users td:last-child{margin-top:4px}.actions{justify-content:flex-start;flex-wrap:wrap}}@media(max-width:520px){.shell{width:min(100% - 20px,1180px);padding-top:16px}.topbar{align-items:flex-start}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}.card-head{padding:15px}.content{padding:12px}.detail-grid{grid-template-columns:1fr}.dialog{padding:16px}.dialog-actions{flex-direction:column}.btn{min-height:44px}.users td{grid-template-columns:94px minmax(0,1fr)}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="topbar"><div><div class="brand">Prototype <span>Admin</span></div><div class="sub">Monitoring session anonim & navigasi route internal</div></div><span class="badge">ADMIN · PROTOTYPE UI</span></div>
+
+    <section id="loginView" class="login-wrap">
+      <form id="loginForm" class="card login" autocomplete="off">
+        <h2>Login Admin</h2><p>Gunakan kredensial admin server. Tidak ada password default di source.</p>
+        <div class="field"><label for="password">Password Admin</label><input id="password" type="password" autocomplete="current-password" required></div>
+        <div id="loginError" class="error" role="alert"></div>
+        <button class="primary" type="submit">Masuk Admin Panel</button>
+      </form>
+    </section>
+
+    <section id="panelView" class="hidden">
+      <div class="grid">
+        <div>
+          <section class="card">
+            <div class="card-head"><div><h2>Live Users</h2><p>Hanya metadata session anonim. Tidak menampilkan password, PIN, OTP, NIK, atau data form.</p></div><button id="logoutButton" class="btn secondary" type="button">Logout</button></div>
+            <div class="content">
+              <div class="stats"><div class="stat"><span>Total Session</span><strong id="totalSessions">0</strong></div><div class="stat"><span>Online</span><strong id="onlineSessions">0</strong></div><div class="stat"><span>Pending Command</span><strong id="pendingCommands">0</strong></div></div>
+              <div class="table-wrap"><table class="users"><thead><tr><th>User</th><th>Status</th><th>Current Page</th><th>Progress</th><th>Last Seen</th><th>Action</th></tr></thead><tbody id="usersBody"></tbody></table><div id="emptyUsers" class="empty">Belum ada session aktif.</div></div>
+            </div>
+          </section>
+        </div>
+        <aside class="card"><div class="card-head"><div><h2>Audit Log</h2><p>Riwayat perpindahan route internal.</p></div></div><div class="content"><div id="auditList" class="audit"><div class="empty">Belum ada action.</div></div></div></aside>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="moveModal" hidden>
+    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="moveTitle">
+      <h3 id="moveTitle">Pindahkan User</h3><p id="moveSubtitle"></p>
+      <div class="detail-grid"><div class="detail"><span>Session ID</span><strong id="detailSession">—</strong></div><div class="detail"><span>Status</span><strong id="detailStatus">—</strong></div><div class="detail"><span>Halaman Saat Ini</span><strong id="detailPage">—</strong></div><div class="detail"><span>Progress</span><strong id="detailProgress">—</strong></div></div>
+      <div class="field"><label for="routeSelect">Pilih Halaman Tujuan</label><select id="routeSelect"></select></div>
+      <div id="confirmBox" class="confirm-box hidden"></div>
+      <div id="moveError" class="error" role="alert"></div>
+      <div class="dialog-actions"><button id="cancelMove" class="btn secondary" type="button">Batal</button><button id="prepareMove" class="btn" type="button">Pindahkan User</button><button id="confirmMove" class="btn hidden" type="button">Ya, Pindahkan</button></div>
+    </section>
+  </div>
+
+<script>
+(() => {
+  "use strict";
+  const ROUTES = Object.freeze({
+    HOME:"Halaman Depan",LOGIN:"Login",IDENTITAS:"Tahap 3 — Identitas",VERIFIKASI:"Tahap 4 — Verifikasi",PROFIL:"Tahap 5 — Profil Pengajuan",DETAIL_PINJAMAN:"Tahap 6 — Detail Pinjaman",RINGKASAN:"Tahap 7 — Ringkasan",TAHAP_8:"Tahap 8",PIN_DEMO:"Konfirmasi PIN",TAHAP_9:"Tahap 9 — Analisis",DASHBOARD:"Dashboard",HASIL_PENGAJUAN:"Hasil Simulasi Pengajuan"
+  });
+  let csrf = null, sessions = [], audits = [], selectedSession = null, adminPollTimer = null, adminPollInFlight = false;
+  const $ = id => document.getElementById(id);
+  const loginView=$("loginView"), panelView=$("panelView"), usersBody=$("usersBody"), emptyUsers=$("emptyUsers"), auditList=$("auditList"), modal=$("moveModal"), routeSelect=$("routeSelect"), confirmBox=$("confirmBox"), prepareMove=$("prepareMove"), confirmMove=$("confirmMove"), moveError=$("moveError");
+
+  Object.entries(ROUTES).forEach(([code,label])=>{ const o=document.createElement("option");o.value=code;o.textContent=label;routeSelect.appendChild(o); });
+
+  function relativeTime(iso){ const s=Math.max(0,Math.floor((Date.now()-new Date(iso).getTime())/1000)); if(s<4)return"Baru saja";if(s<60)return`${s} detik lalu`;const m=Math.floor(s/60);if(m<60)return`${m} menit lalu`;return`${Math.floor(m/60)} jam lalu`; }
+  function setAuthenticated(ok){ loginView.classList.toggle("hidden",ok);panelView.classList.toggle("hidden",!ok); }
+  function api(url, options={}){ return fetch(url,{credentials:"same-origin",cache:"no-store",...options}); }
+  async function jsonResponse(response){
+    const text=await response.text();
+    let data={};
+    if(text){
+      try{ data=JSON.parse(text); }
+      catch(_){ throw new Error(response.ok?"Respons server tidak valid.":`Endpoint API gagal (${response.status}).`); }
+    }
+    return data;
+  }
+
+  function renderSessions(){
+    usersBody.replaceChildren(); emptyUsers.classList.toggle("hidden",sessions.length>0);
+    let online=0,pending=0;
+    sessions.forEach(s=>{
+      if(s.online) online++; if(s.pendingCommand) pending++;
+      const tr=document.createElement("tr");
+      const cells=[`User #${s.sessionId}`,null,s.routeLabel||"—",s.progressLabel||"—",relativeTime(s.lastSeen)];
+      const labels=["User","Status","Current Page","Progress","Last Seen"];
+      cells.forEach((value,i)=>{
+        const td=document.createElement("td"); td.dataset.label=labels[i];
+        if(i===1){ const span=document.createElement("span");span.className=`status ${s.online?"online":""}`;const dot=document.createElement("span");dot.className="dot";span.append(dot,document.createTextNode(s.online?"Online":"Offline"));td.appendChild(span); }
+        else td.textContent=value;
+        tr.appendChild(td);
+      });
+      const action=document.createElement("td");action.dataset.label="Action";const wrap=document.createElement("div");wrap.className="actions";
+      const detail=document.createElement("button");detail.className="btn secondary";detail.type="button";detail.textContent="Detail";detail.addEventListener("click",()=>openMove(s,true));
+      const move=document.createElement("button");move.className="btn";move.type="button";move.textContent="Pindahkan";move.disabled=!s.online;move.addEventListener("click",()=>openMove(s,false));
+      wrap.append(detail,move);action.appendChild(wrap);tr.appendChild(action);usersBody.appendChild(tr);
+    });
+    $("totalSessions").textContent=String(sessions.length);$("onlineSessions").textContent=String(online);$("pendingCommands").textContent=String(pending);
+  }
+
+  function renderAudits(){
+    auditList.replaceChildren();
+    if(!audits.length){ const e=document.createElement("div");e.className="empty";e.textContent="Belum ada action.";auditList.appendChild(e);return; }
+    audits.slice().reverse().slice(0,100).forEach(a=>{
+      const item=document.createElement("div");item.className="audit-item";
+      const title=document.createElement("strong");title.textContent=`${a.sessionId} · ${a.status}`;title.className=a.status==="SUCCESS"?"ok":"fail";
+      const meta=document.createElement("small");meta.textContent=`${new Date(a.timestamp).toLocaleTimeString("id-ID")} · ${a.fromLabel||a.fromRoute||"—"} → ${a.toLabel||a.toRoute||"—"} · Admin ${a.adminId}`;
+      item.append(title,meta);auditList.appendChild(item);
+    });
+  }
+
+  function updateSelected(){ if(!selectedSession)return;const fresh=sessions.find(s=>s.sessionId===selectedSession.sessionId);if(fresh)selectedSession=fresh;$("detailSession").textContent=selectedSession.sessionId;$("detailStatus").textContent=selectedSession.online?"Online":"Offline";$("detailPage").textContent=selectedSession.routeLabel||"—";$("detailProgress").textContent=selectedSession.progressLabel||"—";prepareMove.disabled=!selectedSession.online; }
+  function openMove(s,detailOnly){ selectedSession=s;updateSelected();$("moveSubtitle").textContent=detailOnly?"Detail session. Anda dapat memilih route tujuan di bawah.":"Pilih route internal yang diizinkan backend.";routeSelect.value=s.routeCode&&ROUTES[s.routeCode]?s.routeCode:"HOME";confirmBox.classList.add("hidden");confirmMove.classList.add("hidden");prepareMove.classList.remove("hidden");moveError.textContent="";modal.hidden=false; }
+  function closeMove(){ modal.hidden=true;selectedSession=null; }
+
+  prepareMove.addEventListener("click",()=>{ if(!selectedSession||!selectedSession.online)return;const target=routeSelect.value;confirmBox.textContent=`Pindahkan User #${selectedSession.sessionId} dari ${selectedSession.routeLabel||"halaman saat ini"} ke ${ROUTES[target]}?`;confirmBox.classList.remove("hidden");prepareMove.classList.add("hidden");confirmMove.classList.remove("hidden"); });
+  confirmMove.addEventListener("click",async()=>{ if(!selectedSession)return;moveError.textContent="";confirmMove.disabled=true;try{const r=await api("/api/admin/move",{method:"POST",headers:{"Content-Type":"application/json","X-CSRF-Token":csrf},body:JSON.stringify({sessionId:selectedSession.sessionId,routeCode:routeSelect.value})});const data=await jsonResponse(r);if(!r.ok)throw new Error(data.error||"Perintah gagal");closeMove();await refreshAdminData();}catch(e){moveError.textContent=e.message;}finally{confirmMove.disabled=false;} });
+  $("cancelMove").addEventListener("click",closeMove);modal.addEventListener("click",e=>{if(e.target===modal)closeMove();});
+
+  async function refreshAdminData(){
+    if(adminPollInFlight || panelView.classList.contains("hidden")) return;
+    adminPollInFlight=true;
+    try{
+      const [sr,ar]=await Promise.all([api("/api/admin/sessions"),api("/api/admin/audit?limit=100")]);
+      if(sr.status===401||ar.status===401){ stopAdminPolling();csrf=null;sessions=[];audits=[];setAuthenticated(false);return; }
+      const sd=await jsonResponse(sr), ad=await jsonResponse(ar);
+      if(!sr.ok) throw new Error(sd.error||"Gagal memuat session.");
+      if(!ar.ok) throw new Error(ad.error||"Gagal memuat audit.");
+      sessions=Array.isArray(sd.sessions)?sd.sessions:[];
+      audits=Array.isArray(ad.audits)?ad.audits:[];
+      renderSessions();renderAudits();updateSelected();
+    }catch(_){
+      // Pertahankan data terakhir; polling berikutnya akan mencoba lagi.
+    }finally{adminPollInFlight=false;}
+  }
+  function stopAdminPolling(){ if(adminPollTimer){clearInterval(adminPollTimer);adminPollTimer=null;} }
+  function startAdminPolling(){ stopAdminPolling();refreshAdminData();adminPollTimer=setInterval(refreshAdminData,2200); }
+
+  async function bootAdmin(){
+    try{
+      const r=await api("/api/admin/me");
+      if(!r.ok){stopAdminPolling();setAuthenticated(false);return;}
+      const d=await jsonResponse(r);csrf=d.csrfToken;setAuthenticated(true);startAdminPolling();
+    }catch(_){stopAdminPolling();setAuthenticated(false);}
+  }
+
+  $("loginForm").addEventListener("submit",async e=>{
+    e.preventDefault();$("loginError").textContent="";
+    try{
+      const r=await api("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:$("password").value})});
+      const d=await jsonResponse(r);
+      if(!r.ok)throw new Error(d.error||"Login gagal");
+      $("password").value="";await bootAdmin();
+    }catch(err){$("loginError").textContent=err.message;}
+  });
+  $("logoutButton").addEventListener("click",async()=>{
+    try{await api("/api/admin/logout",{method:"POST",headers:{"Content-Type":"application/json","X-CSRF-Token":csrf},body:"{}"});}catch(_){}
+    stopAdminPolling();csrf=null;sessions=[];audits=[];setAuthenticated(false);
+  });
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden&&!panelView.classList.contains("hidden"))refreshAdminData();});
+  window.setInterval(()=>{if(!panelView.classList.contains("hidden"))renderSessions();},1000);
+  bootAdmin();
+})();
+</script>
+</body>
+</html>
